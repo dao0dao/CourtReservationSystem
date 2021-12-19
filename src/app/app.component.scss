@@ -1,0 +1,48 @@
+@import "~src/assets/colors";
+
+::ng-deep {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+nav,
+footer {
+    padding: 1rem;
+    width: 100%;
+}
+.content {
+    overflow: auto;
+    flex-grow: 1;
+    width: 100%;
+}
+nav{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: $black;
+}
+footer {
+    text-align: center;
+    background-color: $black;
+    a {
+        text-decoration: none;
+        color: $white;
+    }
+    span {
+        color: $creatorColor;
+    }
+}

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoachesComponent } from './coaches/coaches.component';
 import { LoginComponent } from './login/login.component';
 
+
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'coaches', component: CoachesComponent },

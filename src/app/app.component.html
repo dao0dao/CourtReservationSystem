@@ -1,10 +1,17 @@
 <div class="body">
-    <nav>
-      <a [routerLink]="['/schedule']" class="btn" routerLinkActive="active">Grafik</a>
-      <a [routerLink]="['/players']" class="btn" routerLinkActive="active">Gracze</a>
-      <a [routerLink]="['/stats']" class="btn" routerLinkActive="active">Statystyki</a>
-      <a [routerLink]="['/coaches']" class="btn" routerLinkActive="active">Kasjerzy</a>
-      <button type="button" class="btn" routerLinkActive="active">Wyloguj</button>
+    <nav class="active">
+      <div class="burger">
+        <div class="lineMenu lineTop"></div>
+        <div class="lineMenu lineMid"></div>
+        <div class="lineMenu lineBot"></div>
+      </div>
+      <div class="menuList">
+        <a routerLinkActive="btn--active" [routerLink]="['/schedule']" class="btn btn--left" routerLinkActive="active">Grafik</a>
+        <a routerLinkActive="btn--active" [routerLink]="['/players']" class="btn btn--right" routerLinkActive="active">Gracze</a>
+        <a routerLinkActive="btn--active" [routerLink]="['/stats']" class="btn btn--left" routerLinkActive="active">Statystyki</a>
+        <a routerLinkActive="btn--active" [routerLink]="['/coaches']" class="btn btn--right" routerLinkActive="active">Kasjerzy</a>
+        <button type="button" class="btn btn--left" routerLinkActive="active">Wyloguj</button>
+      </div>
     </nav>
     <div class="content">
         <router-outlet></router-outlet>

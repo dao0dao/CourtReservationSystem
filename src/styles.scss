@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~src/assets/colors";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.btn {
+    position: relative;
+    display: inline-block;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 0.8rem;
+    background-color: transparent;
+    border: unset;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: $white;
+    transition: border-color 1s linear;
+    &::after {
+        position: absolute;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        display: block;
+        content: "";
+        background-color: $mainColorOne;
+        opacity: 0;
+        transition: opacity 1s linear;
+    }
+    &--left {
+        &::after {
+            left: 0;
+            transform: rotate(13deg) translate(2px, 2px);
+        }
+    }
+    &--right {
+        &::after {
+            right: 0;
+            transform: rotate(-13deg) translate(-2px, 2px);
+        }
+    }
+    &--active,
+    &:hover {
+        &::after {
+            opacity: 1;
+        }
+        border-color: $mainColorOne;
+    }
+}

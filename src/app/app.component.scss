@@ -83,10 +83,12 @@ footer {
             display: none;
         }
         .menuList {
+            position: static;
             height: auto;
             transform: translateX(0%);
             justify-content: flex-end;
             flex-direction: row;
+            transition: none;
         }
     }
 }

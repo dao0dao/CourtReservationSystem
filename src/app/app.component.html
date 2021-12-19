@@ -1,17 +1,54 @@
 <div class="body">
-    <nav class="active">
-      <div class="burger">
-        <div class="lineMenu lineTop"></div>
-        <div class="lineMenu lineMid"></div>
-        <div class="lineMenu lineBot"></div>
-      </div>
-      <div class="menuList">
-        <a routerLinkActive="btn--active" [routerLink]="['/schedule']" class="btn btn--left" routerLinkActive="active">Grafik</a>
-        <a routerLinkActive="btn--active" [routerLink]="['/players']" class="btn btn--right" routerLinkActive="active">Gracze</a>
-        <a routerLinkActive="btn--active" [routerLink]="['/stats']" class="btn btn--left" routerLinkActive="active">Statystyki</a>
-        <a routerLinkActive="btn--active" [routerLink]="['/coaches']" class="btn btn--right" routerLinkActive="active">Kasjerzy</a>
-        <button type="button" class="btn btn--left" routerLinkActive="active">Wyloguj</button>
-      </div>
+    <nav [ngClass]="{'active': isMenu}">
+        <div
+            class="burger"
+            (click)="toggleMenu()"
+        >
+            <div class="lineMenu lineTop"></div>
+            <div class="lineMenu lineMid"></div>
+            <div class="lineMenu lineBot"></div>
+        </div>
+        <div class="menuList">
+            <a
+                routerLinkActive="btn--active"
+                [routerLink]="['/schedule']"
+                class="btn btn--left"
+                routerLinkActive="active"
+            >
+                Grafik
+            </a>
+            <a
+                routerLinkActive="btn--active"
+                [routerLink]="['/players']"
+                class="btn btn--right"
+                routerLinkActive="active"
+            >
+                Gracze
+            </a>
+            <a
+                routerLinkActive="btn--active"
+                [routerLink]="['/stats']"
+                class="btn btn--left"
+                routerLinkActive="active"
+            >
+                Statystyki
+            </a>
+            <a
+                routerLinkActive="btn--active"
+                [routerLink]="['/coaches']"
+                class="btn btn--right"
+                routerLinkActive="active"
+            >
+                Kasjerzy
+            </a>
+            <button
+                type="button"
+                class="btn btn--left"
+                routerLinkActive="active"
+            >
+                Wyloguj
+            </button>
+        </div>
     </nav>
     <div class="content">
         <router-outlet></router-outlet>
@@ -21,7 +58,8 @@
             href="https://dao0dao.github.io/dao/"
             target="blank"
         >
-            Created and designed with passion by <span>< Dao /></span>
+            Created and designed with passion by
+            <span>< Dao /></span>
         </a>
     </footer>
 </div>

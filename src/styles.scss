@@ -26,6 +26,7 @@ body {
     text-decoration: none;
     color: $white;
     transition: border-color 1s linear;
+    cursor: pointer;
     &::after {
         position: absolute;
         top: 0;

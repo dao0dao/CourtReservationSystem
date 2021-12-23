@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
-    this.http.post(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }).subscribe({
+    this.http.post(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }, environment.production ? {} : { withCredentials: true }).subscribe({
       next: (res) => { console.log(res); },
       error: (err) => { console.log(err); }
     });

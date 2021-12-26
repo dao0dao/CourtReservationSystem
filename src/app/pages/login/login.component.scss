@@ -8,7 +8,7 @@
 }
 .field {
     position: relative;
-    margin: 1rem;
+    margin: 2rem 1rem;
     label {
         position: absolute;
         top: 50%;
@@ -38,7 +38,6 @@
 }
 
 .btn {
-    margin-top: 2rem;
     margin-left: auto;
     display: block;
     color: $black;

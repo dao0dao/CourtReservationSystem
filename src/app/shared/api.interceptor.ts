@@ -8,11 +8,12 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IsLoginGuard } from '../pages/is-login.guard';
+import { InfoService } from '../info.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor(private isLoginGuard: IsLoginGuard) { };
+  constructor(private isLoginGuard: IsLoginGuard, private infoService: InfoService) { };
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const cloneReq = request.clone({
@@ -21,6 +22,7 @@ export class ApiInterceptor implements HttpInterceptor {
     return next.handle(cloneReq).pipe(
       catchError((err) => throwError(() => {
         if (err.status === 401 && err.error.session === 'fail') {
+          this.infoService.showInfo('Sesja wygasła');
           this.isLoginGuard.logOut();
         }
         return new Error(err);

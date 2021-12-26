@@ -13,7 +13,8 @@
                 routerLinkActive="btn--active"
                 [routerLink]="['/schedule']"
                 class="btn btn--left"
-                routerLinkActive="active"
+                routerLinkActive="btn--active"
+                (click)="toggleMenu()"
             >
                 Grafik
             </a>
@@ -21,7 +22,8 @@
                 routerLinkActive="btn--active"
                 [routerLink]="['/players']"
                 class="btn btn--right"
-                routerLinkActive="active"
+                routerLinkActive="btn--active"
+                (click)="toggleMenu()"
             >
                 Gracze
             </a>
@@ -29,7 +31,8 @@
                 routerLinkActive="btn--active"
                 [routerLink]="['/stats']"
                 class="btn btn--left"
-                routerLinkActive="active"
+                routerLinkActive="btn--active"
+                (click)="toggleMenu()"
             >
                 Statystyki
             </a>
@@ -37,14 +40,16 @@
                 routerLinkActive="btn--active"
                 [routerLink]="['/coaches']"
                 class="btn btn--right"
-                routerLinkActive="active"
+                routerLinkActive="btn--active"
+                (click)="toggleMenu()"
             >
                 Kasjerzy
             </a>
             <button
                 type="button"
                 class="btn btn--left"
-                routerLinkActive="active"
+                routerLinkActive="btn--active"
+                (click)="toggleMenu()"
             >
                 Wyloguj
             </button>
@@ -52,6 +57,13 @@
     </nav>
     <div class="content">
         <router-outlet></router-outlet>
+    </div>
+    <div
+        @info
+        *ngIf="infoService.isInfo"
+        class="info"
+    >
+        <p class="text">{{infoService.infoText}}</p>
     </div>
     <footer>
         <a

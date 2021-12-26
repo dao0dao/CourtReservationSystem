@@ -3,24 +3,32 @@
     (submit)="logIn()"
 >
     <form [formGroup]="loginForm">
-        <div>
-            <label for="nick">Nick</label>
+        <div class="field">
             <input
                 type="text"
                 name="nick"
                 id="nick"
                 formControlName="nick"
+                [ngClass]="{'full': nick?.value}"
             >
+            <label for="nick">Nick</label>
         </div>
-        <div>
-            <label for="password">Hasło</label>
+        <div class="field">
             <input
                 type="password"
                 name="password"
                 id="password"
                 formControlName="password"
+                [ngClass]="{'full': password?.value}"
             >
+            <label for="password">Hasło</label>
         </div>
-        <button type="submit">Zaloguj</button>
+        <button
+            class="btn btn--left btn--active"
+            type="submit"
+            [disabled]="loginForm.invalid"
+        >
+            Zaloguj
+        </button>
     </form>
 </div>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
 import { PagesComponent } from './pages.component';
 import { CoachesComponent } from './coaches/coaches.component';
 import { SharedModule } from '../shared/shared.module';

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { InfoService } from 'src/app/info.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private infoService: InfoService, private router: Router) { }
 
   loginForm: FormGroup = new FormGroup({});
 
@@ -24,7 +26,14 @@ export class LoginComponent implements OnInit {
 
   logIn() {
     this.http.post(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }).subscribe({
-      next: (res) => { console.log(res); },
+      next: (res) => {
+        this.loginForm.reset();
+        this.router.navigate(['/coaches']);
+      },
+      error: (err) => {
+        this.infoService.showInfo('Błędny nick i/lub hasło');
+        this.loginForm.reset();
+      }
     });
   }
 

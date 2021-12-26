@@ -7,6 +7,8 @@ import { CoachesComponent } from './coaches/coaches.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { IsLoginGuard } from './is-login.guard';
+
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import { LoginComponent } from './login/login.component';
     RouterModule.forChild([
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'coaches', component: CoachesComponent }
+      { path: 'coaches', component: CoachesComponent, canActivate: [IsLoginGuard] }
     ])
   ],
   exports: [

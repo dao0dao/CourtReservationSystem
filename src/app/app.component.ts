@@ -14,7 +14,7 @@ import { LoginStateService } from './pages/login-state.service';
 })
 export class AppComponent {
 
-  constructor(public infoService: InfoService, private http: HttpClient, private loginState: LoginStateService) { }
+  constructor(public infoService: InfoService, private http: HttpClient, public loginState: LoginStateService) { }
 
   isMenu: boolean = false;
 
@@ -24,8 +24,14 @@ export class AppComponent {
 
   logout() {
     this.http.get(environment.apiLink + 'logout').subscribe({
-      next: (res) => { this.toggleMenu(); this.loginState.logOut(); },
-      error: (err) => { this.toggleMenu(); this.loginState.logOut(); }
+      next: (res) => {
+        this.toggleMenu();
+        this.loginState.logOut();
+      },
+      error: (err) => {
+        this.toggleMenu();
+        this.loginState.logOut();
+      }
     });
   }
 

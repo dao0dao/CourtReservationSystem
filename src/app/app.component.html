@@ -8,6 +8,13 @@
             <div class="lineMenu lineMid"></div>
             <div class="lineMenu lineBot"></div>
         </div>
+        <p
+            *ngIf="loginState.state.isLogin"
+            class="account"
+        >
+            Konto:
+            <span>{{loginState.state.user}}</span>
+        </p>
         <div class="menuList">
             <a
                 routerLinkActive="btn--active"
@@ -48,7 +55,7 @@
             <button
                 type="button"
                 class="btn btn--left"
-                (click)="toggleMenu()"
+                (click)="logout()"
             >
                 Wyloguj
             </button>

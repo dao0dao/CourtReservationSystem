@@ -8,6 +8,7 @@ import { LoginStateService } from './login-state.service';
 interface Login {
   isLogin: boolean;
   isAdmin: boolean;
+  user: string;
 }
 
 @Injectable({
@@ -27,7 +28,7 @@ export class IsLoginGuard implements CanActivate {
     if (!this.isLogin) {
       this.http.get<Login>(environment.apiLink + 'isLogin').subscribe({
         next: (res: Login) => {
-          this.loginStateService.logIn(res.isAdmin);
+          this.loginStateService.logIn(res.isAdmin, res.user);
           return true;
         },
         error: (err) => {

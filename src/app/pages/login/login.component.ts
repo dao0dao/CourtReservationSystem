@@ -9,6 +9,7 @@ import { LoginStateService } from '../login-state.service';
 interface Login {
   isLogin: boolean;
   isAdmin: boolean;
+  user: string;
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
   logIn() {
     this.http.post<Login>(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }).subscribe({
       next: (res: Login) => {
-        this.loginStateService.logIn(res.isAdmin);
+        this.loginStateService.logIn(res.isAdmin, res.user);
         this.loginForm.reset();
         this.router.navigate(['/coaches']);
       },

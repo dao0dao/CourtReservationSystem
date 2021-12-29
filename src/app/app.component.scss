@@ -11,6 +11,9 @@
 nav {
     position: relative;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: $black;
     .burger {
         padding: 0.5rem 0.8rem;
@@ -24,6 +27,13 @@ nav {
             transform-origin: 0% 50%;
             background-color: $mainColorOne;
             transition: opacity 0.3s linear, transform 0.3s linear;
+        }
+    }
+    .account {
+        margin: 0 5px;
+        color: $white;
+        span {
+            color: $mainColorOne;
         }
     }
     .menuList {
@@ -98,6 +108,8 @@ footer {
         .menuList {
             position: static;
             height: auto;
+            width: auto;
+            flex-grow: 1;
             transform: translateX(0%);
             justify-content: flex-end;
             flex-direction: row;

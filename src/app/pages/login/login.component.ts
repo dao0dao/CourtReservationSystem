@@ -4,6 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InfoService } from 'src/app/info.service';
 import { environment } from 'src/environments/environment';
+import { LoginStateService } from '../login-state.service';
+
+interface Login {
+  isLogin: boolean;
+  isAdmin: boolean;
+}
 
 @Component({
   selector: 'app-login',
@@ -12,7 +18,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private infoService: InfoService, private router: Router) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private infoService: InfoService, private router: Router, private loginStateService: LoginStateService) { }
 
   loginForm: FormGroup = new FormGroup({});
 
@@ -25,8 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
-    this.http.post(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }).subscribe({
-      next: (res) => {
+    this.http.post<Login>(environment.apiLink + 'login', { nick: this.nick?.value, password: this.password?.value }).subscribe({
+      next: (res: Login) => {
+        this.loginStateService.logIn(res.isAdmin);
         this.loginForm.reset();
         this.router.navigate(['/coaches']);
       },

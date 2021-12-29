@@ -3,6 +3,12 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginStateService } from './login-state.service';
+
+interface Login {
+  isLogin: boolean;
+  isAdmin: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +16,22 @@ import { environment } from 'src/environments/environment';
 export class IsLoginGuard implements CanActivate {
 
   private isLogin: boolean = false;
+  private isAdmin: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) { };
+  constructor(private http: HttpClient, private router: Router, private loginStateService: LoginStateService) { };
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    this.isLogin = this.loginStateService.state.isLogin;
     if (!this.isLogin) {
-      this.http.get(environment.apiLink + 'isLogin').subscribe({
-        next: (res: any) => {
-          this.isLogin = res.isLogin;
+      this.http.get<Login>(environment.apiLink + 'isLogin').subscribe({
+        next: (res: Login) => {
+          this.loginStateService.logIn(res.isAdmin);
           return true;
         },
         error: (err) => {
-          this.router.navigate(['/login']);
+          this.loginStateService.logOut();
           return false;
         }
       });

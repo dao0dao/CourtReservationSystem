@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InfoService } from './info.service';
+import { LoginStateService } from './pages/login-state.service';
 import { SharedModule } from './shared/shared.module';
 
 
@@ -19,7 +20,8 @@ import { SharedModule } from './shared/shared.module';
   ],
   bootstrap: [AppComponent],
   providers:[
-    InfoService
+    InfoService,
+    LoginStateService
   ]
 })
 export class AppModule { }

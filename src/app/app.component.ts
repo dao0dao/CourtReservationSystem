@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { animations } from './animations';
 import { InfoService } from './info.service';
+import { LoginStateService } from './pages/login-state.service';
 
 
 @Component({
@@ -11,12 +14,19 @@ import { InfoService } from './info.service';
 })
 export class AppComponent {
 
-  constructor(public infoService: InfoService) { }
+  constructor(public infoService: InfoService, private http: HttpClient, private loginState: LoginStateService) { }
 
   isMenu: boolean = false;
 
   toggleMenu() {
     this.isMenu = !this.isMenu;
+  }
+
+  logout() {
+    this.http.get(environment.apiLink + 'logout').subscribe({
+      next: (res) => { this.toggleMenu(); this.loginState.logOut(); },
+      error: (err) => { this.toggleMenu(); this.loginState.logOut(); }
+    });
   }
 
 }

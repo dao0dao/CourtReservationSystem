@@ -17,7 +17,6 @@ interface Login {
 export class IsLoginGuard implements CanActivate {
 
   private isLogin: boolean = false;
-  private isAdmin: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private loginStateService: LoginStateService) { };
 

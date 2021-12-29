@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { IsLoginGuard } from './is-login.guard';
+import { ListComponent } from './coaches/list/list.component';
 
 
 
@@ -14,7 +15,8 @@ import { IsLoginGuard } from './is-login.guard';
   declarations: [
     PagesComponent,
     CoachesComponent,
-    LoginComponent
+    LoginComponent,
+    ListComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,7 @@ import { IsLoginGuard } from './is-login.guard';
     RouterModule.forChild([
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'coaches', component: CoachesComponent, canActivate: [IsLoginGuard] }
+      { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] }
     ])
   ],
   exports: [

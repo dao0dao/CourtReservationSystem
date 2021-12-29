@@ -25,6 +25,10 @@ export class ApiInterceptor implements HttpInterceptor {
           this.infoService.showInfo('Sesja wygasła');
           this.isLoginGuard.logOut();
         }
+        if (err.status === 401 && err.error.notAllowed) {
+          this.infoService.showInfo('Brak dostępu');
+          this.isLoginGuard.logOut();
+        }
         return new Error(err);
       }))
     );

@@ -22,45 +22,86 @@
             Dodaj kasjera
         </button>
     </div>
-    <form class="form">
+    <form
+        class="form"
+        [formGroup]="userForm"
+        (submit)="submit()"
+    >
         <div class="field">
             <input
                 type="text"
-                name="name"
+                formControlName="name"
                 id="name"
+                [ngClass]="{'full': name?.value}"
             >
-            <label for="name">Imię</label>
+            <label for="name">Nazw konta</label>
         </div>
         <div class="field">
             <input
                 type="text"
-                name="login"
-                id="login"
+                formControlName="nick"
+                id="nick"
+                [ngClass]="{'full': nick?.value}"
             >
-            <label for="login">Login</label>
+            <label for="login">Nick</label>
+            <p
+                *ngIf="nick?.errors"
+                class="error"
+            >
+                Wymagane pole
+            </p>
         </div>
         <div class="field">
             <input
                 type="password"
-                name="newPassword"
+                formControlName="newPassword"
                 id="newPassword"
+                [ngClass]="{'full': newPassword?.value}"
+                (keyup)="checkPassword()"
             >
             <label for="newPassword">Nowe hasło</label>
+            <p
+                *ngIf="newPassword?.errors?.['required']"
+                class="error"
+            >
+                Wymagane pole
+            </p>
+            <p
+                *ngIf="newPassword?.errors?.['minlength'] || newPassword?.errors?.['maxlength']"
+                class="error"
+            >
+                Od 5 do 10 znaków, tylko litery i liczby
+            </p>
         </div>
         <div class="field">
             <input
                 type="password"
-                name="confirmNewPassword"
+                formControlName="confirmNewPassword"
                 id="confirmNewPassword"
+                [ngClass]="{'full': confirmNewPassword?.value}"
+                (keyup)="checkPassword()"
             >
-            <label for="confirmNewPassword">Potwierdź nowe hasło</label>
+            <label for="confirmNewPassword">Potwierdź hasło</label>
+            <p
+                *ngIf="confirmNewPassword?.errors?.['required']"
+                class="error"
+            >
+                Wymagane pole
+            </p>
+            <p
+                *ngIf="confirmNewPassword?.errors?.['minlength'] || confirmNewPassword?.errors?.['maxlength']"
+                class="error"
+            >
+                Od 5 do 10 znaków, tylko litery i liczby
+            </p>
         </div>
         <button
             class="btn btn--submit"
             type="submit"
+            [disabled]="userForm.invalid"
         >
             Aktualizuj
         </button>
     </form>
-    <app-list></app-list>
+    <app-list *ngIf="loginState.state.isAdmin && overlap === 'list'"></app-list>
 </div>

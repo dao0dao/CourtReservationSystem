@@ -1,12 +1,77 @@
 @import "~src/assets/colors";
 
 .container {
+    padding-top: 1rem;
 }
-.buttons .btn {
-    color: $black;
+.buttons {
+    text-align: center;
+    .btn {
+        color: $black;
+    }
 }
 .form {
-    .btn--submit {
+    .field {
+        position: relative;
+        margin: 2rem 1rem;
+        label {
+            position: absolute;
+            top: 50%;
+            left: -7px;
+            margin: 0 0.5rem;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease-in-out;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-align: right;
+            letter-spacing: 1px;
+        }
+        input {
+            width: 160px;
+            padding: 5px 10px;
+            border-width: 0 0px 2px 0px;
+            border-style: solid;
+            border-color: $mainColorThree;
+            outline: unset;
+            transition: border-color 0.3s ease-in-out;
+            &:focus-within,
+            &:hover,
+            &.full {
+                border-color: $mainColorOne;
+            }
+            &:hover + label,
+            &:focus-within + label,
+            &.full + label {
+                transform: translate(-101%, -50%);
+            }
+        }
+        .error {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            font-size: 0.5rem;
+            color: $mainColorOne;
+        }
+    }
+    .btn:not([disabled]) {
         color: $black;
+    }
+}
+@media screen and (min-width: 992px) {
+    .container {
+        padding-top: 2rem;
+    }
+    .form {
+        .field {
+            margin: 3rem auto;
+            label {
+                letter-spacing: 2px;
+            }
+            input {
+                width: 300px;
+            }
+            .error {
+                font-size: 0.8rem;
+            }
+        }
     }
 }

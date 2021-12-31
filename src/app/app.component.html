@@ -68,6 +68,7 @@
         @info
         *ngIf="infoService.isInfo"
         class="info"
+        [ngClass]="{'info--confirm': infoService.confirm}"
     >
         <p class="text">{{infoService.infoText}}</p>
     </div>

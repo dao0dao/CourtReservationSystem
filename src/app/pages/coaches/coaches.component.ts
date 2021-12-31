@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginStateService } from '../login-state.service';
+import { ApiService } from './api.service';
+import { User } from './interfaces';
+import { InfoService } from '../../info.service';
 
 type Overlap = 'user' | 'list' | 'add';
+
+
 
 @Component({
   selector: 'app-coaches',
@@ -10,15 +16,60 @@ type Overlap = 'user' | 'list' | 'add';
 })
 export class CoachesComponent implements OnInit {
 
-  constructor(public loginState: LoginStateService) { }
+  constructor(public loginState: LoginStateService, private api: ApiService, private fb: FormBuilder, private infoService: InfoService) { }
 
   overlap: Overlap = 'user';
+  user: User = {} as any;
+
+  userForm: FormGroup = new FormGroup({});
+  get name() { return this.userForm.get('name'); }
+  get nick() { return this.userForm.get('nick'); }
+  get newPassword() { return this.userForm.get('newPassword'); }
+  get confirmNewPassword() { return this.userForm.get('confirmNewPassword'); }
 
   toggleList(tab: Overlap) {
     this.overlap = tab;
   }
 
+  checkPassword() {
+    if (this.newPassword?.value || this.confirmNewPassword?.value) {
+      this.newPassword?.setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(10)]);
+      this.confirmNewPassword?.setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(10)]);
+    } else {
+      this.newPassword?.clearValidators();
+      this.confirmNewPassword?.clearValidators();
+    }
+    this.newPassword?.updateValueAndValidity();
+    this.confirmNewPassword?.updateValueAndValidity();
+  }
+
+  submit() {
+    const body: User = {
+      name: this.name?.value,
+      nick: this.nick?.value,
+      newPassword: this.newPassword?.value,
+      confirmNewPassword: this.confirmNewPassword?.value
+    };
+    this.api.updateUser(body).subscribe({
+      next: () => { this.infoService.showInfo('Zaktualizowano dane'); },
+      error: (err) => { if (err) { this.infoService.showInfo('Błąd aktualizacji, spróbuj ponownie'); }; }
+    });
+  }
+
   ngOnInit(): void {
+    this.userForm = this.fb.group({
+      name: [''],
+      nick: ['', Validators.required],
+      newPassword: [''],
+      confirmNewPassword: ['']
+    });
+    this.api.getUser().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.name?.setValue(res.name);
+        this.nick?.setValue(res.nick);
+      }
+    });
   }
 
 }

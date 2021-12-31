@@ -84,6 +84,13 @@ nav {
         transform: skew(16deg);
         color: $white;
     }
+    &--confirm {
+        border-color: $confirm;
+        background-color: $white;
+        .text {
+            color: $black;
+        }
+    }
 }
 footer {
     padding: 1rem;

@@ -21,12 +21,16 @@ export class ApiInterceptor implements HttpInterceptor {
     });
     return next.handle(cloneReq).pipe(
       catchError((err) => throwError(() => {
-        if (err.status === 401 && err.error.session === 'fail') {
-          this.infoService.showInfo('Sesja wygasła');
-          this.isLoginGuard.logOut();
-        }
-        if (err.status === 401 && err.error.notAllowed) {
-          this.infoService.showInfo('Brak dostępu');
+        if (err.status === 401) {
+          if (err.error.session === 'fail') {
+            this.infoService.showInfo('Sesja wygasła');
+          }
+          if (err.error.notAllowed) {
+            this.infoService.showInfo('Brak dostępu');
+          }
+          if (err.error.unExistUser) {
+            this.infoService.showInfo('Konto nie istnieje');
+          }
           this.isLoginGuard.logOut();
         }
         return new Error(err);

@@ -24,4 +24,8 @@ export class ApiService {
   updateUser(body: User): Observable<any> {
     return this.http.post(environment.apiLink + 'user', body);
   }
+
+  createUser(body: User): Observable<any> {
+    return this.http.post(environment.apiLink + 'user/create', body);
+  }
 }

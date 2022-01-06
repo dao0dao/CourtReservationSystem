@@ -33,7 +33,16 @@ export class ApiInterceptor implements HttpInterceptor {
           }
           this.isLoginGuard.logOut();
         }
-        return new Error(err);
+        if (err.status === 403) {
+          this.infoService.showInfo('Brak dostępu');
+          this.isLoginGuard.logOut();
+        }
+        if (err.status === 500) {
+          if (err.error.readWrite === 'fail') {
+            this.infoService.showInfo('Błąd odczytu/zapisu bazy danych');
+          }
+        }
+        return err;
       }))
     );
   }

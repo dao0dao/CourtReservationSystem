@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { IsLoginGuard } from './is-login.guard';
 import { ListComponent } from './coaches/list/list.component';
+import { AddComponent } from './coaches/add/add.component';
 
 
 
@@ -16,7 +17,8 @@ import { ListComponent } from './coaches/list/list.component';
     PagesComponent,
     CoachesComponent,
     LoginComponent,
-    ListComponent
+    ListComponent,
+    AddComponent
   ],
   imports: [
     CommonModule,

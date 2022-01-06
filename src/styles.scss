@@ -76,7 +76,9 @@ body {
         }
     }
     &--active,
-    &:hover {
+    &:hover,
+    &:focus-visible {
+        outline: none;
         &::after {
             opacity: 1;
         }

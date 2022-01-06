@@ -1,14 +1,5 @@
 @import "~src/assets/colors";
 
-.container {
-    padding-top: 1rem;
-}
-.buttons {
-    text-align: center;
-    .btn {
-        color: $black;
-    }
-}
 .form {
     margin-left: 1.2rem;
     .field {
@@ -61,9 +52,6 @@
     }
 }
 @media screen and (min-width: 992px) {
-    .container {
-        padding-top: 2rem;
-    }
     .form {
         margin-left: 0;
         .field {

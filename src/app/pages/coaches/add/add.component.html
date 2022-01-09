@@ -14,7 +14,7 @@
             <label for="name">Nazw konta</label>
             <div class="error">
                 <p *ngIf="name?.errors?.['minlength'] || name?.errors?.['maxlength']">
-                    Od 5 do 10 znaków, tylko litery i liczby
+                    Od 3 do 15 znaków, tylko litery i liczby
                 </p>
                 <p *ngIf="name?.errors?.['incorrect']">Nieprawidłowa wartość</p>
             </div>
@@ -29,7 +29,7 @@
             <label for="login">Login</label>
             <div class="error">
                 <p *ngIf="login?.errors?.['minlength'] || login?.errors?.['maxlength']">
-                    Od 5 do 10 znaków, tylko litery i liczby
+                    Od 3 do 15 znaków, tylko litery i liczby
                 </p>
                 <p *ngIf="login?.errors?.['incorrect']">Nieprawidłowa wartość</p>
             </div>
@@ -70,7 +70,7 @@
         <button
             class="btn btn--submit"
             type="submit"
-            [disabled]="addForm.invalid || !samePassword"
+            [disabled]="addForm.invalid || !samePassword || blockSubmit"
         >
             Dodaj użytkownika
         </button>

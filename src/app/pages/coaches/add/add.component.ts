@@ -4,6 +4,13 @@ import { InfoService } from 'src/app/info.service';
 import { ApiService } from '../api.service';
 import { User } from '../interfaces';
 
+interface addErr extends Error {
+  error: {
+    canNotCreateUser: boolean,
+    passwordDoesNotMatch: boolean;
+  };
+}
+
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -15,6 +22,7 @@ export class AddComponent implements OnInit {
 
   addForm: FormGroup = new FormGroup({});
   samePassword: boolean = true;
+  blockSubmit: boolean = false;
 
   get name() {
     return this.addForm.get('name');
@@ -30,6 +38,7 @@ export class AddComponent implements OnInit {
   }
 
   submit() {
+    this.blockSubmit = true;
     const body: User = {
       name: this.name?.value,
       login: this.login?.value,
@@ -40,6 +49,18 @@ export class AddComponent implements OnInit {
       next: () => {
         this.addForm.reset();
         this.infoService.showInfo('Stworzono użytkownika', true);
+        this.blockSubmit = false;
+      },
+      error: (err: addErr) => {
+        const { error } = err;
+        if (error.canNotCreateUser) {
+          this.addForm.reset();
+          this.infoService.showInfo('Taki użytkownik już istnieje');
+        }
+        if (error.passwordDoesNotMatch) {
+          this.infoService.showInfo('Hasła nie są identyczne');
+        }
+        this.blockSubmit = false;
       }
     });
   }
@@ -54,8 +75,8 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.addForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      login: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      login: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
     });

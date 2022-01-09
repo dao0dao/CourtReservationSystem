@@ -1,6 +1,8 @@
 <div class="body">
     <nav [ngClass]="{'active': isMenu}">
         <div
+            *ngIf="loginState.state.isLogin"
+            @nav
             class="burger"
             (click)="toggleMenu()"
         >
@@ -10,12 +12,17 @@
         </div>
         <p
             *ngIf="loginState.state.isLogin"
+            @nav
             class="account"
         >
             Konto:
             <span>{{loginState.state.user}}</span>
         </p>
-        <div class="menuList">
+        <div
+            *ngIf="loginState.state.isLogin"
+            @nav
+            class="menuList"
+        >
             <a
                 routerLinkActive="btn--active"
                 [routerLink]="['/schedule']"

@@ -13,6 +13,7 @@ interface userError extends Error {
     login: boolean,
     newPassword: boolean,
     confirmNewPassword: boolean;
+    reservedLogin: boolean;
   };
 }
 
@@ -26,9 +27,10 @@ export class CoachesComponent implements OnInit {
 
   constructor(public loginState: LoginStateService, private api: ApiService, private fb: FormBuilder, private infoService: InfoService) { }
 
-  overlap: Overlap = 'add';
+  overlap: Overlap = 'user';
   user: User = {} as any;
   samePassword: boolean = true;
+  blockSubmit: boolean = false;
 
   userForm: FormGroup = new FormGroup({});
   get name() { return this.userForm.get('name'); }
@@ -42,8 +44,8 @@ export class CoachesComponent implements OnInit {
 
   checkPassword() {
     if (this.newPassword?.value || this.confirmNewPassword?.value) {
-      this.newPassword?.setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(10)]);
-      this.confirmNewPassword?.setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(10)]);
+      this.newPassword?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(15)]);
+      this.confirmNewPassword?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(15)]);
       this.newPassword?.value === this.confirmNewPassword?.value ? this.samePassword = true : this.samePassword = false;
     } else {
       this.newPassword?.clearValidators();
@@ -55,18 +57,20 @@ export class CoachesComponent implements OnInit {
   }
 
   submit() {
+    this.blockSubmit = true;
     const body: User = {
       name: this.name?.value,
       login: this.nick?.value,
       newPassword: this.newPassword?.value,
       confirmNewPassword: this.confirmNewPassword?.value
     };
-    this.api.updateUser(body).subscribe({
+    this.api.updateLoginUser(body).subscribe({
       next: () => {
         this.infoService.showInfo('Zaktualizowano dane', true);
         this.newPassword?.reset();
         this.confirmNewPassword?.reset();
         this.checkPassword();
+        this.blockSubmit = false;
       },
       error: (error: userError) => {
         const err = error.error;
@@ -74,14 +78,19 @@ export class CoachesComponent implements OnInit {
         err.login === false ? this.nick?.setErrors({ incorrect: true }) : null;
         err.newPassword === false ? this.newPassword?.setErrors({ incorrect: true }) : null;
         err.confirmNewPassword === false ? this.confirmNewPassword?.setErrors({ incorrect: true }) : null;
+        if (err.reservedLogin) {
+          this.nick?.reset();
+          this.infoService.showInfo('Login zarezerwowany');
+        }
+        this.blockSubmit = false;
       }
     });
   }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      nick: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
+      nick: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
       newPassword: [''],
       confirmNewPassword: ['']
     });

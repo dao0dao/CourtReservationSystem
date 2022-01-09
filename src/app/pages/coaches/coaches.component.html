@@ -1,5 +1,8 @@
 <div class="container">
-    <div class="buttons">
+    <div
+        *ngIf="loginState.state.isAdmin"
+        class="buttons"
+    >
         <button
             class="btn btn--left"
             [ngClass]="{'btn--active': overlap === 'user'}"
@@ -40,7 +43,7 @@
                 *ngIf="name?.errors?.['minlength'] || name?.errors?.['maxlength']"
                 class="error"
             >
-                Od 5 do 10 znaków, tylko litery i liczby
+                Od 3 do 15 znaków, tylko litery i liczby
             </p>
             <p
                 *ngIf="name?.errors?.['incorrect']"
@@ -100,7 +103,7 @@
         <button
             class="btn btn--submit"
             type="submit"
-            [disabled]="userForm.invalid || !samePassword"
+            [disabled]="userForm.invalid || !samePassword || blockSubmit"
         >
             Aktualizuj
         </button>

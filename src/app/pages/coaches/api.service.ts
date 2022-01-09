@@ -17,15 +17,24 @@ export class ApiService {
     return this.http.get<User>(environment.apiLink + 'user');
   }
 
-  getListOfUsers(): Observable<any> {
+  getListOfUsers(): Observable<{ users: User[]; }> {
     return this.http.get<any>(environment.apiLink + 'user/list');
   }
 
-  updateUser(body: User): Observable<any> {
+  updateLoginUser(body: User): Observable<any> {
     return this.http.post(environment.apiLink + 'user', body);
   }
 
   createUser(body: User): Observable<any> {
     return this.http.post(environment.apiLink + 'user/create', body);
   }
+
+  updateUser(body: User): Observable<any> {
+    return this.http.post(environment.apiLink + 'user/list/update', body);
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(environment.apiLink + 'user/delete/' + id);
+  };
+
 }

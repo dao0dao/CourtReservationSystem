@@ -46,6 +46,9 @@
     }
     .btn {
         margin-top: 1.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
     }
     .btn:not([disabled]) {
         color: $black;

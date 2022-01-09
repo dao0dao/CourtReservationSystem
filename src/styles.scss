@@ -50,7 +50,8 @@ body {
             transform: rotate(-13deg) translate(-2px, 2px);
         }
     }
-    &--submit {
+    &--submit,
+    &--close {
         &::after,
         &::before {
             position: absolute;
@@ -62,7 +63,7 @@ body {
             display: block;
             content: "";
             background-color: transparent;
-            border-color: $mainColorOne;
+
             border-style: solid;
             transition: width 0.25s linear;
         }
@@ -75,6 +76,19 @@ body {
             border-width: 2px 2px 0 0;
         }
     }
+    &--submit {
+        &::after,
+        &::before {
+            border-color: $mainColorOne;
+        }
+    }
+    &--close {
+        color: $mainColorThree;
+        &::after,
+        &::before {
+            border-color: $mainColorThree;
+        }
+    }
     &--active,
     &:hover,
     &:focus-visible {
@@ -83,7 +97,8 @@ body {
             opacity: 1;
         }
         border-color: $mainColorOne;
-        &.btn--submit {
+        &.btn--submit,
+        &.btn--close {
             border-color: transparent;
             &::after,
             &::before {
@@ -99,6 +114,7 @@ body {
         }
         &.btn--submit {
             border-color: transparent;
+            pointer-events: none;
             &::after,
             &::before {
                 background-color: transparent;

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiLink: 'http://localhost:3000/api/'
+  apiLink: 'http://localhost:3000/api/',
+  svg: 'assets/icons.svg'
 };
 
 /*

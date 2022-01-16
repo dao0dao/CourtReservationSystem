@@ -1,0 +1,124 @@
+<form class="form">
+    <div class="block">
+        <p class="text">Dane osobowe</p>
+        <div class="line"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="name"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="name">Imię</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="surname"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="surname">Nazwisko</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="tel"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="tel">Telefon</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="email"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="email">Email</label>
+        <div class="error"></div>
+    </div>
+    <div class="block">
+        <p class="text">Kort</p>
+        <div class="line"></div>
+    </div>
+    <div class="field">
+        <input
+            type="number"
+            id="account"
+            step="0.01"
+            min="0"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="account">Stan konta</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="number"
+            id="price"
+            step="0.01"
+            min="0"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="price">Cena za godz.</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="court"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="court">Ulubiony kort</label>
+        <div class="error"></div>
+    </div>
+    <div class="block">
+        <p class="text">Sprzęt</p>
+        <div class="line"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="strings"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="strings">Ulubiony naciąg</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="number"
+            id="tension"
+            step="0.1"
+            min="15"
+            max="35"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="tension">Siła naciągu</label>
+        <div class="error"></div>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="balls"
+            [ngClass]="{'full': ''}"
+        >
+        <label for="balls">Ulubione piłki</label>
+        <div class="error"></div>
+    </div>
+    <div class="block">
+        <p class="text">Preferowane terminy</p>
+        <div class="line"></div>
+    </div>
+    <app-week></app-week>
+
+    <div class="block">
+        <p class="text">Notatka</p>
+        <div class="line"></div>
+    </div>
+    <div class="field">
+        <textarea name="notes"></textarea>
+    </div>
+</form>

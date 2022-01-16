@@ -1,0 +1,11 @@
+@import "~src/assets/colors";
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    .day {
+        margin: 0.5rem 5px;
+    }
+}

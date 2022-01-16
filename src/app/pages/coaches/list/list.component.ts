@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InfoService } from 'src/app/info.service';
+import { environment } from 'src/environments/environment';
 import { ApiService } from '../api.service';
 import { User } from '../interfaces';
 import { animations } from './animations';
@@ -32,6 +33,7 @@ export class ListComponent implements OnInit {
   isDeletePupUp: boolean = false;
   samePassword: boolean = true;
   blockSubmit: boolean = false;
+  environment = environment
 
   editForm: FormGroup = new FormGroup({});
   get name() {

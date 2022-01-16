@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="overlap">
+        <button
+            class="btn btn--left"
+            [ngClass]="{'btn--active': overlap === 'list'}"
+            (click)="changeOverlap('list')"
+        >
+            Lista graczy
+        </button>
+        <button
+            class="btn btn--right"
+            [ngClass]="{'btn--active': overlap === 'add'}"
+            (click)="changeOverlap('add')"
+        >
+            Dodaj gracza
+        </button>
+    </div>
+    <app-add-player *ngIf="overlap === 'add'"></app-add-player>
+</div>

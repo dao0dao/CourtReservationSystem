@@ -9,6 +9,9 @@ import { LoginComponent } from './login/login.component';
 import { IsLoginGuard } from './is-login.guard';
 import { ListComponent } from './coaches/list/list.component';
 import { AddComponent } from './coaches/add/add.component';
+import { PlayersComponent } from './players/players.component';
+import { AddPlayerComponent } from './players/add-player/add-player.component';
+import { WeekComponent } from './players/add-player/week/week.component';
 
 
 
@@ -18,7 +21,10 @@ import { AddComponent } from './coaches/add/add.component';
     CoachesComponent,
     LoginComponent,
     ListComponent,
-    AddComponent
+    AddComponent,
+    PlayersComponent,
+    AddPlayerComponent,
+    WeekComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +32,8 @@ import { AddComponent } from './coaches/add/add.component';
     RouterModule.forChild([
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] }
+      { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
+      { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
     ])
   ],
   exports: [

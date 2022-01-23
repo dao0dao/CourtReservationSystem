@@ -1,22 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Week } from '../../interfaces';
 
-interface Week {
-  days: {
-    0?: boolean | undefined;
-    1?: boolean | undefined;
-    2?: boolean | undefined;
-    3?: boolean | undefined;
-    4?: boolean | undefined;
-    5?: boolean | undefined;
-    6?: boolean | undefined;
-  };
-  time: {
-    from: string;
-    to: string;
-  };
-}
+
 
 @Component({
   selector: 'app-week',
@@ -24,6 +11,8 @@ interface Week {
   styleUrls: ['./week.component.scss']
 })
 export class WeekComponent implements OnInit {
+
+  @Output() outputWeeks: EventEmitter<Week[]> = new EventEmitter<Week[]>();
 
   environment = environment;
 
@@ -64,16 +53,18 @@ export class WeekComponent implements OnInit {
     };
     for (let i = 0; i < 7; i++) {
       const day: boolean | undefined = this.formWeek.get(`${i}`)?.value;
-      week.days = Object.assign({}, week.days, { [i]: day });
+      if (day) {
+        week.days = Object.assign({}, week.days, { [i]: day });
+      }
     }
     this.weeks.push(week);
     this.formWeek.reset();
+    this.outputWeeks.emit(this.weeks);
   }
 
   removeTerm(index: number) {
-    this.weeks = this.weeks.filter((el, i) => {
-      i !== index ? el : null;
-    });
+    this.weeks = this.weeks.filter((el, i) => i != index);
+    this.outputWeeks.emit(this.weeks);
   }
 
   ngOnInit(): void {

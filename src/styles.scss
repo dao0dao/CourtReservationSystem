@@ -87,6 +87,19 @@ body {
         }
     }
     &--add {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8em;
+        color: $black;
+        svg {
+            max-width: 17px;
+            max-height: 17px;
+            width: auto;
+            position: static;
+            margin-right: 5px;
+            fill: $confirm;
+        }
         &::after,
         &::before {
             border-color: $confirm;
@@ -131,6 +144,11 @@ body {
             &::before {
                 background-color: transparent;
                 border-color: $mainColorFour;
+            }
+        }
+        &.btn--add {
+            svg {
+                fill: $mainColorFour;
             }
         }
     }

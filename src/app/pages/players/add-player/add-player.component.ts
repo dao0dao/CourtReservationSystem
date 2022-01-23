@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Week } from '../interfaces';
 
 @Component({
   selector: 'app-add-player',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddPlayerComponent implements OnInit {
 
+  weeks: Week[] = [];
+
   constructor() { }
+
+  setWeeks(event: Week[]) {
+    this.weeks = event;
+    console.log(this.weeks);
+  }
 
   ngOnInit(): void {
   }

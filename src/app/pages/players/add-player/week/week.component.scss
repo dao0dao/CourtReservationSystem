@@ -1,6 +1,7 @@
 @import "~src/assets/colors";
 
 .form {
+    margin: 0 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,14 +13,14 @@
     label {
         padding-left: 13px;
         font-size: 0.8em;
-    }
-    svg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        max-width: 17px;
-        max-height: 17px;
-        fill: $black;
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            max-width: 17px;
+            max-height: 17px;
+            fill: $black;
+        }
     }
     input[type="checkbox"] {
         width: 0;
@@ -52,23 +53,6 @@
     .btn--add {
         margin-top: 1rem;
         padding: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.8em;
-        color: $black;
-        svg {
-            max-height: 30px;
-            width: auto;
-            position: static;
-            margin-right: 5px;
-            fill: $confirm;
-        }
-        &[disabled] {
-            svg {
-                fill: $mainColorFour;
-            }
-        }
     }
 }
 .list {

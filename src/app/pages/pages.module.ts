@@ -12,6 +12,7 @@ import { AddComponent } from './coaches/add/add.component';
 import { PlayersComponent } from './players/players.component';
 import { AddPlayerComponent } from './players/add-player/add-player.component';
 import { WeekComponent } from './players/add-player/week/week.component';
+import { OpponentComponent } from './players/add-player/opponent/opponent.component';
 
 
 
@@ -24,7 +25,8 @@ import { WeekComponent } from './players/add-player/week/week.component';
     AddComponent,
     PlayersComponent,
     AddPlayerComponent,
-    WeekComponent
+    WeekComponent,
+    OpponentComponent
   ],
   imports: [
     CommonModule,

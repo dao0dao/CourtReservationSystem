@@ -1,0 +1,49 @@
+<form
+    class="form"
+    [formGroup]="formOpponent"
+    (submit)="addOpponent()"
+>
+    <select
+        id="opponent"
+        formControlName="opponent"
+    >
+        <option
+            value
+            disabled
+        >
+            Wybierz przeciwnika
+        </option>
+        <option
+            *ngFor="let op of opponents; let i = index"
+            [value]="i"
+        >
+            {{op.name}} {{op.surname}}
+        </option>
+    </select>
+    <button
+        type="submit"
+        class="btn btn--add"
+        [disabled]="formOpponent.invalid"
+    >
+        <svg>
+            <use [attr.xlink:href]="environment.svg +'#icon-plus'"></use>
+        </svg>
+        dodaj
+    </button>
+</form>
+<div class="list">
+    <div
+        *ngFor="let op of chosenOpponents; let i = index"
+        class="block"
+    >
+        <p>{{op.name}} {{op.surname}}</p>
+        <button
+            type="button"
+            (click)="removeOpponent(i)"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
+            </svg>
+        </button>
+    </div>
+</div>

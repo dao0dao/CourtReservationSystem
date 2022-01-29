@@ -81,6 +81,7 @@ body {
         }
     }
     &--submit {
+        color: $mainColorTwo;
         &::after,
         &::before {
             border-color: $mainColorOne;

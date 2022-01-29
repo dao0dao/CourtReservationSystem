@@ -1,4 +1,8 @@
-<form class="form">
+<form
+    class="form"
+    [formGroup]="formAddPlayer"
+    (ngSubmit)="submit()"
+>
     <div class="category">
         <div class="category_block">
             <p class="text">Dane osobowe</p>
@@ -8,37 +12,49 @@
             <input
                 type="text"
                 id="name"
-                [ngClass]="{'full': ''}"
+                formControlName="name"
+                [ngClass]="{'full': getField('name')?.value}"
             >
             <label for="name">Imię</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('name')?.invalid && getField('name')?.touched">Min 2, max 15 znaków</p>
+            </div>
         </div>
         <div class="category_field">
             <input
                 type="text"
                 id="surname"
-                [ngClass]="{'full': ''}"
+                formControlName="surname"
+                [ngClass]="{'full': getField('surname')?.value}"
             >
             <label for="surname">Nazwisko</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('surname')?.invalid && getField('surname')?.touched">Min 2, max 30 znaków</p>
+            </div>
         </div>
         <div class="category_field">
             <input
                 type="text"
-                id="tel"
-                [ngClass]="{'full': ''}"
+                id="telephone"
+                formControlName="telephone"
+                [ngClass]="{'full': getField('telephone')?.value}"
             >
             <label for="tel">Telefon</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('telephone')?.invalid && getField('telephone')?.touched">Tylko 9 cyfr</p>
+            </div>
         </div>
         <div class="category_field">
             <input
                 type="text"
                 id="email"
-                [ngClass]="{'full': ''}"
+                formControlName="email"
+                [ngClass]="{'full': getField('email')?.value}"
             >
             <label for="email">Email</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('email')?.invalid && getField('email')?.touched">Nieprawidłowy email</p>
+            </div>
         </div>
     </div>
     <div class="category">
@@ -52,10 +68,13 @@
                 id="account"
                 step="0.01"
                 min="0"
-                [ngClass]="{'full': ''}"
+                formControlName="account"
+                [ngClass]="{'full': getField('account')?.value >= 0}"
             >
             <label for="account">Stan konta</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('account')?.invalid && getField('account')?.touched">Nie mniej niż 0PLN</p>
+            </div>
         </div>
         <div class="category_field">
             <input
@@ -63,16 +82,20 @@
                 id="price"
                 step="0.01"
                 min="0"
-                [ngClass]="{'full': ''}"
+                formControlName="price"
+                [ngClass]="{'full': getField('price')?.value >= 0}"
             >
             <label for="price">Cena za godz.</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('price')?.invalid && getField('price')?.touched">Zakres 0 - 1000PLN</p>
+            </div>
         </div>
         <div class="category_field">
             <input
                 type="text"
                 id="court"
-                [ngClass]="{'full': ''}"
+                formControlName="court"
+                [ngClass]="{'full': getField('court')?.value}"
             >
             <label for="court">Ulubiony kort</label>
             <div class="error"></div>
@@ -87,10 +110,13 @@
             <input
                 type="text"
                 id="strings"
-                [ngClass]="{'full': ''}"
+                formControlName="strings"
+                [ngClass]="{'full': getField('strings')?.value}"
             >
             <label for="strings">Ulubiony naciąg</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('strings')?.invalid && getField('strings')?.touched">Max 20 znaków</p>
+            </div>
         </div>
         <div class="category_field">
             <input
@@ -99,19 +125,25 @@
                 step="0.1"
                 min="15"
                 max="35"
-                [ngClass]="{'full': ''}"
+                formControlName="tension"
+                [ngClass]="{'full': getField('tension')?.value}"
             >
             <label for="tension">Siła naciągu</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('tension')?.invalid && getField('tension')?.touched">Zakres 15 - 35kg</p>
+            </div>
         </div>
         <div class="category_field">
             <input
                 type="text"
                 id="balls"
-                [ngClass]="{'full': ''}"
+                formControlName="balls"
+                [ngClass]="{'full': getField('balls')?.value}"
             >
             <label for="balls">Ulubione piłki</label>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="getField('balls')?.invalid && getField('balls')?.touched">Max 20 znaków</p>
+            </div>
         </div>
     </div>
     <div class="category">
@@ -135,8 +167,19 @@
             <div class="line"></div>
         </div>
         <div class="category_field">
-            <textarea class="notes"></textarea>
+            <textarea
+                class="notes"
+                formControlName="notes"
+            ></textarea>
+            <div class="error">
+                <p *ngIf="getField('notes')?.invalid && getField('notes')?.touched">Max 500 znaków</p>
+            </div>
         </div>
     </div>
-    <button class="btn btn--submit">Dodaj gracza</button>
+    <button
+        class="btn btn--submit"
+        [disabled]="formAddPlayer.invalid"
+    >
+        Dodaj gracza
+    </button>
 </form>

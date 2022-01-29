@@ -1,3 +1,5 @@
+import { AbstractControl } from "@angular/forms";
+
 export interface Week {
   days: {
     0?: boolean | undefined;
@@ -19,3 +21,19 @@ export interface Opponent {
   name: string,
   surname: string;
 }
+
+export interface AddPlayer {
+  weeks: Week[];
+  opponents: Opponent[];
+  name: string,
+  surname: string,
+  telephone: number,
+  email: string,
+  account: number,
+  price: number,
+  court: number,
+  strings: string,
+  tension: number,
+  balls: string,
+  notes: string;
+};

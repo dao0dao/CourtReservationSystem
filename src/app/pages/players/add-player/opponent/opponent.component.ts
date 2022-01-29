@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Opponent } from '../../interfaces';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class OpponentComponent implements OnInit {
 
   @Output() outputOpponents: EventEmitter<Opponent[]> = new EventEmitter<Opponent[]>();
+  @Input() opponents: Opponent[] = [];
 
   environment = environment;
 
@@ -18,32 +19,24 @@ export class OpponentComponent implements OnInit {
 
   formOpponent: FormGroup = new FormGroup({});
 
-  opponents: Opponent[] = [
-    { name: 'Demid', surname: 'Greshnikov', playerId: 'fdafaqq' },
-    { name: 'Aleksandra', surname: 'Greshnikova', playerId: 'ghadusiol' },
-    { name: 'Jarosław', surname: 'Bielecki', playerId: 'fhguidoal' },
-    { name: 'Marta', surname: 'Bielecka', playerId: 'fhdiuoa' }
-  ];
+  filteredOpponents: Opponent[] = [];
 
   chosenOpponents: Opponent[] = [];
 
   addOpponent() {
-    const index = parseInt(this.formOpponent.get('opponent')?.value);
-    let isChosen: boolean = false;
-    this.chosenOpponents.forEach(o => {
-      if (o.playerId === this.opponents[index].playerId) {
-        isChosen = true;
-      }
-    });
-    if (!isChosen) {
-      this.chosenOpponents.push(this.opponents[index]);
-    }
+    const id: string = this.formOpponent.get('opponent')?.value;
+    const index: number = this.filteredOpponents.findIndex(op => op.id === id);
+    this.chosenOpponents.push(this.filteredOpponents[index]);
     this.outputOpponents.emit(this.chosenOpponents);
     this.formOpponent.reset();
+    this.filteredOpponents.splice(index, 1);
   }
 
-  removeOpponent(index: number) {
+  removeOpponent(id: string) {
+    const index: number = this.chosenOpponents.findIndex(op => op.id === id);
     this.chosenOpponents.splice(index, 1);
+    const op: Opponent = this.opponents.find(el => el.id === id)!;
+    this.filteredOpponents.push(op);
     this.outputOpponents.emit(this.chosenOpponents);
   }
 
@@ -51,6 +44,7 @@ export class OpponentComponent implements OnInit {
     this.formOpponent = this.fb.group({
       opponent: ['', Validators.required]
     });
+    this.filteredOpponents = [...this.opponents];
   }
 
 }

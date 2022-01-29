@@ -59,7 +59,24 @@
                 font-size: 0.5rem;
                 color: $mainColorOne;
             }
+            .notes {
+                width: 15rem;
+                height: 5rem;
+                resize: none;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid $mainColorTwo;
+                font-size: 0.8em;
+                &:focus {
+                    border-color: $mainColorOne;
+                    outline: none;
+                }
+            }
         }
+    }
+    .btn {
+        display: block;
+        margin: 1rem auto;
     }
 }
 @media screen and (min-width: 992px) {

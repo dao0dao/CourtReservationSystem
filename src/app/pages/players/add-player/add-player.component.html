@@ -127,7 +127,7 @@
             <p class="text">Preferowani przeciwnicy</p>
             <div class="line"></div>
         </div>
-        <app-opponent></app-opponent>
+        <app-opponent (outputOpponents)="setOpponents($event)"></app-opponent>
     </div>
     <div class="category">
         <div class="category_block">
@@ -135,7 +135,8 @@
             <div class="line"></div>
         </div>
         <div class="category_field">
-            <textarea name="notes"></textarea>
+            <textarea class="notes"></textarea>
         </div>
     </div>
+    <button class="btn btn--submit">Dodaj gracza</button>
 </form>

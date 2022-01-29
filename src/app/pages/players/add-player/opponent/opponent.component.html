@@ -5,17 +5,13 @@
 >
     <select
         id="opponent"
+        class="select"
         formControlName="opponent"
     >
+        <option value>Wybierz przeciwnika</option>
         <option
-            value
-            disabled
-        >
-            Wybierz przeciwnika
-        </option>
-        <option
-            *ngFor="let op of opponents; let i = index"
-            [value]="i"
+            *ngFor="let op of filteredOpponents"
+            [value]="op.id"
         >
             {{op.name}} {{op.surname}}
         </option>
@@ -36,10 +32,11 @@
         *ngFor="let op of chosenOpponents; let i = index"
         class="block"
     >
-        <p>{{op.name}} {{op.surname}}</p>
+        <p class="number">#{{i+1}}.</p>
+        <p class="name">{{op.name}} {{op.surname}}</p>
         <button
             type="button"
-            (click)="removeOpponent(i)"
+            (click)="removeOpponent(op.id)"
         >
             <svg>
                 <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>

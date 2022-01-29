@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Week } from '../interfaces';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Opponent, Week } from '../interfaces';
 
 @Component({
   selector: 'app-add-player',
@@ -9,15 +10,22 @@ import { Week } from '../interfaces';
 export class AddPlayerComponent implements OnInit {
 
   weeks: Week[] = [];
+  opponents: Opponent[] = [];
 
-  constructor() { }
+  formAddPlayer: FormGroup = new FormGroup({});
+
+  constructor(private fb: FormBuilder) { }
 
   setWeeks(event: Week[]) {
     this.weeks = event;
-    console.log(this.weeks);
+  }
+
+  setOpponents(event: Opponent[]) {
+    this.opponents = event;
   }
 
   ngOnInit(): void {
+    
   }
 
 }

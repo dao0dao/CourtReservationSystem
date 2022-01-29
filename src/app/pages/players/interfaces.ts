@@ -15,7 +15,7 @@ export interface Week {
 }
 
 export interface Opponent {
-  playerId: string,
+  id: string,
   name: string,
   surname: string;
 }

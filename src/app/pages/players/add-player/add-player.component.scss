@@ -52,6 +52,16 @@
                     transform: translate(-101%, -50%);
                 }
             }
+            .select {
+                padding: 0.5rem;
+                border-style: none none solid;
+                border-color: $mainColorTwo;
+                border-width: 1px;
+                background-color: transparent;
+                &:focus-within {
+                    border-color: $mainColorOne;
+                }
+            }
             .error {
                 position: absolute;
                 left: 0;

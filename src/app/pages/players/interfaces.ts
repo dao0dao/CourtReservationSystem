@@ -1,5 +1,3 @@
-import { AbstractControl } from "@angular/forms";
-
 export interface Week {
   days: {
     0?: boolean | undefined;
@@ -37,3 +35,4 @@ export interface AddPlayer {
   balls: string,
   notes: string;
 };
+

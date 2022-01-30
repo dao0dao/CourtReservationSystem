@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddPlayer, Opponent, Week } from '../interfaces';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-add-player',
@@ -12,9 +13,12 @@ export class AddPlayerComponent implements OnInit {
   weeks: Week[] = [];
   opponents: Opponent[] = [];
 
+  isSending: boolean = false;
+  changeStatus: boolean = false;
+
   formAddPlayer: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private api: ApiService) { }
 
   setWeeks(event: Week[]) {
     this.weeks = event;
@@ -28,14 +32,33 @@ export class AddPlayerComponent implements OnInit {
     return this.formAddPlayer.get(name);
   }
 
+  resetForm() {
+    this.formAddPlayer.reset();
+    this.getField('account')?.setValue(0);
+    this.getField('price')?.setValue(0);
+    this.getField('tension')?.setValue(25);
+    this.formAddPlayer.updateValueAndValidity();
+    this.changeStatus = !this.changeStatus;
+  }
+
   submit() {
+    this.isSending = true;
     const { name, surname, telephone, email, account, price, court, strings, tension, balls, notes } = this.formAddPlayer.value;
     const player: AddPlayer = {
       weeks: this.weeks,
       opponents: this.opponents,
       name, surname, telephone, email, account, price, court, strings, tension, balls, notes
     };
+    this.api.addPlayer(player).subscribe({
+      next: () => {
+        this.resetForm();
+        this.isSending = false;
+      },
+      error: () => {
 
+        this.isSending = false;
+      }
+    });
   }
 
   ngOnInit(): void {

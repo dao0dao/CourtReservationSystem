@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Opponent } from '../../interfaces';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,10 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './opponent.component.html',
   styleUrls: ['./opponent.component.scss']
 })
-export class OpponentComponent implements OnInit {
+export class OpponentComponent implements OnInit, OnChanges {
 
   @Output() outputOpponents: EventEmitter<Opponent[]> = new EventEmitter<Opponent[]>();
   @Input() opponents: Opponent[] = [];
+  @Input() changeStatus: boolean = false;
 
   environment = environment;
 
@@ -43,8 +44,16 @@ export class OpponentComponent implements OnInit {
   ngOnInit(): void {
     this.formOpponent = this.fb.group({
       opponent: ['', Validators.required]
-    });
+    }); 
     this.filteredOpponents = [...this.opponents];
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['changeStatus'].currentValue != changes['changeStatus'].previousValue) {
+      this.formOpponent.reset();
+      this.filteredOpponents = [...this.opponents];
+      this.outputOpponents.emit([]);
+    }
   }
 
 }

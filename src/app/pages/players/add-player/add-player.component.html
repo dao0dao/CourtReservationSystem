@@ -91,13 +91,15 @@
             </div>
         </div>
         <div class="category_field">
-            <input
-                type="text"
+            <select
                 id="court"
+                class="select"
                 formControlName="court"
-                [ngClass]="{'full': getField('court')?.value}"
             >
-            <label for="court">Ulubiony kort</label>
+                <option>Ulubiony kort</option>
+                <option value="1">Niebieski</option>
+                <option value="2">Fioletowy</option>
+            </select>
             <div class="error"></div>
         </div>
     </div>
@@ -152,14 +154,20 @@
             <p class="text">Preferowane terminy</p>
             <div class="line"></div>
         </div>
-        <app-week (outputWeeks)="setWeeks($event)"></app-week>
+        <app-week
+            (outputWeeks)="setWeeks($event)"
+            [changeStatus]="changeStatus"
+        ></app-week>
     </div>
     <div class="category">
         <div class="category_block">
             <p class="text">Preferowani przeciwnicy</p>
             <div class="line"></div>
         </div>
-        <app-opponent (outputOpponents)="setOpponents($event)"></app-opponent>
+        <app-opponent
+            (outputOpponents)="setOpponents($event)"
+            [changeStatus]="changeStatus"
+        ></app-opponent>
     </div>
     <div class="category">
         <div class="category_block">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Week } from '../../interfaces';
@@ -10,9 +10,10 @@ import { Week } from '../../interfaces';
   templateUrl: './week.component.html',
   styleUrls: ['./week.component.scss']
 })
-export class WeekComponent implements OnInit {
+export class WeekComponent implements OnInit, OnChanges {
 
   @Output() outputWeeks: EventEmitter<Week[]> = new EventEmitter<Week[]>();
+  @Input() changeStatus: boolean = false;
 
   environment = environment;
 
@@ -81,6 +82,14 @@ export class WeekComponent implements OnInit {
       from: [''],
       to: ['']
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['changeStatus'].currentValue != changes['changeStatus'].previousValue) {
+      this.formWeek.reset();
+      this.weeks = [];
+      this.outputWeeks.emit([]);
+    }
   }
 
 }

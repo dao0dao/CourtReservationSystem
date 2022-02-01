@@ -14,6 +14,7 @@ export class WeekComponent implements OnInit, OnChanges {
 
   @Output() outputWeeks: EventEmitter<Week[]> = new EventEmitter<Week[]>();
   @Input() changeStatus: boolean = false;
+  @Input() error: boolean | undefined;
 
   environment = environment;
 
@@ -85,7 +86,7 @@ export class WeekComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['changeStatus'].currentValue != changes['changeStatus'].previousValue) {
+    if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
       this.formWeek.reset();
       this.weeks = [];
       this.outputWeeks.emit([]);

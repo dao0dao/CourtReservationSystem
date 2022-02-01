@@ -43,6 +43,10 @@
         }
     }
 }
+.error {
+    text-align: center;
+    color: $mainColorOne;
+}
 @media screen and (min-width: 992px) {
     .block {
         margin: 1rem 3rem;

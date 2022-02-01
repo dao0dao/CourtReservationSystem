@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddPlayer, Opponent, Week } from '../interfaces';
+import { InfoService } from 'src/app/info.service';
+import { AddPlayer, AddPlayerError, Opponent, Week } from '../interfaces';
 import { ApiService } from './api.service';
 
 @Component({
@@ -17,8 +18,9 @@ export class AddPlayerComponent implements OnInit {
   changeStatus: boolean = false;
 
   formAddPlayer: FormGroup = new FormGroup({});
+  errors: AddPlayerError = {};
 
-  constructor(private fb: FormBuilder, private api: ApiService) { }
+  constructor(private fb: FormBuilder, private api: ApiService, private infoService: InfoService) { }
 
   setWeeks(event: Week[]) {
     this.weeks = event;
@@ -55,8 +57,13 @@ export class AddPlayerComponent implements OnInit {
         this.resetForm();
         this.isSending = false;
       },
-      error: () => {
-
+      error: (err: { error: AddPlayerError | string; }) => {
+        console.log(err);
+        if (typeof (err.error) === 'string') {
+          this.infoService.showInfo(`Gracz ${this.getField('name')?.value} ${this.getField('surname')?.value} już istnieje`);
+        } else {
+          this.errors = err.error;
+        }
         this.isSending = false;
       }
     });

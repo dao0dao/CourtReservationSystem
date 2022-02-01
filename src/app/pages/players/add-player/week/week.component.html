@@ -149,6 +149,12 @@
         dodaj
     </button>
 </form>
+<p
+    *ngIf="error"
+    class="error"
+>
+    Wysłano błędne dane
+</p>
 <div class="list">
     <div
         *ngFor="let week of weeks; let i = index"

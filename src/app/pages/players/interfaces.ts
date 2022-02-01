@@ -37,3 +37,20 @@ export interface AddPlayer {
   notes: string;
 };
 
+export interface AddPlayerError {
+  name?: boolean;
+  surname?: boolean;
+  telephone?: boolean;
+  email?: boolean;
+  account?: boolean;
+  priceSummer?: boolean;
+  priceWinter?: boolean;
+  court?: boolean;
+  strings?: boolean;
+  tension?: boolean;
+  balls?: boolean;
+  opponents?: boolean;
+  weeks?: boolean;
+  notes?: boolean;
+}
+

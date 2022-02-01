@@ -13,6 +13,7 @@ export class OpponentComponent implements OnInit, OnChanges {
   @Output() outputOpponents: EventEmitter<Opponent[]> = new EventEmitter<Opponent[]>();
   @Input() opponents: Opponent[] = [];
   @Input() changeStatus: boolean = false;
+  @Input() error: boolean | undefined;
 
   environment = environment;
 
@@ -44,12 +45,12 @@ export class OpponentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.formOpponent = this.fb.group({
       opponent: ['', Validators.required]
-    }); 
+    });
     this.filteredOpponents = [...this.opponents];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['changeStatus'].currentValue != changes['changeStatus'].previousValue) {
+    if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
       this.formOpponent.reset();
       this.filteredOpponents = [...this.opponents];
       this.outputOpponents.emit([]);

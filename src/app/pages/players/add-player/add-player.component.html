@@ -17,7 +17,7 @@
             >
             <label for="name">Imię</label>
             <div class="error">
-                <p *ngIf="getField('name')?.invalid && getField('name')?.touched">Min 2, max 15 znaków</p>
+                <p *ngIf="(getField('name')?.invalid && getField('name')?.touched) || errors.name">Min 2, max 15 znaków</p>
             </div>
         </div>
         <div class="category_field">
@@ -29,7 +29,7 @@
             >
             <label for="surname">Nazwisko</label>
             <div class="error">
-                <p *ngIf="getField('surname')?.invalid && getField('surname')?.touched">Min 2, max 30 znaków</p>
+                <p *ngIf="(getField('surname')?.invalid && getField('surname')?.touched) || errors.surname">Min 2, max 30 znaków</p>
             </div>
         </div>
         <div class="category_field">
@@ -41,7 +41,7 @@
             >
             <label for="tel">Telefon</label>
             <div class="error">
-                <p *ngIf="getField('telephone')?.invalid && getField('telephone')?.touched">Tylko 9 cyfr</p>
+                <p *ngIf="(getField('telephone')?.invalid && getField('telephone')?.touched) || errors.telephone">Tylko 9 cyfr</p>
             </div>
         </div>
         <div class="category_field">
@@ -53,7 +53,7 @@
             >
             <label for="email">Email</label>
             <div class="error">
-                <p *ngIf="getField('email')?.invalid && getField('email')?.touched">Nieprawidłowy email</p>
+                <p *ngIf="(getField('email')?.invalid && getField('email')?.touched) || errors.email">Nieprawidłowy email</p>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
             >
             <label for="account">Stan konta</label>
             <div class="error">
-                <p *ngIf="getField('account')?.invalid && getField('account')?.touched">Nie mniej niż 0PLN</p>
+                <p *ngIf="(getField('account')?.invalid && getField('account')?.touched) || errors.account">Nie mniej niż 0PLN</p>
             </div>
         </div>
         <div class="category_field">
@@ -87,7 +87,7 @@
             >
             <label for="price">Letnia stawka</label>
             <div class="error">
-                <p *ngIf="getField('priceSummer')?.invalid && getField('priceSummer')?.touched">Zakres 0 - 1000PLN</p>
+                <p *ngIf="(getField('priceSummer')?.invalid && getField('priceSummer')?.touched) || errors.priceSummer">Zakres 0 - 1000PLN</p>
             </div>
         </div>
         <div class="category_field">
@@ -101,7 +101,7 @@
             >
             <label for="price">Zimowa stawka</label>
             <div class="error">
-                <p *ngIf="getField('priceWinter')?.invalid && getField('priceWinter')?.touched">Zakres 0 - 1000PLN</p>
+                <p *ngIf="(getField('priceWinter')?.invalid && getField('priceWinter')?.touched) || errors.priceWinter">Zakres 0 - 1000PLN</p>
             </div>
         </div>
         <div class="category_field">
@@ -114,7 +114,9 @@
                 <option value="1">Niebieski</option>
                 <option value="2">Fioletowy</option>
             </select>
-            <div class="error"></div>
+            <div class="error">
+                <p *ngIf="errors.court">Niewłaściwa wartość</p>
+            </div>
         </div>
     </div>
     <div class="category">
@@ -131,7 +133,7 @@
             >
             <label for="strings">Ulubiony naciąg</label>
             <div class="error">
-                <p *ngIf="getField('strings')?.invalid && getField('strings')?.touched">Max 20 znaków</p>
+                <p *ngIf="(getField('strings')?.invalid && getField('strings')?.touched) || errors.strings">Max 20 znaków</p>
             </div>
         </div>
         <div class="category_field">
@@ -146,7 +148,7 @@
             >
             <label for="tension">Siła naciągu</label>
             <div class="error">
-                <p *ngIf="getField('tension')?.invalid && getField('tension')?.touched">Zakres 15 - 35kg</p>
+                <p *ngIf="(getField('tension')?.invalid && getField('tension')?.touched) || errors.tension">Zakres 15 - 35kg</p>
             </div>
         </div>
         <div class="category_field">
@@ -158,7 +160,7 @@
             >
             <label for="balls">Ulubione piłki</label>
             <div class="error">
-                <p *ngIf="getField('balls')?.invalid && getField('balls')?.touched">Max 20 znaków</p>
+                <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 20 znaków</p>
             </div>
         </div>
     </div>
@@ -171,6 +173,7 @@
         <app-week
             (outputWeeks)="setWeeks($event)"
             [changeStatus]="changeStatus"
+            [error]="errors?.weeks"
         ></app-week>
     </div>
     <div class="category">
@@ -181,6 +184,7 @@
         <app-opponent
             (outputOpponents)="setOpponents($event)"
             [changeStatus]="changeStatus"
+            [error]="errors?.opponents"
         ></app-opponent>
     </div>
     <div class="category">
@@ -194,7 +198,7 @@
                 formControlName="notes"
             ></textarea>
             <div class="error">
-                <p *ngIf="getField('notes')?.invalid && getField('notes')?.touched">Max 500 znaków</p>
+                <p *ngIf="(getField('notes')?.invalid && getField('notes')?.touched) || errors.notes">Max 500 znaków</p>
             </div>
         </div>
     </div>

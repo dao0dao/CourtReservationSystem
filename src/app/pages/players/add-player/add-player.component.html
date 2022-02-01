@@ -82,12 +82,26 @@
                 id="price"
                 step="0.01"
                 min="0"
-                formControlName="price"
-                [ngClass]="{'full': getField('price')?.value >= 0}"
+                formControlName="priceSummer"
+                [ngClass]="{'full': getField('priceSummer')?.value >= 0}"
             >
-            <label for="price">Cena za godz.</label>
+            <label for="price">Letnia stawka</label>
             <div class="error">
-                <p *ngIf="getField('price')?.invalid && getField('price')?.touched">Zakres 0 - 1000PLN</p>
+                <p *ngIf="getField('priceSummer')?.invalid && getField('priceSummer')?.touched">Zakres 0 - 1000PLN</p>
+            </div>
+        </div>
+        <div class="category_field">
+            <input
+                type="number"
+                id="price"
+                step="0.01"
+                min="0"
+                formControlName="priceWinter"
+                [ngClass]="{'full': getField('priceWinter')?.value >= 0}"
+            >
+            <label for="price">Zimowa stawka</label>
+            <div class="error">
+                <p *ngIf="getField('priceWinter')?.invalid && getField('priceWinter')?.touched">Zakres 0 - 1000PLN</p>
             </div>
         </div>
         <div class="category_field">

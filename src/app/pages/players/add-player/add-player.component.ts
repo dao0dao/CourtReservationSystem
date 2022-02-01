@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddPlayer, Opponent, Week } from '../interfaces';
 import { ApiService } from './api.service';
@@ -35,7 +35,8 @@ export class AddPlayerComponent implements OnInit {
   resetForm() {
     this.formAddPlayer.reset();
     this.getField('account')?.setValue(0);
-    this.getField('price')?.setValue(0);
+    this.getField('priceSummer')?.setValue(0);
+    this.getField('priceWinter')?.setValue(0);
     this.getField('tension')?.setValue(25);
     this.formAddPlayer.updateValueAndValidity();
     this.changeStatus = !this.changeStatus;
@@ -43,11 +44,11 @@ export class AddPlayerComponent implements OnInit {
 
   submit() {
     this.isSending = true;
-    const { name, surname, telephone, email, account, price, court, strings, tension, balls, notes } = this.formAddPlayer.value;
+    const { name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formAddPlayer.value;
     const player: AddPlayer = {
       weeks: this.weeks,
       opponents: this.opponents,
-      name, surname, telephone, email, account, price, court, strings, tension, balls, notes
+      name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes
     };
     this.api.addPlayer(player).subscribe({
       next: () => {
@@ -68,7 +69,8 @@ export class AddPlayerComponent implements OnInit {
       telephone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       email: ['', [Validators.email]],
       account: [0, [Validators.required, Validators.min(0)]],
-      price: [0, [Validators.min(0), Validators.max(1000)]],
+      priceSummer: [0, [Validators.min(0), Validators.max(1000)]],
+      priceWinter: [0, [Validators.min(0), Validators.max(1000)]],
       court: [''],
       strings: ['', Validators.maxLength(20)],
       tension: [25, [Validators.min(15), Validators.max(35)]],

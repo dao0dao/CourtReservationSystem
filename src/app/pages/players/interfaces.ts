@@ -20,7 +20,7 @@ export interface Opponent {
   surname: string;
 }
 
-export interface AddPlayer {
+export interface Player {
   weeks: Week[];
   opponents: Opponent[];
   name: string,

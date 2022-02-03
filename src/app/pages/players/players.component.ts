@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from './api.service';
 
 type Overlap = 'add' | 'list';
 
@@ -9,7 +10,7 @@ type Overlap = 'add' | 'list';
 })
 export class PlayersComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
   overlap: Overlap = 'add';
 
@@ -18,6 +19,11 @@ export class PlayersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.api.getAllPlayers().subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    });
   }
 
 }

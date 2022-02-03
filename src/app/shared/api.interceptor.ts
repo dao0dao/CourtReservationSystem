@@ -37,6 +37,9 @@ export class ApiInterceptor implements HttpInterceptor {
           this.infoService.showInfo('Brak dostępu');
           this.isLoginGuard.logOut();
         }
+        if (err.status === 406) {
+          this.infoService.showInfo(err.error.reason);
+        }
         if (err.status === 500) {
           if (err.error.readWrite === 'fail') {
             this.infoService.showInfo('Błąd odczytu/zapisu bazy danych');

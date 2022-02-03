@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InfoService } from 'src/app/info.service';
-import { AddPlayer, AddPlayerError, Opponent, Week } from '../interfaces';
-import { ApiService } from './api.service';
+import { Player, AddPlayerError, Opponent, Week } from '../interfaces';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-add-player',
@@ -47,7 +47,7 @@ export class AddPlayerComponent implements OnInit {
   submit() {
     this.isSending = true;
     const { name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formAddPlayer.value;
-    const player: AddPlayer = {
+    const player: Player = {
       weeks: this.weeks,
       opponents: this.opponents,
       name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes

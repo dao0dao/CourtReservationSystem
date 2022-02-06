@@ -34,6 +34,11 @@
             opacity: 1;
             fill: $mainColorOne;
         }
+        &:focus-within + label,
+        &:focus + label {
+            border-bottom: 1px solid $mainColorOne;
+            border-right: 1px solid $mainColorOne;
+        }
     }
     .hour {
         flex-basis: 100%;

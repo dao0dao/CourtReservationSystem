@@ -8,7 +8,9 @@
         border-color: $mainColorTwo;
         border-width: 1px;
         background-color: transparent;
-        &:focus-within {
+        &:focus-within,
+        &:focus {
+            outline: none;
             border-color: $mainColorOne;
         }
     }

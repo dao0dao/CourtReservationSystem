@@ -59,6 +59,7 @@
                 border-width: 1px;
                 background-color: transparent;
                 &:focus-within {
+                    outline: none;
                     border-color: $mainColorOne;
                 }
             }

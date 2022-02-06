@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Opponent } from '../../interfaces';
+import { Opponent, OpponentSql } from '../../interfaces';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class OpponentComponent implements OnInit, OnChanges {
 
-  @Output() outputOpponents: EventEmitter<Opponent[]> = new EventEmitter<Opponent[]>();
+  @Output() outputOpponents: EventEmitter<OpponentSql[]> = new EventEmitter<OpponentSql[]>();
   @Input() opponents: Opponent[] = [];
   @Input() changeStatus: boolean = false;
   @Input() error: boolean | undefined;
@@ -22,14 +22,15 @@ export class OpponentComponent implements OnInit, OnChanges {
   formOpponent: FormGroup = new FormGroup({});
 
   filteredOpponents: Opponent[] = [];
-
   chosenOpponents: Opponent[] = [];
+  opponentsId: OpponentSql[] = [];
 
   addOpponent() {
     const id: string = this.formOpponent.get('opponent')?.value;
     const index: number = this.filteredOpponents.findIndex(op => op.id === id);
     this.chosenOpponents.push(this.filteredOpponents[index]);
-    this.outputOpponents.emit(this.chosenOpponents);
+    this.opponentsId.push({ id: this.filteredOpponents[index].id });
+    this.outputOpponents.emit(this.opponentsId);
     this.formOpponent.reset();
     this.filteredOpponents.splice(index, 1);
   }
@@ -39,22 +40,28 @@ export class OpponentComponent implements OnInit, OnChanges {
     this.chosenOpponents.splice(index, 1);
     const op: Opponent = this.opponents.find(el => el.id === id)!;
     this.filteredOpponents.push(op);
-    this.outputOpponents.emit(this.chosenOpponents);
+    this.opponentsId = this.opponentsId.filter(e => e.id !== op.id);
+    this.outputOpponents.emit(this.opponentsId);
   }
 
   ngOnInit(): void {
     this.formOpponent = this.fb.group({
       opponent: ['', Validators.required]
     });
-    this.filteredOpponents = [...this.opponents];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
       this.formOpponent.reset();
       this.filteredOpponents = [...this.opponents];
+      this.chosenOpponents = [];
+      this.opponentsId = [];
       this.outputOpponents.emit([]);
     }
+  }
+
+  ngAfterViewInit() {
+    this.filteredOpponents = this.opponents;
   }
 
 }

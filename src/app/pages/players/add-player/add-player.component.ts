@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InfoService } from 'src/app/info.service';
-import { Player, AddPlayerError, Opponent, Week } from '../interfaces';
+import { Player, AddPlayerError, Opponent, Week, OpponentSql, PlayerSql } from '../interfaces';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -12,7 +12,8 @@ import { ApiService } from '../api.service';
 export class AddPlayerComponent implements OnInit {
 
   weeks: Week[] = [];
-  opponents: Opponent[] = [];
+  opponents: OpponentSql[] = [];
+  @Input() allOpponents: Opponent[] = [];
 
   isSending: boolean = false;
   changeStatus: boolean = false;
@@ -26,7 +27,7 @@ export class AddPlayerComponent implements OnInit {
     this.weeks = event;
   }
 
-  setOpponents(event: Opponent[]) {
+  setOpponents(event: OpponentSql[]) {
     this.opponents = event;
   }
 
@@ -40,6 +41,7 @@ export class AddPlayerComponent implements OnInit {
     this.getField('priceSummer')?.setValue(0);
     this.getField('priceWinter')?.setValue(0);
     this.getField('tension')?.setValue(25);
+    this.getField('court')?.setValue(0);
     this.formAddPlayer.updateValueAndValidity();
     this.changeStatus = !this.changeStatus;
   }
@@ -47,13 +49,14 @@ export class AddPlayerComponent implements OnInit {
   submit() {
     this.isSending = true;
     const { name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formAddPlayer.value;
-    const player: Player = {
+    const player: PlayerSql = {
       weeks: this.weeks,
       opponents: this.opponents,
-      name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes
+      name, surname, telephone, email, account, priceSummer, priceWinter, court, stringsName: strings, tension, balls, notes
     };
     this.api.addPlayer(player).subscribe({
-      next: () => {
+      next: (res: { id: string; }) => {
+        this.allOpponents.push({ id: res.id, name: this.getField('name')?.value, surname: this.getField('surname')?.value });
         this.resetForm();
         this.isSending = false;
       },
@@ -78,7 +81,7 @@ export class AddPlayerComponent implements OnInit {
       account: [0, [Validators.required, Validators.min(0)]],
       priceSummer: [0, [Validators.min(0), Validators.max(1000)]],
       priceWinter: [0, [Validators.min(0), Validators.max(1000)]],
-      court: [''],
+      court: [0],
       strings: ['', Validators.maxLength(20)],
       tension: [25, [Validators.min(15), Validators.max(35)]],
       balls: ['', Validators.maxLength(20)],

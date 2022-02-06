@@ -15,5 +15,5 @@
             Dodaj gracza
         </button>
     </div>
-    <app-add-player *ngIf="overlap === 'add'"></app-add-player>
+    <app-add-player [allOpponents]="allOpponents" *ngIf="overlap === 'add'"></app-add-player>
 </div>

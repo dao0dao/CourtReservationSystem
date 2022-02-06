@@ -20,7 +20,10 @@ export interface Opponent {
   surname: string;
 }
 
+export type OpponentSql = Omit<Opponent, 'name' | 'surname'>;
+
 export interface Player {
+  id?: string;
   weeks: Week[];
   opponents: Opponent[];
   name: string,
@@ -31,11 +34,13 @@ export interface Player {
   priceSummer: number,
   priceWinter: number,
   court: number,
-  strings: string,
+  stringsName: string,
   tension: number,
   balls: string,
   notes: string;
 };
+
+export type PlayerSql = Omit<Player, 'opponents'> & { opponents: OpponentSql[]; };
 
 export interface AddPlayerError {
   name?: boolean;

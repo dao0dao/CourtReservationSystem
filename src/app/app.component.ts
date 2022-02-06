@@ -25,11 +25,11 @@ export class AppComponent {
   logout() {
     this.http.get(environment.apiLink + 'logout').subscribe({
       next: (res) => {
-        this.toggleMenu();
+        this.isMenu = false;
         this.loginState.logOut();
       },
       error: (err) => {
-        this.toggleMenu();
+        this.isMenu = false;
         this.loginState.logOut();
       }
     });

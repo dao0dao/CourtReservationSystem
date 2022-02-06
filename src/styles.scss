@@ -55,7 +55,8 @@ body {
     }
     &--submit,
     &--close,
-    &--add {
+    &--add,
+    &--edit {
         &::after,
         &::before {
             position: absolute;
@@ -87,7 +88,8 @@ body {
             border-color: $mainColorOne;
         }
     }
-    &--add {
+    &--add,
+    &--edit {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -101,9 +103,17 @@ body {
             margin-right: 5px;
             fill: $confirm;
         }
+    }
+    &--add {
         &::after,
         &::before {
             border-color: $confirm;
+        }
+    }
+    &--edit {
+        &::after,
+        &::before {
+            border-color: $yellow;
         }
     }
     &--close {
@@ -123,7 +133,8 @@ body {
         border-color: $mainColorOne;
         &.btn--submit,
         &.btn--close,
-        &.btn--add {
+        &.btn--add,
+        &.btn--edit {
             border-color: transparent;
             &::after,
             &::before {
@@ -138,7 +149,8 @@ body {
             background-color: $mainColorFour;
         }
         &.btn--submit,
-        &.btn--add {
+        &.btn--add,
+        &.btn--edit {
             border-color: transparent;
             pointer-events: none;
             &::after,
@@ -147,7 +159,8 @@ body {
                 border-color: $mainColorFour;
             }
         }
-        &.btn--add {
+        &.btn--add,
+        &.btn--edit {
             svg {
                 fill: $mainColorFour;
             }

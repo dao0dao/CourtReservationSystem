@@ -11,8 +11,9 @@ import { ListComponent } from './coaches/list/list.component';
 import { AddComponent } from './coaches/add/add.component';
 import { PlayersComponent } from './players/players.component';
 import { AddPlayerComponent } from './players/add-player/add-player.component';
-import { WeekComponent } from './players/add-player/week/week.component';
-import { OpponentComponent } from './players/add-player/opponent/opponent.component';
+import { WeekComponent } from './players/week/week.component';
+import { OpponentComponent } from './players/opponent/opponent.component';
+import { PlayersListComponent } from './players/players-list/players-list.component';
 
 
 
@@ -26,7 +27,8 @@ import { OpponentComponent } from './players/add-player/opponent/opponent.compon
     PlayersComponent,
     AddPlayerComponent,
     WeekComponent,
-    OpponentComponent
+    OpponentComponent,
+    PlayersListComponent
   ],
   imports: [
     CommonModule,

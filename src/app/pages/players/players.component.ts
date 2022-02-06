@@ -14,7 +14,7 @@ export class PlayersComponent implements OnInit {
   constructor(private api: ApiService) { }
   @Input() allOpponents: Opponent[] = [];
 
-  overlap: Overlap = 'add';
+  overlap: Overlap = 'list';
   players: Player[] = [];
 
   changeOverlap(name: Overlap) {

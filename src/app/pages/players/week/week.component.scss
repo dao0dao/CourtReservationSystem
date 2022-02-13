@@ -26,6 +26,10 @@
         width: 0;
         height: 0;
         opacity: 0;
+        & + label {
+            border-bottom: 1px solid transparent;
+            border-right: 1px solid transparent;
+        }
         & + label svg.checked {
             opacity: 0;
         }

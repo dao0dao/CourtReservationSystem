@@ -15,6 +15,7 @@ export class WeekComponent implements OnInit, OnChanges {
   @Output() outputWeeks: EventEmitter<Week[]> = new EventEmitter<Week[]>();
   @Input() changeStatus: boolean = false;
   @Input() error: boolean | undefined;
+  @Input() editedWeeks: Week[] | undefined;
 
   environment = environment;
 
@@ -22,6 +23,17 @@ export class WeekComponent implements OnInit, OnChanges {
   formWeek: FormGroup = new FormGroup({});
 
   constructor(private fb: FormBuilder) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
+      this.formWeek.reset();
+      this.weeks = [];
+      this.outputWeeks.emit([]);
+    }
+    if (changes['editedWeeks']?.currentValue) {
+      this.weeks = [...this.editedWeeks!];
+    }
+  }
 
   checkDay() {
     let isDay: boolean | string = '';
@@ -83,14 +95,6 @@ export class WeekComponent implements OnInit, OnChanges {
       from: [''],
       to: ['']
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
-      this.formWeek.reset();
-      this.weeks = [];
-      this.outputWeeks.emit([]);
-    }
   }
 
 }

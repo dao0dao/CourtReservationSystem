@@ -14,6 +14,9 @@ export class OpponentComponent implements OnInit, OnChanges {
   @Input() opponents: Opponent[] = [];
   @Input() changeStatus: boolean = false;
   @Input() error: boolean | undefined;
+  @Input() editFilteredOpponents: Opponent[] | undefined = undefined;
+  @Input() editChosenOpponents: Opponent[] | undefined = undefined;
+  @Input() edition: boolean = false;
 
   environment = environment;
 
@@ -24,6 +27,33 @@ export class OpponentComponent implements OnInit, OnChanges {
   filteredOpponents: Opponent[] = [];
   chosenOpponents: Opponent[] = [];
   opponentsId: OpponentSql[] = [];
+
+  ngOnInit(): void {
+    this.formOpponent = this.fb.group({
+      opponent: ['', Validators.required]
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['edition']?.currentValue === true) {
+      this.filteredOpponents = [...this.editFilteredOpponents!];
+      this.chosenOpponents = [...this.editChosenOpponents!];
+      this.setOpponentsIs(this.chosenOpponents);
+      this.outputOpponents.emit(this.opponentsId);
+    } else {
+      this.formOpponent.reset();
+      this.filteredOpponents = [...this.opponents];
+      this.chosenOpponents = [];
+      this.opponentsId = [];
+      this.outputOpponents.emit([]);
+    }
+  }
+
+  ngAfterViewInit() {
+    if (!this.edition) {
+      this.filteredOpponents = this.opponents;
+    }
+  }
 
   addOpponent() {
     const id: string = this.formOpponent.get('opponent')?.value;
@@ -44,24 +74,8 @@ export class OpponentComponent implements OnInit, OnChanges {
     this.outputOpponents.emit(this.opponentsId);
   }
 
-  ngOnInit(): void {
-    this.formOpponent = this.fb.group({
-      opponent: ['', Validators.required]
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
-      this.formOpponent.reset();
-      this.filteredOpponents = [...this.opponents];
-      this.chosenOpponents = [];
-      this.opponentsId = [];
-      this.outputOpponents.emit([]);
-    }
-  }
-
-  ngAfterViewInit() {
-    this.filteredOpponents = this.opponents;
+  setOpponentsIs(opponents: Opponent[]) {
+    opponents.forEach(op => { this.opponentsId.push({ id: op.id }); });
   }
 
 }

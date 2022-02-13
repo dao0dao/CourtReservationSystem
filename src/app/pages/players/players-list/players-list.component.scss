@@ -33,11 +33,46 @@
     align-items: center;
     background-color: $background;
     &_card {
-        overflow: auto;
+        position: relative;
         width: 95%;
         height: 95%;
+        max-height: 700px;
+        padding: 15px;
         border-radius: $mainBorderRadius;
         background-color: $clearWhite;
+        &_close {
+            position: absolute;
+            top: -20px;
+            right: -8px;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background-color: $clearWhite;
+            svg {
+                max-width: 100%;
+                max-height: 100%;
+                fill: $mainColorFour;
+            }
+        }
+        &_user {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            padding: 5px 10px;
+            background-color: $clearWhite;
+            color: $mainColorOne;
+        }
+        &_frame {
+            overflow: auto;
+            height: 100%;
+            padding-top: 10px;
+            border-radius: $mainBorderRadius;
+            border: 1px solid $background;
+        }
         .form {
             .category {
                 &_block {
@@ -69,10 +104,10 @@
                         transition: transform 0.3s ease-in-out;
                         font-size: 0.8rem;
                         text-align: right;
-                        letter-spacing: 1px;
+                        letter-spacing: 0px;
                     }
                     input {
-                        width: 160px;
+                        width: 145px;
                         padding: 5px 10px;
                         border-width: 0 0px 1px 0px;
                         border-style: solid;
@@ -135,6 +170,9 @@
     // pop up edycja danych
     .popUp {
         &_card {
+            &_close {
+                right: -16px;
+            }
             .form {
                 width: 100%;
                 display: flex;

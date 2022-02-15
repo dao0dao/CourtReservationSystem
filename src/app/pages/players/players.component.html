@@ -1,4 +1,12 @@
-<div class="container">
+<div
+    *ngIf="isLoading"
+    class="loader"
+>
+    <app-loader></app-loader>
+</div>
+<div
+    class="container"
+>
     <div class="overlap">
         <button
             class="btn btn--left"
@@ -23,5 +31,6 @@
         *ngIf="overlap === 'list'"
         [players]="players"
         [allOpponents]="allOpponents"
+        (outputUpdateUser)="reloadPlayers()"
     ></app-players-list>
 </div>

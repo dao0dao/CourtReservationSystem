@@ -1,20 +1,26 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InfoService } from 'src/app/info.service';
 import { environment } from 'src/environments/environment';
-import { AddPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from '../interfaces';
+import { ApiService } from '../api.service';
+import { EditPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from '../interfaces';
+import { LoginStateService } from '../../login-state.service';
 
 @Component({
   selector: 'app-players-list',
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss']
 })
-export class PlayersListComponent implements OnInit, OnChanges {
+export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   environment = environment;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private api: ApiService, private infoService: InfoService, private loginStateService: LoginStateService) { }
 
   @Input() players: Player[] = [];
   @Input() allOpponents: Opponent[] = [];
+  @Output() outputUpdateUser: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  isAdmin: boolean = false;
 
   filteredOpponents: Opponent[] = [];
   filteredChosenOpponents: Opponent[] = [];
@@ -26,10 +32,16 @@ export class PlayersListComponent implements OnInit, OnChanges {
   filteredPlayers: Player[] = [];
   editOpponents: Opponent[] | undefined;
   changeStatus: boolean = false;
-  errors: AddPlayerError = {};
+  errors: EditPlayerError = {};
   isPopUp: boolean = false;
 
   formEditPlayer: FormGroup = new FormGroup({});
+
+  isSending: boolean = false;
+
+  isDeletePopUp: boolean = false;
+  deletingPlayerId: string = '';
+  isSendingDelete: boolean = false;
 
   ngOnInit(): void {
     this.formEditPlayer = this.fb.group({
@@ -46,6 +58,12 @@ export class PlayersListComponent implements OnInit, OnChanges {
       balls: ['', Validators.maxLength(20)],
       notes: ['', Validators.maxLength(500)]
     });
+  }
+
+  ngDoCheck(): void {
+    if (this.loginStateService.state.isAdmin === true && this.isAdmin === false) {
+      this.isAdmin = true;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,13 +135,57 @@ export class PlayersListComponent implements OnInit, OnChanges {
   }
 
   submit() {
+    this.isSending = true;
     const { id, name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formEditPlayer.value;
     const player: PlayerSql = {
       weeks: this.updatedWeeks,
       opponents: this.updatedOpponents,
       id, name, surname, telephone, email, account, priceSummer, priceWinter, court, stringsName: strings, tension, balls, notes
     };
-    console.log(player);
+    this.api.updatePlayer(player).subscribe({
+      next: () => {
+        this.closePopUp();
+        this.outputUpdateUser.emit(true);
+        this.isSending = false;
+      },
+      error: (data: { error: EditPlayerError; }) => {
+        const err = data.error;
+        if (err.id || err.nonExistPlayer) {
+          this.closePopUp();
+          this.outputUpdateUser.emit(true);
+          this.infoService.showInfo('Taki gracz nie istnieje');
+        } else {
+          this.errors = err;
+        }
+        this.isSending = false;
+      }
+    });
+  }
+
+  openDeletePopUp(index: number) {
+    this.deletingPlayerId = this.filteredPlayers[index].id!;
+    this.isDeletePopUp = true;
+  }
+
+  closeDeletePopUp() {
+    this.deletingPlayerId = '';
+    this.isDeletePopUp = false;
+    this.isSendingDelete = false;
+  }
+
+  confirmDelete() {
+    this.isSendingDelete = true;
+    this.api.deletePlayer(this.deletingPlayerId).subscribe({
+      next: () => {
+        this.closeDeletePopUp();
+        this.outputUpdateUser.emit(true);
+      },
+      error: (err: any) => {
+        this.closeDeletePopUp();
+        this.infoService.showInfo('Taki gracz już nie istnieje');
+        this.outputUpdateUser.emit(true);
+      }
+    });
   }
 
 }

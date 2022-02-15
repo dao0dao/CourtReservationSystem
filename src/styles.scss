@@ -56,7 +56,8 @@ body {
     &--submit,
     &--close,
     &--add,
-    &--edit {
+    &--edit,
+    &--delete {
         &::after,
         &::before {
             position: absolute;
@@ -89,7 +90,8 @@ body {
         }
     }
     &--add,
-    &--edit {
+    &--edit,
+    &--delete {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -111,9 +113,21 @@ body {
         }
     }
     &--edit {
+        svg{
+            fill: $yellow;
+        }
         &::after,
         &::before {
             border-color: $yellow;
+        }
+    }
+    &--delete {
+        svg{
+            fill: $mainColorOne;
+        }
+        &::after,
+        &::before {
+            border-color: $mainColorOne;
         }
     }
     &--close {
@@ -134,7 +148,8 @@ body {
         &.btn--submit,
         &.btn--close,
         &.btn--add,
-        &.btn--edit {
+        &.btn--edit,
+        &.btn--delete {
             border-color: transparent;
             &::after,
             &::before {
@@ -150,7 +165,8 @@ body {
         }
         &.btn--submit,
         &.btn--add,
-        &.btn--edit {
+        &.btn--edit,
+        &.btn--delete {
             border-color: transparent;
             pointer-events: none;
             &::after,
@@ -160,7 +176,8 @@ body {
             }
         }
         &.btn--add,
-        &.btn--edit {
+        &.btn--edit,
+        &.btn--delete {
             svg {
                 fill: $mainColorFour;
             }

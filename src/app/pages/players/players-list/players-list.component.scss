@@ -2,20 +2,33 @@
 .container {
     display: block;
     width: 100vw;
-    max-width: 500px;
+    max-width: 700px;
     &_head {
         margin: 1rem 0;
     }
     &_card {
+        margin-bottom: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         .number {
             margin-left: 0.5rem;
         }
+        .text {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 700;
+        }
+        .buttons {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
         .btn {
             svg {
-                fill: $yellow;
+                margin-right: 0;
             }
         }
     }
@@ -23,7 +36,7 @@
 // pop up edycja danych
 .popUp {
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
     width: 100vw;
@@ -163,10 +176,47 @@
                 margin: 1rem auto;
             }
         }
+        // Pop up usunięcia gracza
+        &--delete {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            clip-path: polygon(
+                $clipSizeX 0%,
+                100% 0,
+                100% calc(100% - $clipSizeY),
+                calc(100% - $clipSizeX) 100%,
+                0 100%,
+                0% $clipSizeY
+            );
+            text-align: center;
+            .title {
+                color: $mainColorOne;
+                font-weight: 700;
+            }
+            .actions {
+                margin-top: auto;
+                .btn {
+                    margin: 2.5rem;
+                    display: inline-block;
+                    &--submit {
+                        color: $mainColorOne;
+                    }
+                }
+            }
+        }
     }
 }
 // Desktop
 @media screen and (min-width: 992px) {
+    .container {
+        &_card {
+            .buttons {
+                flex-basis: unset;
+            }
+        }
+    }
     // pop up edycja danych
     .popUp {
         &_card {
@@ -184,6 +234,10 @@
                     flex-basis: 30%;
                     margin: 0 1rem;
                 }
+            }
+            &--delete {
+                max-width: 400px;
+                max-height: 300px;
             }
         }
     }

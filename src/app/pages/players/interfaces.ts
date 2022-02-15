@@ -59,3 +59,7 @@ export interface AddPlayerError {
   notes?: boolean;
 }
 
+export interface EditPlayerError extends AddPlayerError {
+  id?: boolean,
+  nonExistPlayer?: boolean;
+}

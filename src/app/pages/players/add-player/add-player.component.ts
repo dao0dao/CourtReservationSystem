@@ -61,7 +61,6 @@ export class AddPlayerComponent implements OnInit {
         this.isSending = false;
       },
       error: (err: { error: AddPlayerError | string; }) => {
-        console.log(err);
         if (typeof (err.error) === 'string') {
           this.infoService.showInfo(`Gracz ${this.getField('name')?.value} ${this.getField('surname')?.value} już istnieje`);
         } else {

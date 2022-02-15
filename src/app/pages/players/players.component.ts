@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from './api.service';
 import { Opponent, Player } from './interfaces';
 
+
 type Overlap = 'add' | 'list';
 
 @Component({
@@ -16,20 +17,35 @@ export class PlayersComponent implements OnInit {
 
   overlap: Overlap = 'list';
   players: Player[] = [];
+  isLoading: boolean = true;
+
+  ngOnInit(): void {
+    this.loadPlayers();
+  }
 
   changeOverlap(name: Overlap) {
     this.overlap = name;
   }
 
-  ngOnInit(): void {
+  loadPlayers() {
     this.api.getAllPlayers().subscribe({
       next: (res: Player[]) => {
         this.players = res;
         res.forEach(player => {
           this.allOpponents.push({ id: player.id!, name: player.name, surname: player.surname });
         });
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       }
     });
+  }
+
+  reloadPlayers() {
+    this.isLoading = true;
+    this.players = [];
+    this.loadPlayers();
   }
 
 }

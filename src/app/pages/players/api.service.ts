@@ -19,4 +19,12 @@ export class ApiService {
     return this.http.get<any>(environment.apiLink + 'players');
   }
 
+  updatePlayer(player: PlayerSql): Observable<any> {
+    return this.http.post<any>(environment.apiLink + 'players/editPlayer', player);
+  }
+
+  deletePlayer(playerId: string): Observable<any> {
+    return this.http.delete<any>(environment.apiLink + 'players/deletePlayer/' + playerId);
+  }
+
 }

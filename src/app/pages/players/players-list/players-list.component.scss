@@ -30,6 +30,23 @@
             svg {
                 margin-right: 0;
             }
+            &--phone,
+            &--sms {
+                &::before,
+                &::after {
+                    display: none;
+                }
+            }
+            &--phone {
+                margin: 0.5rem;
+            }
+            &--sms {
+                margin-left: 0;
+                margin-right: auto;
+                svg {
+                    fill: $yellow;
+                }
+            }
         }
     }
 }
@@ -125,6 +142,7 @@
                         border-width: 0 0px 1px 0px;
                         border-style: solid;
                         border-color: $mainColorThree;
+                        font-weight: 700;
                         outline: unset;
                         transition: border-color 0.3s ease-in-out;
                         &:focus-within,
@@ -136,6 +154,9 @@
                         &:focus-within + label,
                         &.full + label {
                             transform: translate(-101%, -50%);
+                        }
+                        &[disabled] {
+                            color: $mainColorTwo;
                         }
                     }
                     .select {
@@ -214,6 +235,10 @@
         &_card {
             .buttons {
                 flex-basis: unset;
+                .btn--phone,
+                .btn--sms {
+                    display: none;
+                }
             }
         }
     }

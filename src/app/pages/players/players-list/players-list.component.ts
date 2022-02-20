@@ -5,11 +5,13 @@ import { environment } from 'src/environments/environment';
 import { ApiService } from '../api.service';
 import { EditPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from '../interfaces';
 import { LoginStateService } from '../../login-state.service';
+import { animations } from './animations';
 
 @Component({
   selector: 'app-players-list',
   templateUrl: './players-list.component.html',
-  styleUrls: ['./players-list.component.scss']
+  styleUrls: ['./players-list.component.scss'],
+  animations: animations
 })
 export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   environment = environment;
@@ -19,6 +21,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   @Input() players: Player[] = [];
   @Input() allOpponents: Opponent[] = [];
   @Output() outputUpdateUser: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
 
   isAdmin: boolean = false;
 
@@ -42,6 +45,8 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   isDeletePopUp: boolean = false;
   deletingPlayerId: string = '';
   isSendingDelete: boolean = false;
+
+  isView: boolean = false;
 
   ngOnInit(): void {
     this.formEditPlayer = this.fb.group({
@@ -120,8 +125,14 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.formEditPlayer.updateValueAndValidity();
   }
   closePopUp() {
+    this.isView = false;
     this.isPopUp = false;
     this.resetForm();
+  }
+
+  openView(index: number) {
+    this.isView = true;
+    this.openPopUp(index);
   }
 
   filterOpponents(opponents: Opponent[], playerId: string) {
@@ -147,6 +158,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
         this.closePopUp();
         this.outputUpdateUser.emit(true);
         this.isSending = false;
+        this.errors = {};
       },
       error: (data: { error: EditPlayerError; }) => {
         const err = data.error;
@@ -154,6 +166,8 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
           this.closePopUp();
           this.outputUpdateUser.emit(true);
           this.infoService.showInfo('Taki gracz nie istnieje');
+        } else if (err.alreadyExist) {
+          this.infoService.showInfo(`Gracz ${name} ${surname} już istnieje!`);
         } else {
           this.errors = err;
         }
@@ -171,6 +185,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.deletingPlayerId = '';
     this.isDeletePopUp = false;
     this.isSendingDelete = false;
+    this.errors = {};
   }
 
   confirmDelete() {

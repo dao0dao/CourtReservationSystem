@@ -17,6 +17,7 @@ export class OpponentComponent implements OnInit, OnChanges {
   @Input() editFilteredOpponents: Opponent[] | undefined = undefined;
   @Input() editChosenOpponents: Opponent[] | undefined = undefined;
   @Input() edition: boolean = false;
+  @Input() isView: boolean | undefined;
 
   environment = environment;
 
@@ -38,11 +39,11 @@ export class OpponentComponent implements OnInit, OnChanges {
     if (changes['edition']?.currentValue === true) {
       this.filteredOpponents = [...this.editFilteredOpponents!];
       this.chosenOpponents = [...this.editChosenOpponents!];
-      this.setOpponentsIs(this.chosenOpponents);
+      this.setOpponentsId(this.chosenOpponents);
       this.outputOpponents.emit(this.opponentsId);
     } else {
       this.formOpponent.reset();
-      this.filteredOpponents = [...this.opponents];
+      this.filteredOpponents = this.opponents;
       this.chosenOpponents = [];
       this.opponentsId = [];
       this.outputOpponents.emit([]);
@@ -74,7 +75,7 @@ export class OpponentComponent implements OnInit, OnChanges {
     this.outputOpponents.emit(this.opponentsId);
   }
 
-  setOpponentsIs(opponents: Opponent[]) {
+  setOpponentsId(opponents: Opponent[]) {
     opponents.forEach(op => { this.opponentsId.push({ id: op.id }); });
   }
 

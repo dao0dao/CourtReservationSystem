@@ -1,5 +1,6 @@
 <form
     class="form"
+    *ngIf="!isView"
     [formGroup]="formOpponent"
     (submit)="addOpponent()"
 >
@@ -41,6 +42,7 @@
         <p class="number">#{{i+1}}.</p>
         <p class="name">{{op.name}} {{op.surname}}</p>
         <button
+            *ngIf="!isView"
             type="button"
             (click)="removeOpponent(op.id)"
         >

@@ -45,6 +45,7 @@ export class PlayersComponent implements OnInit {
   reloadPlayers() {
     this.isLoading = true;
     this.players = [];
+    this.allOpponents = [];
     this.loadPlayers();
   }
 

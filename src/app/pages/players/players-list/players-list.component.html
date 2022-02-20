@@ -9,8 +9,26 @@
         <p class="number">#{{i+1}}</p>
         <p class="text">{{player.name}} {{player.surname}}</p>
         <div class="buttons">
-
-            <button class="btn btn--add">
+            <a
+                class="btn btn--add btn--phone"
+                [href]="'tel:+48'+player.telephone"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-phone'"></use>
+                </svg>
+            </a>
+            <a
+                class="btn btn--add btn--sms"
+                [href]="'sms:+48'+player.telephone"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-sms'"></use>
+                </svg>
+            </a>
+            <button
+                class="btn btn--add"
+                (click)="openView(i)"
+            >
                 <svg>
                     <use [attr.xlink:href]="environment.svg +'#icon-zoom'"></use>
                 </svg>
@@ -69,6 +87,7 @@
                             type="text"
                             id="name"
                             formControlName="name"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('name')?.value}"
                         >
                         <label for="name">Imię</label>
@@ -81,6 +100,7 @@
                             type="text"
                             id="surname"
                             formControlName="surname"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('surname')?.value}"
                         >
                         <label for="surname">Nazwisko</label>
@@ -93,6 +113,7 @@
                             type="text"
                             id="telephone"
                             formControlName="telephone"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('telephone')?.value}"
                         >
                         <label for="tel">Telefon</label>
@@ -105,6 +126,7 @@
                             type="text"
                             id="email"
                             formControlName="email"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('email')?.value}"
                         >
                         <label for="email">Email</label>
@@ -125,7 +147,8 @@
                             step="0.01"
                             min="0"
                             formControlName="priceSummer"
-                            [ngClass]="{'full': getField('priceSummer')?.value}"
+                            [attr.disabled]="isView ? true: null"
+                            [ngClass]="{'full': getField('priceSummer')?.value >= 0}"
                         >
                         <label for="price">Letnia stawka</label>
                         <div class="error">
@@ -139,7 +162,8 @@
                             step="0.01"
                             min="0"
                             formControlName="priceWinter"
-                            [ngClass]="{'full': getField('priceWinter')?.value}"
+                            [attr.disabled]="isView ? true: null"
+                            [ngClass]="{'full': getField('priceWinter')?.value >=0}"
                         >
                         <label for="price">Zimowa stawka</label>
                         <div class="error">
@@ -159,8 +183,18 @@
                             >
                                 Ulubiony kort
                             </option>
-                            <option value="1">Niebieski</option>
-                            <option value="2">Fioletowy</option>
+                            <option
+                                [attr.disabled]="isView ? true: null"
+                                value="1"
+                            >
+                                Niebieski
+                            </option>
+                            <option
+                                [attr.disabled]="isView ? true: null"
+                                value="2"
+                            >
+                                Fioletowy
+                            </option>
                         </select>
                         <div class="error">
                             <p *ngIf>Niewłaściwa wartość</p>
@@ -177,6 +211,7 @@
                             type="text"
                             id="strings"
                             formControlName="strings"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('strings')?.value}"
                         >
                         <label for="strings">Ulubiony naciąg</label>
@@ -192,6 +227,7 @@
                             min="15"
                             max="35"
                             formControlName="tension"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full':getField('tension')?.value}"
                         >
                         <label for="tension">Siła naciągu</label>
@@ -204,6 +240,7 @@
                             type="text"
                             id="balls"
                             formControlName="balls"
+                            [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('balls')?.value}"
                         >
                         <label for="balls">Ulubione piłki</label>
@@ -222,6 +259,7 @@
                         (outputWeeks)="setWeeks($event)"
                         [changeStatus]="changeStatus"
                         [editedWeeks]="editedWeeks"
+                        [isView]="isView"
                         [error]="errors?.weeks"
                     ></app-week>
                 </div>
@@ -238,6 +276,7 @@
                         [editFilteredOpponents]="filteredOpponents"
                         [editChosenOpponents]="filteredChosenOpponents"
                         [edition]="true"
+                        [isView]="isView"
                     ></app-opponent>
                 </div>
                 <div class="category">
@@ -248,6 +287,7 @@
                     <div class="category_field">
                         <textarea
                             class="notes"
+                            [attr.disabled]="isView ? true: null"
                             formControlName="notes"
                         ></textarea>
                         <div class="error">
@@ -256,6 +296,7 @@
                     </div>
                 </div>
                 <button
+                    *ngIf="!isView"
                     class="btn btn--submit"
                     [disabled]="formEditPlayer.invalid || isSending"
                 >

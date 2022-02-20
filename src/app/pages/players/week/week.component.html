@@ -1,5 +1,6 @@
 <form
     class="form"
+    *ngIf="!isView"
     [formGroup]="formWeek"
     (submit)="addTerm()"
 >
@@ -214,6 +215,7 @@
         <button
             type="button"
             (click)="removeTerm(i)"
+            *ngIf="!isView"
         >
             <svg>
                 <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>

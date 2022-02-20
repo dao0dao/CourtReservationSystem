@@ -60,6 +60,7 @@ export interface AddPlayerError {
 }
 
 export interface EditPlayerError extends AddPlayerError {
-  id?: boolean,
+  id?: boolean;
   nonExistPlayer?: boolean;
+  alreadyExist?: boolean;
 }

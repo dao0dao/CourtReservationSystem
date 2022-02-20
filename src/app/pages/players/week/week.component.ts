@@ -16,6 +16,7 @@ export class WeekComponent implements OnInit, OnChanges {
   @Input() changeStatus: boolean = false;
   @Input() error: boolean | undefined;
   @Input() editedWeeks: Week[] | undefined;
+  @Input() isView: boolean | undefined;
 
   environment = environment;
 
@@ -32,6 +33,7 @@ export class WeekComponent implements OnInit, OnChanges {
     }
     if (changes['editedWeeks']?.currentValue) {
       this.weeks = [...this.editedWeeks!];
+      this.outputWeeks.emit(this.weeks);
     }
   }
 

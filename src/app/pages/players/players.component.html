@@ -26,6 +26,7 @@
     <app-add-player
         *ngIf="overlap === 'add'"
         [allOpponents]="allOpponents"
+        (outputRefreshList)="reloadPlayers()"
     ></app-add-player>
     <app-players-list
         *ngIf="overlap === 'list'"

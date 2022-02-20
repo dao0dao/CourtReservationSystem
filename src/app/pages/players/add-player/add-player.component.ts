@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InfoService } from 'src/app/info.service';
 import { Player, AddPlayerError, Opponent, Week, OpponentSql, PlayerSql } from '../interfaces';
@@ -14,6 +14,7 @@ export class AddPlayerComponent implements OnInit {
   weeks: Week[] = [];
   opponents: OpponentSql[] = [];
   @Input() allOpponents: Opponent[] = [];
+  @Output() outputRefreshList: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isSending: boolean = false;
   changeStatus: boolean = false;
@@ -56,9 +57,11 @@ export class AddPlayerComponent implements OnInit {
     };
     this.api.addPlayer(player).subscribe({
       next: (res: { id: string; }) => {
-        this.allOpponents.push({ id: res.id, name: this.getField('name')?.value, surname: this.getField('surname')?.value });
         this.resetForm();
+        this.allOpponents.push({ id: res.id, name: this.getField('name')?.value, surname: this.getField('surname')?.value });
         this.isSending = false;
+        this.errors = {};
+        this.outputRefreshList.emit(true);
       },
       error: (err: { error: AddPlayerError | string; }) => {
         if (typeof (err.error) === 'string') {

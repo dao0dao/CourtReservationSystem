@@ -76,6 +76,7 @@ nav {
 }
 .info {
     position: fixed;
+    z-index: 3;
     top: 4rem;
     transform: skew(-16deg);
     border: 5px solid $mainColorOne;

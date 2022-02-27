@@ -6,6 +6,13 @@ import { ApiService } from '../api.service';
 import { EditPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from '../interfaces';
 import { LoginStateService } from '../../login-state.service';
 import { animations } from './animations';
+import { SearchingService } from '../searching.service';
+
+interface Sort {
+  surname: { isActive: boolean, top: boolean; },
+  name: { isActive: boolean, top: boolean; },
+  page: number;
+}
 
 @Component({
   selector: 'app-players-list',
@@ -16,12 +23,17 @@ import { animations } from './animations';
 export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   environment = environment;
 
-  constructor(private fb: FormBuilder, private api: ApiService, private infoService: InfoService, private loginStateService: LoginStateService) { }
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private infoService: InfoService,
+    private loginStateService: LoginStateService,
+    private searchingService: SearchingService
+  ) { }
 
   @Input() players: Player[] = [];
   @Input() allOpponents: Opponent[] = [];
   @Output() outputUpdateUser: EventEmitter<boolean> = new EventEmitter<boolean>();
-  
 
   isAdmin: boolean = false;
 
@@ -48,7 +60,14 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
 
   isView: boolean = false;
 
+  sortedView: Sort = {
+    surname: { isActive: true, top: true },
+    name: { isActive: false, top: true },
+    page: 1
+  };
+
   ngOnInit(): void {
+
     this.formEditPlayer = this.fb.group({
       id: [''],
       name: ['', [Validators.required, Validators.maxLength(15), Validators.minLength(2)]],
@@ -74,6 +93,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['players'].currentValue != changes['players'].previousValue) {
       this.filteredPlayers = [...this.players];
+      this.sortBy('surname');
     }
   }
 
@@ -201,6 +221,40 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
         this.outputUpdateUser.emit(true);
       }
     });
+  }
+
+  sortBy(property: 'name' | 'surname') {
+    if (property === 'name' && this.sortedView.name.isActive) {
+      this.sortedView.name.top = !this.sortedView.name.top;
+      this.sortUp(property, this.sortedView.name.top);
+    } else if (property === 'name' && !this.sortedView.name.isActive) {
+      this.sortedView.name.isActive = true;
+      this.sortedView.surname.isActive = false;
+      this.sortUp(property, this.sortedView.name.top);
+    } else if (property === 'surname' && this.sortedView.surname.isActive) {
+      this.sortedView.surname.top = !this.sortedView.surname.top;
+      this.sortUp(property, this.sortedView.surname.top);
+    } else if (property === 'surname' && !this.sortedView.surname.isActive) {
+      this.sortedView.name.isActive = false;
+      this.sortedView.surname.isActive = true;
+      this.sortUp(property, this.sortedView.surname.top);
+    }
+  }
+
+  private sortUp(property: 'name' | 'surname', up: boolean) {
+    if (up) {
+      this.filteredPlayers.sort((a, b) => {
+        if (a[property] < b[property]) { return -1; }
+        if (a[property] > b[property]) { return 1; }
+        return 0;
+      });
+    } else {
+      this.filteredPlayers.sort((a, b) => {
+        if (a[property] > b[property]) { return -1; }
+        if (a[property] < b[property]) { return 1; }
+        return 0;
+      });
+    }
   }
 
 }

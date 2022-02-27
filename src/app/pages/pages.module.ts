@@ -14,6 +14,7 @@ import { AddPlayerComponent } from './players/add-player/add-player.component';
 import { WeekComponent } from './players/week/week.component';
 import { OpponentComponent } from './players/opponent/opponent.component';
 import { PlayersListComponent } from './players/players-list/players-list.component';
+import { SearchingService } from './players/searching.service';
 
 
 
@@ -42,6 +43,9 @@ import { PlayersListComponent } from './players/players-list/players-list.compon
   ],
   exports: [
     PagesComponent
+  ],
+  providers: [
+    SearchingService
   ]
 })
 export class PagesModule { }

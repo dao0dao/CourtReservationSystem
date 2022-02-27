@@ -14,7 +14,7 @@ button {
 body {
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .btn {
@@ -113,7 +113,7 @@ body {
         }
     }
     &--edit {
-        svg{
+        svg {
             fill: $yellow;
         }
         &::after,
@@ -122,7 +122,7 @@ body {
         }
     }
     &--delete {
-        svg{
+        svg {
             fill: $mainColorOne;
         }
         &::after,

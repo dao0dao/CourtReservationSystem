@@ -1,6 +1,37 @@
 <div class="container">
     <div class="container_head">
-        <p>tutaj filtry</p>
+        <p class="text">Sortuj po:</p>
+        <button
+            class="btn--sort"
+            [ngClass]="{
+        'btn--sort--active': sortedView.name.isActive,
+        'btn--sort--down': !sortedView.name.top
+    }"
+            (click)="sortBy('name')"
+        >
+            Imię
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-sort-up'"></use>
+            </svg>
+        </button>
+        <button
+            class="btn--sort"
+            [ngClass]="{
+                'btn--sort--active': sortedView.surname.isActive,
+                'btn--sort--down': !sortedView.surname.top
+            }"
+            (click)="sortBy('surname')"
+        >
+            Nazwisko
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-sort-up'"></use>
+            </svg>
+        </button>
+        <input
+            type="text"
+            class="search"
+            placeholder="Wyszukaj..."
+        >
     </div>
     <div
         class="container_card"

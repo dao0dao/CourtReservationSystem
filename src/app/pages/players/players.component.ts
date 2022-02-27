@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { LoginStateService } from '../login-state.service';
 import { ApiService } from './api.service';
 import { Opponent, Player } from './interfaces';
 
@@ -12,7 +13,7 @@ type Overlap = 'add' | 'list';
 })
 export class PlayersComponent implements OnInit {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, public stateService: LoginStateService) { }
   @Input() allOpponents: Opponent[] = [];
 
   overlap: Overlap = 'list';

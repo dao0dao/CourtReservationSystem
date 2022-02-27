@@ -4,10 +4,11 @@
 >
     <app-loader></app-loader>
 </div>
-<div
-    class="container"
->
-    <div class="overlap">
+<div class="container">
+    <div
+        *ngIf="stateService.state.isAdmin"
+        class="overlap"
+    >
         <button
             class="btn btn--left"
             [ngClass]="{'btn--active': overlap === 'list'}"

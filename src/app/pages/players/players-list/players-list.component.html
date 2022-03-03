@@ -31,6 +31,8 @@
             type="text"
             class="search"
             placeholder="Wyszukaj..."
+            [(ngModel)]="search"
+            (keyup)="searchFor()"
         >
     </div>
     <div

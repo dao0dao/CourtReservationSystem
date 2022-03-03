@@ -28,7 +28,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     private api: ApiService,
     private infoService: InfoService,
     private loginStateService: LoginStateService,
-    private searchingService: SearchingService
+    public searchingService: SearchingService
   ) { }
 
   @Input() players: Player[] = [];
@@ -65,6 +65,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     name: { isActive: false, top: true },
     page: 1
   };
+  search: string = '';
 
   ngOnInit(): void {
 
@@ -255,6 +256,10 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
         return 0;
       });
     }
+  }
+
+  searchFor() {
+    this.filteredPlayers = this.searchingService.searchFor(this.search, this.players);
   }
 
 }

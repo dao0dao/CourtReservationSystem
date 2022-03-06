@@ -30,10 +30,13 @@
         <input
             type="text"
             class="search"
-            placeholder="Wyszukaj..."
+            placeholder="Wyszukaj słowa..."
             [(ngModel)]="search"
             (keyup)="searchFor()"
         >
+        <div>
+            <p>Uwzględnij dni</p>
+        </div>
     </div>
     <div
         class="container_card"

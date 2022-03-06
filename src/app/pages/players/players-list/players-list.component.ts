@@ -66,6 +66,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     page: 1
   };
   search: string = '';
+  searchWeek: Week | any = {};
 
   ngOnInit(): void {
 
@@ -258,8 +259,13 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
+  searchForWeek(event: Week) {
+    this.searchWeek = event;
+    this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);
+  }
+
   searchFor() {
-    this.filteredPlayers = this.searchingService.searchFor(this.search, this.players);
+    this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);
   }
 
 }

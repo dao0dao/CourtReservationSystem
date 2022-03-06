@@ -25,6 +25,22 @@ export class WeekComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder) { }
 
+  ngOnInit(): void {
+    this.formWeek = this.fb.group({
+      isDay: ['', Validators.required],
+      0: [''],
+      1: [''],
+      2: [''],
+      3: [''],
+      4: [''],
+      5: [''],
+      6: [''],
+      isHour: ['', Validators.required],
+      from: [''],
+      to: ['']
+    });
+  };
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['changeStatus']?.currentValue != changes['changeStatus']?.previousValue) {
       this.formWeek.reset();
@@ -82,21 +98,4 @@ export class WeekComponent implements OnInit, OnChanges {
     this.weeks = this.weeks.filter((el, i) => i != index);
     this.outputWeeks.emit(this.weeks);
   }
-
-  ngOnInit(): void {
-    this.formWeek = this.fb.group({
-      isDay: ['', Validators.required],
-      0: [''],
-      1: [''],
-      2: [''],
-      3: [''],
-      4: [''],
-      5: [''],
-      6: [''],
-      isHour: ['', Validators.required],
-      from: [''],
-      to: ['']
-    });
-  }
-
 }

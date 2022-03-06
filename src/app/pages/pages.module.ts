@@ -15,6 +15,7 @@ import { WeekComponent } from './players/week/week.component';
 import { OpponentComponent } from './players/opponent/opponent.component';
 import { PlayersListComponent } from './players/players-list/players-list.component';
 import { SearchingService } from './players/searching.service';
+import { SearchWeekComponent } from './players/search-week/search-week.component';
 
 
 
@@ -29,7 +30,8 @@ import { SearchingService } from './players/searching.service';
     AddPlayerComponent,
     WeekComponent,
     OpponentComponent,
-    PlayersListComponent
+    PlayersListComponent,
+    SearchWeekComponent
   ],
   imports: [
     CommonModule,

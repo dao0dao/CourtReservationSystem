@@ -45,62 +45,75 @@ export class SearchingService {
     return players;
   }
 
+  private checkDayMatch(day: any, searchDay: any, key: any): number {
+    if (day[key] === searchDay[key]) {
+      return 1;
+    }
+    return 0;
+  }
+
   private searchForDay(searchWeek: Week, arr: Player[]): Player[] {
     const players: Player[] = [];
     arr.forEach(p => {
       for (let week of p.weeks) {
-        if (
-          ((week.days[0] == searchWeek.days[0] && week.days[0] == true) ||
-            (week.days[1] == searchWeek.days[1] && week.days[1] == true) ||
-            (week.days[2] == searchWeek.days[2] && week.days[2] == true) ||
-            (week.days[3] == searchWeek.days[3] && week.days[3] == true) ||
-            (week.days[4] == searchWeek.days[4] && week.days[4] == true) ||
-            (week.days[5] == searchWeek.days[5] && week.days[5] == true) ||
-            (week.days[6] == searchWeek.days[6] && week.days[6] == true)) && (!searchWeek.time.from && !searchWeek.time.to)
-        ) {
-          players.push(p);
-        } else if (
-          ((week.days[0] == searchWeek.days[0] && week.days[0] == true) ||
-            (week.days[1] == searchWeek.days[1] && week.days[1] == true) ||
-            (week.days[2] == searchWeek.days[2] && week.days[2] == true) ||
-            (week.days[3] == searchWeek.days[3] && week.days[3] == true) ||
-            (week.days[4] == searchWeek.days[4] && week.days[4] == true) ||
-            (week.days[5] == searchWeek.days[5] && week.days[5] == true) ||
-            (week.days[6] == searchWeek.days[6] && week.days[6] == true)) && (searchWeek.time.from && !searchWeek.time.to)
-        ) {
-          const from = parseFloat(week.time.from.replace(':', '.'));
-          const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
-          if (from >= searchFrom) {
+        if (!searchWeek.time.from && !searchWeek.time.to) {
+          const keys = Object.keys(searchWeek.days);
+          let matches = 0;
+          for (let i = 0; i < keys.length; i++) {
+            const day = keys[i];
+            matches += this.checkDayMatch(week.days, searchWeek.days, day);
+          }
+          if (matches === keys.length) {
             players.push(p);
           }
-        } else if (
-          ((week.days[0] == searchWeek.days[0] && week.days[0] == true) ||
-            (week.days[1] == searchWeek.days[1] && week.days[1] == true) ||
-            (week.days[2] == searchWeek.days[2] && week.days[2] == true) ||
-            (week.days[3] == searchWeek.days[3] && week.days[3] == true) ||
-            (week.days[4] == searchWeek.days[4] && week.days[4] == true) ||
-            (week.days[5] == searchWeek.days[5] && week.days[5] == true) ||
-            (week.days[6] == searchWeek.days[6] && week.days[6] == true)) && (!searchWeek.time.from && searchWeek.time.to)
-        ) {
-          const to = parseFloat(week.time.to.replace(':', '.'));
-          const searchTo = parseFloat(searchWeek.time.to.replace(':', '.'));
-          if (to <= searchTo) {
+        } else if (searchWeek.time.from && !searchWeek.time.to) {
+          let from: string | number = week.time.from;
+          if (from) {
+            from = parseFloat(from.replace(':', '.'));
+          }
+          const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
+          const keys = Object.keys(searchWeek.days);
+          let matches = 0;
+          for (let i = 0; i < keys.length; i++) {
+            const day = keys[i];
+            matches += this.checkDayMatch(week.days, searchWeek.days, day);
+          }
+          if (from >= searchFrom && matches === keys.length) {
             players.push(p);
           }
-        } else if (
-          ((week.days[0] == searchWeek.days[0] && week.days[0] == true) ||
-            (week.days[1] == searchWeek.days[1] && week.days[1] == true) ||
-            (week.days[2] == searchWeek.days[2] && week.days[2] == true) ||
-            (week.days[3] == searchWeek.days[3] && week.days[3] == true) ||
-            (week.days[4] == searchWeek.days[4] && week.days[4] == true) ||
-            (week.days[5] == searchWeek.days[5] && week.days[5] == true) ||
-            (week.days[6] == searchWeek.days[6] && week.days[6] == true)) && (searchWeek.time.from && searchWeek.time.to)
-        ) {
-          const from = parseFloat(week.time.from.replace(':', '.'));
-          const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
-          const to = parseFloat(week.time.to.replace(':', '.'));
+        } else if (!searchWeek.time.from && searchWeek.time.to) {
+          let to: number | string = week.time.to;
+          if (to) {
+            to = parseFloat(to.replace(':', '.'));
+          }
           const searchTo = parseFloat(searchWeek.time.to.replace(':', '.'));
-          if (from >= searchFrom && to <= searchTo) {
+          const keys = Object.keys(searchWeek.days);
+          let matches = 0;
+          for (let i = 0; i < keys.length; i++) {
+            const day = keys[i];
+            matches += this.checkDayMatch(week.days, searchWeek.days, day);
+          }
+          if (to <= searchTo && matches === keys.length) {
+            players.push(p);
+          }
+        } else if (searchWeek.time.from && searchWeek.time.to) {
+          let from: string | number = week.time.from;
+          if (from) {
+            from = parseFloat(from.replace(':', '.'));
+          }
+          const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
+          let to: number | string = week.time.to;
+          if (to) {
+            to = parseFloat(to.replace(':', '.'));
+          }
+          const searchTo = parseFloat(searchWeek.time.to.replace(':', '.'));
+          const keys = Object.keys(searchWeek.days);
+          let matches = 0;
+          for (let i = 0; i < keys.length; i++) {
+            const day = keys[i];
+            matches += this.checkDayMatch(week.days, searchWeek.days, day);
+          }
+          if ((from >= searchFrom && to <= searchTo) && matches === keys.length) {
             players.push(p);
           }
         }

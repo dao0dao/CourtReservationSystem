@@ -225,21 +225,30 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     });
   }
 
-  sortBy(property: 'name' | 'surname') {
-    if (property === 'name' && this.sortedView.name.isActive) {
-      this.sortedView.name.top = !this.sortedView.name.top;
-      this.sortUp(property, this.sortedView.name.top);
-    } else if (property === 'name' && !this.sortedView.name.isActive) {
-      this.sortedView.name.isActive = true;
-      this.sortedView.surname.isActive = false;
-      this.sortUp(property, this.sortedView.name.top);
-    } else if (property === 'surname' && this.sortedView.surname.isActive) {
-      this.sortedView.surname.top = !this.sortedView.surname.top;
-      this.sortUp(property, this.sortedView.surname.top);
-    } else if (property === 'surname' && !this.sortedView.surname.isActive) {
-      this.sortedView.name.isActive = false;
-      this.sortedView.surname.isActive = true;
-      this.sortUp(property, this.sortedView.surname.top);
+  sortBy(property: 'name' | 'surname', changeDirections: boolean = true) {
+    if (changeDirections) {
+      if (property === 'name' && this.sortedView.name.isActive) {
+        this.sortedView.name.top = !this.sortedView.name.top;
+        this.sortUp(property, this.sortedView.name.top);
+      } else if (property === 'name' && !this.sortedView.name.isActive) {
+        this.sortedView.name.isActive = true;
+        this.sortedView.surname.isActive = false;
+        this.sortUp(property, this.sortedView.name.top);
+      } else if (property === 'surname' && this.sortedView.surname.isActive) {
+        this.sortedView.surname.top = !this.sortedView.surname.top;
+        this.sortUp(property, this.sortedView.surname.top);
+      } else if (property === 'surname' && !this.sortedView.surname.isActive) {
+        this.sortedView.name.isActive = false;
+        this.sortedView.surname.isActive = true;
+        this.sortUp(property, this.sortedView.surname.top);
+      }
+    } else {
+      if (property === 'name') {
+        this.sortUp(property, this.sortedView.name.top);
+      } else if (property === 'surname') {
+        this.sortUp(property, this.sortedView.surname.top);
+      }
+
     }
   }
 
@@ -262,10 +271,20 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   searchForWeek(event: Week) {
     this.searchWeek = event;
     this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);
+    if (this.sortedView.name.isActive) {
+      this.sortBy('name', false);
+    } else {
+      this.sortBy('surname', false);
+    }
   }
 
   searchFor() {
     this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);
+    if (this.sortedView.name.isActive) {
+      this.sortBy('name', false);
+    } else {
+      this.sortBy('surname', false);
+    }
   }
 
 }

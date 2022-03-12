@@ -7,7 +7,8 @@ export class SearchingService {
   constructor() { }
 
   searchFor(input: string, searchWeek: Week, array: Player[]): Player[] {
-    if (!input && !Object.keys(searchWeek.days).length) {
+    // if (!input && !Object.keys(searchWeek.days).length) {
+    if (!input && !searchWeek?.days) {
       return array;
     }
     const value = input.toLocaleLowerCase().split(' ');
@@ -41,7 +42,9 @@ export class SearchingService {
         players.push(p);
       }
     });
-    this.searchForDay(searchWeek, players);
+    if (searchWeek?.days && Object.keys(searchWeek.days).length) {
+      return this.searchForDay(searchWeek, players);
+    }
     return players;
   }
 
@@ -70,6 +73,8 @@ export class SearchingService {
           let from: string | number = week.time.from;
           if (from) {
             from = parseFloat(from.replace(':', '.'));
+          } else {
+            from = 0;
           }
           const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
           const keys = Object.keys(searchWeek.days);
@@ -78,13 +83,15 @@ export class SearchingService {
             const day = keys[i];
             matches += this.checkDayMatch(week.days, searchWeek.days, day);
           }
-          if (from >= searchFrom && matches === keys.length) {
+          if (from <= searchFrom && matches === keys.length) {
             players.push(p);
           }
         } else if (!searchWeek.time.from && searchWeek.time.to) {
           let to: number | string = week.time.to;
           if (to) {
             to = parseFloat(to.replace(':', '.'));
+          } else {
+            to = 23.59;
           }
           const searchTo = parseFloat(searchWeek.time.to.replace(':', '.'));
           const keys = Object.keys(searchWeek.days);
@@ -93,18 +100,22 @@ export class SearchingService {
             const day = keys[i];
             matches += this.checkDayMatch(week.days, searchWeek.days, day);
           }
-          if (to <= searchTo && matches === keys.length) {
+          if (to >= searchTo && matches === keys.length) {
             players.push(p);
           }
         } else if (searchWeek.time.from && searchWeek.time.to) {
           let from: string | number = week.time.from;
           if (from) {
             from = parseFloat(from.replace(':', '.'));
+          } else {
+            from = 0;
           }
           const searchFrom = parseFloat(searchWeek.time.from.replace(':', '.'));
           let to: number | string = week.time.to;
           if (to) {
             to = parseFloat(to.replace(':', '.'));
+          } else {
+            to = 23.59;
           }
           const searchTo = parseFloat(searchWeek.time.to.replace(':', '.'));
           const keys = Object.keys(searchWeek.days);
@@ -113,13 +124,12 @@ export class SearchingService {
             const day = keys[i];
             matches += this.checkDayMatch(week.days, searchWeek.days, day);
           }
-          if ((from >= searchFrom && to <= searchTo) && matches === keys.length) {
+          if ((from <= searchFrom && to >= searchTo) && matches === keys.length) {
             players.push(p);
           }
         }
       }
     });
-    console.log(players);
     return players;
   }
 }

@@ -66,7 +66,12 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     page: 1
   };
   search: string = '';
+  isSearchWeek: boolean = false;
   searchWeek: Week | any = {};
+
+  page: number = 1;
+  itemsPerPage: number = 2;
+  pageCount: number = 1;
 
   ngOnInit(): void {
 
@@ -90,6 +95,15 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     if (this.loginStateService.state.isAdmin === true && this.isAdmin === false) {
       this.isAdmin = true;
     }
+    this.pageCount = Math.ceil(this.filteredPlayers.length / this.itemsPerPage);
+    if (this.page > this.pageCount) {
+      this.page = this.pageCount;
+    }
+    if (this.page < 1) {
+      this.page = 1;
+    }
+    console.log('od ' + (this.page + (this.itemsPerPage * (this.page - 1))));
+    console.log('do ' + (this.page + this.itemsPerPage * this.page));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -268,6 +282,10 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
+  toggleSearchWeek() {
+    this.isSearchWeek = !this.isSearchWeek;
+  }
+
   searchForWeek(event: Week) {
     this.searchWeek = event;
     this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);
@@ -284,6 +302,18 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
       this.sortBy('name', false);
     } else {
       this.sortBy('surname', false);
+    }
+  }
+
+  nextPage() {
+    if (this.page < this.pageCount) {
+      this.page ++;
+    }
+  }
+
+  prevPage() {
+    if (this.page > 1) {
+      this.page --;
     }
   }
 

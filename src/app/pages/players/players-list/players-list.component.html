@@ -34,61 +34,100 @@
             [(ngModel)]="search"
             (keyup)="searchFor()"
         >
-        <div>
-            <p>Uwzględnij dni</p>
-            <app-search-week (outputSearchDay)="searchForWeek($event)"></app-search-week>
+        <div class="searchWeek">
+            <button
+                class="title btn--sort"
+                [ngClass]="{'btn--sort--active': isSearchWeek}"
+                (click)="toggleSearchWeek()"
+            >
+                Uwzględnij dni
+            </button>
+            <app-search-week
+                [ngClass]="{'active': isSearchWeek}"
+                (outputSearchDay)="searchForWeek($event)"
+            ></app-search-week>
         </div>
     </div>
-    <div
-        class="container_card"
-        *ngFor="let player of filteredPlayers; let i = index"
-    >
-        <p class="number">#{{i+1}}</p>
-        <p class="text">{{player.name}} {{player.surname}}</p>
-        <div class="buttons">
-            <a
-                class="btn btn--add btn--phone"
-                [href]="'tel:+48'+player.telephone"
-            >
-                <svg>
-                    <use [attr.xlink:href]="environment.svg +'#icon-phone'"></use>
-                </svg>
-            </a>
-            <a
-                class="btn btn--add btn--sms"
-                [href]="'sms:+48'+player.telephone"
-            >
-                <svg>
-                    <use [attr.xlink:href]="environment.svg +'#icon-sms'"></use>
-                </svg>
-            </a>
-            <button
-                class="btn btn--add"
-                (click)="openView(i)"
-            >
-                <svg>
-                    <use [attr.xlink:href]="environment.svg +'#icon-zoom'"></use>
-                </svg>
-            </button>
-            <button
-                *ngIf="isAdmin"
-                class="btn btn--edit"
-                (click)="openPopUp(i)"
-            >
-                <svg>
-                    <use [attr.xlink:href]="environment.svg +'#icon-edit'"></use>
-                </svg>
-            </button>
-            <button
-                *ngIf="isAdmin"
-                class="btn btn--delete"
-                (click)="openDeletePopUp(i)"
-            >
-                <svg>
-                    <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
-                </svg>
-            </button>
+    <div *ngFor="let player of filteredPlayers; let i = index">
+        <div
+            *ngIf="i >= (itemsPerPage*(page-1)) && i < ((itemsPerPage*(page-1))+itemsPerPage)"
+            class="container_card"
+        >
+            <p class="number">#{{i+1}}</p>
+            <p class="text">{{player.name}} {{player.surname}}</p>
+            <div class="buttons">
+                <a
+                    class="btn btn--add btn--phone"
+                    [href]="'tel:+48'+player.telephone"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-phone'"></use>
+                    </svg>
+                </a>
+                <a
+                    class="btn btn--add btn--sms"
+                    [href]="'sms:+48'+player.telephone"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-sms'"></use>
+                    </svg>
+                </a>
+                <button
+                    class="btn btn--add"
+                    (click)="openView(i)"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-zoom'"></use>
+                    </svg>
+                </button>
+                <button
+                    *ngIf="isAdmin"
+                    class="btn btn--edit"
+                    (click)="openPopUp(i)"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-edit'"></use>
+                    </svg>
+                </button>
+                <button
+                    *ngIf="isAdmin"
+                    class="btn btn--delete"
+                    (click)="openDeletePopUp(i)"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
+                    </svg>
+                </button>
+            </div>
         </div>
+    </div>
+    <div class="pagination">
+        <p class="pagination_perPage">Graczy na stronę:</p>
+        <input
+            type="number"
+            min="1"
+            max="100"
+            class="pagination_count"
+            step="1"
+            [(ngModel)]="itemsPerPage"
+        >
+        <button
+            class="pagination_btn"
+            (click)="prevPage()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
+            </svg>
+        </button>
+        <p class="pagination_info">{{page}} z {{pageCount}}</p>
+        <button
+            class="pagination_btn"
+            (click)="nextPage()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
+            </svg>
+        </button>
     </div>
 </div>
 <!-- pop up edycji -->

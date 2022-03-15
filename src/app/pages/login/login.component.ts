@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       next: (res: Login) => {
         this.loginStateService.logIn(res.isAdmin, res.user);
         this.loginForm.reset();
-        this.router.navigate(['/players']);
+        this.router.navigate(['/timetable']);
       },
       error: (err) => {
         this.infoService.showInfo('Błędny nick i/lub hasło');

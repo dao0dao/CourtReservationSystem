@@ -1,0 +1,87 @@
+@import "~src/assets/colors";
+
+.container {
+    max-height: 100%;
+    padding-top: 1rem;
+}
+.btn {
+    margin: 1rem 0;
+}
+.input {
+    margin-bottom: 1rem;
+}
+.scroll {
+    overflow: auto;
+    width: 100%;
+    padding: 0 5px 5px 5px;
+    flex-basis: 100%;
+}
+.timetable {
+    position: relative;
+    width: 680px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .row {
+        height: 60px;
+        text-align: center;
+        p {
+            padding-top: 0.5rem;
+        }
+        &--first {
+            position: sticky;
+            z-index: 2;
+            top: 0;
+            height: 40px;
+            background-color: $clearWhite;
+        }
+    }
+    &_hours {
+        flex-basis: 80px;
+        .row {
+            border-style: solid;
+            border-color: $black;
+            &--top {
+                border-width: 0 1px 1px 1px;
+                border-color: transparent $black $white $black;
+            }
+            &--bot {
+                border-width: 0 1px 1px;
+            }
+            &--first {
+                border-width: 0 0 1px 0;
+            }
+        }
+    }
+    &_court {
+        flex-basis: 200px;
+        &_1,
+        &_2,
+        &_3 {
+            .row {
+                border-style: solid;
+                border-color: $black;
+                &--top {
+                    border-width: 0 1px 1px 0;
+                    border-color: transparent $black $white transparent;
+                }
+                &--bot {
+                    border-width: 0 1px 1px 0;
+                }
+                &--first {
+                    border-width: 0 0 1px 0;
+                }
+            }
+        }
+    }
+    .board {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        right: 0;
+        width: 600px;
+        height: calc(100% - 40px);
+        background-color: hsla(0, 0%, 100%, 0.5);
+    }
+}

@@ -16,6 +16,7 @@ import { OpponentComponent } from './players/opponent/opponent.component';
 import { PlayersListComponent } from './players/players-list/players-list.component';
 import { SearchingService } from './players/searching.service';
 import { SearchWeekComponent } from './players/search-week/search-week.component';
+import { TimetableComponent } from './timetable/timetable.component';
 
 
 
@@ -31,7 +32,8 @@ import { SearchWeekComponent } from './players/search-week/search-week.component
     WeekComponent,
     OpponentComponent,
     PlayersListComponent,
-    SearchWeekComponent
+    SearchWeekComponent,
+    TimetableComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { SearchWeekComponent } from './players/search-week/search-week.component
       { path: 'login', component: LoginComponent },
       { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
       { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
+      { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
     ])
   ],
   exports: [

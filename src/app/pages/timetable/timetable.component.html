@@ -1,0 +1,76 @@
+<div class="container">
+    <button class="btn btn--add">Dodaj wpis</button>
+    <div class="input">
+        <label for="day">Dzień</label>
+        <input
+            type="date"
+            name
+            id="day"
+        >
+    </div>
+    <div class="scroll">
+        <div class="timetable">
+            <div class="timetable_hours">
+                <div class="row row--first">
+                    <p>Godz.</p>
+                </div>
+                <div
+                    *ngFor="let row of timetable; let i = index"
+                    class="row"
+                    [ngClass]="{
+                    'row--top': ((i+1) % 2) === 1,
+                    'row--bot': ((i+1) % 2) === 0
+                }"
+                >
+                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                </div>
+            </div>
+            <div class="timetable_court timetable_court_1">
+                <div class="row row--first">
+                    <p>Kort 1</p>
+                </div>
+                <div
+                    *ngFor="let row of timetable; let i = index"
+                    class="row"
+                    [ngClass]="{
+                    'row--top': ((i+1) % 2) === 1,
+                    'row--bot': ((i+1) % 2) === 0
+                }"
+                >
+                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                </div>
+            </div>
+            <div class="timetable_court timetable_court_2">
+                <div class="row row--first">
+                    <p>Kort 2</p>
+                </div>
+                <div
+                    *ngFor="let row of timetable; let i = index"
+                    class="row"
+                    [ngClass]="{
+                    'row--top': ((i+1) % 2) === 1,
+                    'row--bot': ((i+1) % 2) === 0
+                }"
+                >
+                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                </div>
+            </div>
+            <div class="timetable_court timetable_court_3">
+                <div class="row row--first">
+                    <p>Rezerwowi</p>
+                </div>
+                <div
+                    *ngFor="let row of timetable; let i = index"
+                    class="row"
+                    [ngClass]="{
+                    'row--top': ((i+1) % 2) === 1,
+                    'row--bot': ((i+1) % 2) === 0
+                }"
+                >
+                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                </div>
+            </div>
+            <div class="board"></div>
+        </div>
+    </div>
+</div>

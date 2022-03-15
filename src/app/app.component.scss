@@ -95,13 +95,14 @@ nav {
     }
 }
 footer {
-    padding: 1rem;
+    padding: 10px;
     width: 100%;
 }
 footer {
     text-align: center;
     background-color: $black;
     a {
+        font-size: 12px;
         text-decoration: none;
         color: $white;
     }
@@ -123,6 +124,12 @@ footer {
             justify-content: flex-end;
             flex-direction: row;
             transition: none;
+        }
+    }
+    footer {
+        padding: 1rem;
+        a {
+            font-size: 1rem;
         }
     }
 }

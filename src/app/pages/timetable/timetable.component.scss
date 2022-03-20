@@ -18,13 +18,13 @@
 }
 .timetable {
     position: relative;
-    width: 680px;
+    width: 830px;
     margin: 0 auto;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     .row {
-        height: 60px;
+        height: 80px;
         text-align: center;
         p {
             padding-top: 0.5rem;
@@ -55,7 +55,7 @@
         }
     }
     &_court {
-        flex-basis: 200px;
+        flex-basis: 250px;
         &_1,
         &_2,
         &_3 {
@@ -80,8 +80,97 @@
         z-index: 1;
         bottom: 0;
         right: 0;
-        width: 600px;
+        width: 750px;
         height: calc(100% - 40px);
         background-color: hsla(0, 0%, 100%, 0.5);
+        .reservation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 160px;
+            border: 1px solid $mainColorTwo;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+            background-color: $clearWhite;
+            &--small {
+                height: 80px;
+                .reservation_main {
+                    margin-top: 0;
+                    font-size: 12px;
+                }
+                .reservation_footer,
+                .reservation_head {
+                    svg {
+                        max-height: 16px;
+                    }
+                }
+            }
+            &--paid {
+                .reservation_main {
+                    color: $greenOnDark;
+                }
+            }
+            &_head,
+            &_footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            &_head {
+                button {
+                    width: 30px;
+                    max-height: 30px;
+                    margin-right: 30px;
+                    background-color: transparent;
+                    border: none;
+                }
+                svg {
+                    max-height: 30px;
+                    max-width: 30px;
+                    fill: $yellow;
+                    stroke: $yellow;
+                }
+            }
+            &_main {
+                flex-basis: 70px;
+                margin: auto 2px;
+                padding: 0px 2px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                background-color: black;
+                color: $redOnDark;
+                cursor: pointer;
+            }
+            &_footer {
+                display: flex;
+                align-items: center;
+                button {
+                    margin: 0 2px 2px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    fill: $mainColorOne;
+                    border: none;
+                    background-color: transparent;
+                    &[disabled] {
+                        fill: $mainColorThree;
+                        cursor: auto;
+                        pointer-events: none;
+                    }
+                }
+                svg {
+                    max-width: 30px;
+                    max-height: 30px;
+                }
+            }
+            &_hour {
+                color: $mainColorThree;
+            }
+        }
     }
 }

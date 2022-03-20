@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeTable } from './intefaces';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-timetable',
@@ -7,6 +8,8 @@ import { TimeTable } from './intefaces';
   styleUrls: ['./timetable.component.scss']
 })
 export class TimetableComponent implements OnInit {
+
+  environment = environment;
 
   constructor() { }
 
@@ -29,6 +32,14 @@ export class TimetableComponent implements OnInit {
       }
       this.timetable.push({ label: hour });
     }
+  }
+
+  moveRight(event: any) {
+
+  }
+
+  moveLeft(event: any) {
+
   }
 
 }

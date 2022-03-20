@@ -1,0 +1,172 @@
+<div class="background">
+    <div class="container">
+        <p class="title">Edycja rezerwacji</p>
+        <button
+            type="button"
+            class="btnX"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+            </svg>
+        </button>
+        <form class="container_body">
+            <p class="subtitle">Data: 13.03.22, 14:00-17:00</p>
+            <div class="block">
+                <div class="block_name">
+                    <p class="text">Data</p>
+                    <div class="line"></div>
+                </div>
+                <input
+                    class="input input--date"
+                    type="date"
+                    name
+                    id
+                >
+                <div class="time">
+                    <label for="from">Od</label>
+                    <input
+                        class="input"
+                        type="time"
+                        id="from"
+                    >
+                    <label for="to">Do</label>
+                    <input
+                        class="input"
+                        type="time"
+                        name
+                        id="to"
+                    >
+                </div>
+            </div>
+            <div class="block">
+                <div class="block_name">
+                    <p class="text">Gracz 1 (obowiązkowy)</p>
+                    <div class="line"></div>
+                </div>
+                <div class="radio">
+                    <input
+                        type="radio"
+                        name="chose"
+                        id="list"
+                        checked
+                    >
+                    <label for="list">Wybierz z listy:</label>
+                </div>
+                <select class="select">
+                    <option value>Tomasz Pokorniecki</option>
+                    <option value>Michał Zwoliński</option>
+                </select>
+                <div class="radio">
+                    <input
+                        type="radio"
+                        name="chose"
+                        id="input"
+                    >
+                    <label for="input">lub wprowadź spoza bazy:</label>
+                </div>
+                <input
+                    class="input"
+                    type="text"
+                    id="input"
+                    placeholder="Imię i nazwisko"
+                >
+                <p class="info">Uwaga- nie zostanie dodany do bazy!</p>
+            </div>
+            <div class="block">
+                <div class="block_name">
+                    <p class="text">Gracz 2 (opcjonalnie)</p>
+                    <div class="line"></div>
+                </div>
+                <div class="radio">
+                    <input
+                        type="radio"
+                        name="chose-2"
+                        id="list-2"
+                        checked
+                    >
+                    <label for="list-2">Wybierz z listy:</label>
+                </div>
+                <select class="select">
+                    <option
+                        value
+                        selected
+                    ></option>
+                    <option value>Tomasz Pokorniecki</option>
+                    <option value>Michał Zwoliński</option>
+                </select>
+                <div class="radio">
+                    <input
+                        type="radio"
+                        name="chose-2"
+                        id="input-2"
+                    >
+                    <label for="input-2">lub wprowadź spoza bazy:</label>
+                </div>
+                <input
+                    class="input"
+                    type="text"
+                    id="input"
+                    placeholder="Imię i nazwisko"
+                >
+                <p class="info">Uwaga- nie zostanie dodany do bazy!</p>
+            </div>
+            <div class="block">
+                <div class="block_name">
+                    <p class="text">Opcje wyszukania</p>
+                    <div class="line"></div>
+                </div>
+                <div class="row">
+                    <button
+                        type="button"
+                        class="btn btn--option btn--option--active"
+                    >
+                        Znajdź gracza 1
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn--option"
+                    >
+                        Znajdź gracza 2
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn--option"
+                    >
+                        Znajdź przeciwnika dla 1
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn--option"
+                    >
+                        Znajdź przeciwnika dla 2
+                    </button>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block_name">
+                    <p class="text">Kort</p>
+                    <div class="line"></div>
+                </div>
+                <select class="select">
+                    <option
+                        value
+                        disabled
+                        selected
+                    >
+                        Wybierz...
+                    </option>
+                    <option value>Niebieski</option>
+                    <option value>Fioletowy</option>
+                </select>
+            </div>
+            <div class="block block--add">
+                <button
+                    type="submit"
+                    class="btn btn--add"
+                >
+                    Zapisz
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

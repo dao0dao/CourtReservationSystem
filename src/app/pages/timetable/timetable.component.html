@@ -27,7 +27,7 @@
             </div>
             <div class="timetable_court timetable_court_1">
                 <div class="row row--first">
-                    <p>Kort 1</p>
+                    <p>Niebieski</p>
                 </div>
                 <div
                     *ngFor="let row of timetable; let i = index"
@@ -37,12 +37,12 @@
                     'row--bot': ((i+1) % 2) === 0
                 }"
                 >
-                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                    <p>{{row.label}}</p>
                 </div>
             </div>
             <div class="timetable_court timetable_court_2">
                 <div class="row row--first">
-                    <p>Kort 2</p>
+                    <p>Fioletowy</p>
                 </div>
                 <div
                     *ngFor="let row of timetable; let i = index"
@@ -52,7 +52,7 @@
                     'row--bot': ((i+1) % 2) === 0
                 }"
                 >
-                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                    <p>{{row.label}}</p>
                 </div>
             </div>
             <div class="timetable_court timetable_court_3">
@@ -67,10 +67,92 @@
                     'row--bot': ((i+1) % 2) === 0
                 }"
                 >
-                    <p *ngIf="((i+1) % 2) === 1">{{row.label}}</p>
+                    <p>{{row.label}}</p>
                 </div>
             </div>
-            <div class="board"></div>
+            <div class="board">
+                <div
+                    class="reservation reservation--small reservation--paid"
+                    cdkDragBoundary=".board"
+                    cdkDragLockAxis="y"
+                    cdkDrag
+                    [style.transform]="'translate3d(0px, 0px, 0px)'"
+                >
+                    <div class="reservation_head">
+                        <p class="reservation_hour">10:20 - 12:20</p>
+                        <button>
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div
+                        class="reservation_main"
+                        cdkDragHandle
+                    >
+                        <p class="reservation_player">J. Brzechwa</p>
+                        <p class="reservation_player">T. Pokorniecki</p>
+                    </div>
+                    <div class="reservation_footer">
+                        <button (click)="moveLeft($event)">
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
+                            </svg>
+                        </button>
+                        <button>
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
+                            </svg>
+                        </button>
+                        <button (click)="moveRight($event)">
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="reservation"
+                    cdkDragBoundary=".board"
+                    cdkDragLockAxis="y"
+                    cdkDrag
+                    [style.transform]="'translate3d(0px, 80px, 0px)'"
+                >
+                    <div class="reservation_head">
+                        <p class="reservation_hour">10:20 - 12:20</p>
+                        <button>
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div
+                        class="reservation_main"
+                        cdkDragHandle
+                    >
+                        <p class="reservation_player">J. Brzechwa</p>
+                        <p class="reservation_player">T. Pokorniecki</p>
+                    </div>
+                    <div class="reservation_footer">
+                        <button (click)="moveLeft($event)">
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
+                            </svg>
+                        </button>
+                        <button>
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
+                            </svg>
+                        </button>
+                        <button (click)="moveRight($event)">
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <app-timetable-modal></app-timetable-modal>
 </div>

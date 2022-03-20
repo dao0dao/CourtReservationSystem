@@ -17,6 +17,8 @@ import { PlayersListComponent } from './players/players-list/players-list.compon
 import { SearchingService } from './players/searching.service';
 import { SearchWeekComponent } from './players/search-week/search-week.component';
 import { TimetableComponent } from './timetable/timetable.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TimetableModalComponent } from './timetable/timetable-modal/timetable-modal.component';
 
 
 
@@ -33,7 +35,8 @@ import { TimetableComponent } from './timetable/timetable.component';
     OpponentComponent,
     PlayersListComponent,
     SearchWeekComponent,
-    TimetableComponent
+    TimetableComponent,
+    TimetableModalComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,8 @@ import { TimetableComponent } from './timetable/timetable.component';
       { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
       { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
       { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
-    ])
+    ]),
+    DragDropModule
   ],
   exports: [
     PagesComponent

@@ -1,3 +1,18 @@
+@use "@angular/material" as mat;
+@include mat.core();
+$front-primary: mat.define-palette(mat.$indigo-palette);
+$front-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$front-warn: mat.define-palette(mat.$red-palette);
+$front-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $front-primary,
+            accent: $front-accent,
+            warn: $front-warn,
+        ),
+    )
+);
+@include mat.all-component-themes($front-theme);
 @import "~src/assets/colors";
 
 * {
@@ -30,7 +45,7 @@ body {
     color: $white;
     transition: border-color 0.25s linear;
     cursor: pointer;
-    &::after {
+    &::after:not(.btn--option) {
         position: absolute;
         top: 0;
         width: 2px;
@@ -87,6 +102,18 @@ body {
         &::after,
         &::before {
             border-color: $mainColorOne;
+        }
+    }
+    &--option {
+        font-size: 0.8em;
+        color: $mainColorTwo;
+        border-color: $confirm;
+        border-style: solid;
+        border-width: 0 0 1px;
+        box-shadow: $mainShadow;
+        &--active{
+            background-color: $confirm;
+            color: $clearWhite;
         }
     }
     &--add,
@@ -189,4 +216,13 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

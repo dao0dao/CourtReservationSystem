@@ -17,7 +17,9 @@
         .btn--sort {
             margin: 10px;
             padding: 5px;
-            border: none;
+            border-color: $confirm;
+            border-style: solid;
+            border-width: 0 0 1px;
             box-shadow: $mainShadow;
             display: inline-flex;
             justify-content: center;
@@ -38,9 +40,11 @@
                 }
             }
             &--active {
-                box-shadow: 0px 4px 4px $confirm;
+                color: $clearWhite;
+                background-color: $confirm;
                 svg {
                     opacity: 1;
+                    fill: $clearWhite;
                 }
             }
         }

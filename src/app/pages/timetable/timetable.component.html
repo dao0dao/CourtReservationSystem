@@ -1,11 +1,17 @@
 <div class="container">
-    <button class="btn btn--add">Dodaj wpis</button>
+    <button
+        class="btn btn--add"
+        (click)="newReservation()"
+    >
+        Dodaj wpis
+    </button>
     <div class="input">
         <label for="day">Dzień</label>
         <input
             type="date"
             name
             id="day"
+            [(ngModel)]="date"
         >
     </div>
     <div class="scroll">
@@ -120,7 +126,7 @@
                 >
                     <div class="reservation_head">
                         <p class="reservation_hour">10:20 - 12:20</p>
-                        <button>
+                        <button (click)="editReservation()">
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
                             </svg>
@@ -154,5 +160,11 @@
             </div>
         </div>
     </div>
-    <app-timetable-modal></app-timetable-modal>
+    <app-timetable-modal
+        *ngIf="isModal"
+        [modalAction]="modalAction"
+        [players]="players"
+        [date]="date"
+        (outputCloseModal)="closeModal()"
+    ></app-timetable-modal>
 </div>

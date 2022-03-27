@@ -1,16 +1,36 @@
 <div class="background">
     <div class="container">
-        <p class="title">Edycja rezerwacji</p>
+        <p
+            *ngIf="modalAction === 'edit'"
+            class="title"
+        >
+            Opcje rezerwacji
+        </p>
+        <p
+            *ngIf="modalAction === 'new'"
+            class="title"
+        >
+            Dodaj rezerwację
+        </p>
         <button
             type="button"
             class="btnX"
+            (click)="closeModal()"
         >
             <svg>
                 <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
             </svg>
         </button>
-        <form class="container_body">
-            <p class="subtitle">Data: 13.03.22, 14:00-17:00</p>
+        <form
+            class="container_body"
+            [formGroup]="form"
+        >
+            <p
+                *ngIf="modalAction === 'edit'"
+                class="subtitle"
+            >
+                Data: 13.03.22, 14:00-17:00
+            </p>
             <div class="block">
                 <div class="block_name">
                     <p class="text">Data</p>
@@ -19,8 +39,7 @@
                 <input
                     class="input input--date"
                     type="date"
-                    name
-                    id
+                    formControlName="date"
                 >
                 <div class="time">
                     <label for="from">Od</label>
@@ -40,7 +59,7 @@
             </div>
             <div class="block">
                 <div class="block_name">
-                    <p class="text">Gracz 1 (obowiązkowy)</p>
+                    <p class="text">Gracz 1</p>
                     <div class="line"></div>
                 </div>
                 <div class="radio">
@@ -53,8 +72,13 @@
                     <label for="list">Wybierz z listy:</label>
                 </div>
                 <select class="select">
-                    <option value>Tomasz Pokorniecki</option>
-                    <option value>Michał Zwoliński</option>
+                    <option value></option>
+                    <option
+                        *ngFor="let player of playerOne"
+                        [value]="player.id"
+                    >
+                        {{player.name}} {{player.surname}}
+                    </option>
                 </select>
                 <div class="radio">
                     <input
@@ -74,7 +98,7 @@
             </div>
             <div class="block">
                 <div class="block_name">
-                    <p class="text">Gracz 2 (opcjonalnie)</p>
+                    <p class="text">Gracz 2</p>
                     <div class="line"></div>
                 </div>
                 <div class="radio">
@@ -91,8 +115,12 @@
                         value
                         selected
                     ></option>
-                    <option value>Tomasz Pokorniecki</option>
-                    <option value>Michał Zwoliński</option>
+                    <option
+                        *ngFor="let player of playerTwo"
+                        [value]="player.id"
+                    >
+                        {{player.name}} {{player.surname}}
+                    </option>
                 </select>
                 <div class="radio">
                     <input
@@ -110,7 +138,7 @@
                 >
                 <p class="info">Uwaga- nie zostanie dodany do bazy!</p>
             </div>
-            <div class="block">
+            <div class="block block--wider">
                 <div class="block_name">
                     <p class="text">Opcje wyszukania</p>
                     <div class="line"></div>
@@ -132,13 +160,25 @@
                         type="button"
                         class="btn btn--option"
                     >
-                        Znajdź przeciwnika dla 1
+                        Wszyscy przeciwnicy 1
                     </button>
                     <button
                         type="button"
                         class="btn btn--option"
                     >
-                        Znajdź przeciwnika dla 2
+                        Wszyscy przeciwnicy 2
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn--option"
+                    >
+                        Przeciwnika dla 1 na godzinę
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn--option"
+                    >
+                        Przeciwnika dla 2 na godzinę
                     </button>
                 </div>
             </div>
@@ -155,8 +195,9 @@
                     >
                         Wybierz...
                     </option>
-                    <option value>Niebieski</option>
-                    <option value>Fioletowy</option>
+                    <option value="1">Niebieski</option>
+                    <option value="2">Fioletowy</option>
+                    <option value="3">Rezerwowy</option>
                 </select>
             </div>
             <div class="block block--add">

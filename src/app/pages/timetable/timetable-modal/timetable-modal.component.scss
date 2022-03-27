@@ -57,7 +57,7 @@
     text-align: center;
 }
 .block {
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     .row {
         display: flex;
         flex-wrap: wrap;
@@ -205,11 +205,15 @@
     }
     .subtitle {
         flex-basis: 100%;
+        align-self: center;
     }
     .block {
         min-width: 300px;
         flex-basis: 30%;
-        margin: 0 1rem;
+        margin: 1rem;
+        &--wider{
+            min-width: 500px;
+        }
         &--add {
             flex-basis: 100%;
         }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { PagesComponent } from './pages.component';
 import { CoachesComponent } from './coaches/coaches.component';
@@ -54,7 +54,8 @@ import { TimetableModalComponent } from './timetable/timetable-modal/timetable-m
     PagesComponent
   ],
   providers: [
-    SearchingService
+    SearchingService,
+    DatePipe
   ]
 })
 export class PagesModule { }

@@ -24,6 +24,7 @@
         <form
             class="container_body"
             [formGroup]="form"
+            (ngSubmit)="submitForm()"
         >
             <p
                 *ngIf="modalAction === 'edit'"
@@ -47,13 +48,14 @@
                         class="input"
                         type="time"
                         id="from"
+                        formControlName="from"
                     >
                     <label for="to">Do</label>
                     <input
                         class="input"
                         type="time"
-                        name
                         id="to"
+                        formControlName="to"
                     >
                 </div>
             </div>
@@ -65,13 +67,20 @@
                 <div class="radio">
                     <input
                         type="radio"
-                        name="chose"
+                        name="listOne"
                         id="list"
-                        checked
+                        value="true"
+                        formControlName="listOne"
+                        (change)="handleChoseOne()"
                     >
                     <label for="list">Wybierz z listy:</label>
                 </div>
-                <select class="select">
+                <select
+                    class="select"
+                    formControlName="playerOne"
+                    (change)="handleIsPlayerChosen()"
+                    [attr.disabled]="isListOne ? null : true"
+                >
                     <option value></option>
                     <option
                         *ngFor="let player of playerOne"
@@ -83,8 +92,11 @@
                 <div class="radio">
                     <input
                         type="radio"
-                        name="chose"
+                        name="listOne"
                         id="input"
+                        value="false"
+                        formControlName="listOne"
+                        (change)="handleChoseOne()"
                     >
                     <label for="input">lub wprowadź spoza bazy:</label>
                 </div>
@@ -93,8 +105,16 @@
                     type="text"
                     id="input"
                     placeholder="Imię i nazwisko"
+                    [attr.disabled]="isListOne ? true : null"
+                    formControlName="guestOne"
+                    (change)="handleIsPlayerChosen()"
                 >
-                <p class="info">Uwaga- nie zostanie dodany do bazy!</p>
+                <p
+                    class="info"
+                    [ngClass]="{'info--hidden': isListOne}"
+                >
+                    Uwaga- nie zostanie dodany do bazy!
+                </p>
             </div>
             <div class="block">
                 <div class="block_name">
@@ -104,13 +124,20 @@
                 <div class="radio">
                     <input
                         type="radio"
-                        name="chose-2"
+                        name="listTwo"
                         id="list-2"
-                        checked
+                        formControlName="listTwo"
+                        value="true"
+                        (change)="handleChoseTwo()"
                     >
                     <label for="list-2">Wybierz z listy:</label>
                 </div>
-                <select class="select">
+                <select
+                    class="select"
+                    formControlName="playerTwo"
+                    (change)="handleIsPlayerChosen()"
+                    [attr.disabled]="isListTwo ? null : true"
+                >
                     <option
                         value
                         selected
@@ -125,8 +152,11 @@
                 <div class="radio">
                     <input
                         type="radio"
-                        name="chose-2"
+                        name="listTwo"
                         id="input-2"
+                        value="false"
+                        formControlName="listTwo"
+                        (change)="handleChoseTwo()"
                     >
                     <label for="input-2">lub wprowadź spoza bazy:</label>
                 </div>
@@ -135,8 +165,16 @@
                     type="text"
                     id="input"
                     placeholder="Imię i nazwisko"
+                    formControlName="guestTwo"
+                    [attr.disabled]="isListTwo ? true : null"
+                    (change)="handleIsPlayerChosen()"
                 >
-                <p class="info">Uwaga- nie zostanie dodany do bazy!</p>
+                <p
+                    class="info"
+                    [ngClass]="{'info--hidden': isListTwo}"
+                >
+                    Uwaga- nie zostanie dodany do bazy!
+                </p>
             </div>
             <div class="block block--wider">
                 <div class="block_name">
@@ -187,7 +225,10 @@
                     <p class="text">Kort</p>
                     <div class="line"></div>
                 </div>
-                <select class="select">
+                <select
+                    class="select"
+                    formControlName="court"
+                >
                     <option
                         value
                         disabled
@@ -204,6 +245,7 @@
                 <button
                     type="submit"
                     class="btn btn--add"
+                    [disabled]="form.invalid || !isPlayerChosen"
                 >
                     Zapisz
                 </button>

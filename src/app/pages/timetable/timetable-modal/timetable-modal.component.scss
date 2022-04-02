@@ -63,6 +63,9 @@
         flex-wrap: wrap;
         justify-content: space-around;
         align-items: center;
+        .btn {
+            flex-basis: 40%;
+        }
     }
     &_name {
         margin: 10px;
@@ -124,7 +127,7 @@
             }
         }
         label {
-            margin-left: 20px;
+            padding-left: 20px;
             font-size: 12px;
         }
     }

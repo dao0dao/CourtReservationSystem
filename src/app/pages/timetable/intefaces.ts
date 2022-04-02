@@ -18,3 +18,12 @@ export interface Reservation {
     playerTwo: Player;
     isPayed: boolean;
 }
+
+export interface ActiveFilters {
+    playerOne: { isActive: boolean };
+    playerTwo: { isActive: boolean };
+    allOpponentsOne: { isActive: boolean, isDisabled: boolean; };
+    allOpponentsTwo: { isActive: boolean, isDisabled: boolean; };
+    opponentOne: { isActive: boolean, isDisabled: boolean; };
+    opponentTwo: { isActive: boolean, isDisabled: boolean; };
+}

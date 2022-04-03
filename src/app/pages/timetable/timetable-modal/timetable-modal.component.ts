@@ -326,12 +326,12 @@ export class TimetableModalComponent implements OnInit {
   refreshFilters(list: 'listOne' | 'listTwo') {
     if (list === 'listOne' && this.getFormField('playerOne')?.value == '') {
       this.resetOponentFilterOne();
-      this.activeFilters.playerOne.isDisabled = false;
+      this.activeFilters.playerTwo.isDisabled = false;
       return;
     }
     if (list === 'listTwo' && this.getFormField('playerTwo')?.value == '') {
       this.resetOponentFilterTwo();
-      this.activeFilters.playerTwo.isDisabled = false;
+      this.activeFilters.playerOne.isDisabled = false;
       return;
     }
     if (list === 'listOne' && this.getFormField('playerOne')?.value != '') {

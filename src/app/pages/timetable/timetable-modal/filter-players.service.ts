@@ -16,10 +16,15 @@ export class FilterPlayersService {
     return week.days[day] ? true : false;
   }
 
-  findPlayers(array: Player[], fromTime: string, toTime: string, dateTime: string): Player[] {
-    let day: any = new Date(dateTime).getDay();
+  private getDayFromDate(date: string): number {
+    let day: number = new Date(date).getDay();
     day -= 1;
     day === -1 ? day = 6 : null;
+    return day;
+  }
+
+  findPlayers(array: Player[], fromTime: string, toTime: string, dateTime: string): Player[] {
+    const day: any = this.getDayFromDate(dateTime);
     const from: number = this.timeToNumber(fromTime);
     const to: number = this.timeToNumber(toTime);
     const players: Player[] = [];
@@ -34,7 +39,7 @@ export class FilterPlayersService {
             wFrom = this.timeToNumber(w.time.from);
           }
           if (w.time.to == '') {
-            wTo = 0;
+            wTo = 23.59;
           } else {
             wTo = this.timeToNumber(w.time.to);
           }
@@ -49,14 +54,45 @@ export class FilterPlayersService {
 
   findAllOpponents(playerId: string, array: Player[]) {
     const allOpponents: Player[] = [];
-    array.forEach(pl => {
-      for (let op of pl.opponents) {
-        if (op.id === playerId) {
-          allOpponents.push(pl);
+    for (let pl of array) {
+      if (pl.id === playerId) {
+        for (let op of pl.opponents) {
+          const opponent = array.find(el => el.id == op.id);
+          opponent ? allOpponents.push(opponent) : null;
         }
       }
-    });
+    }
     return allOpponents;
+  }
+
+  findOpponentOnHour(playerId: string, fromTime: string, toTime: string, dateTime: string, array: Player[]) {
+    const day: any = this.getDayFromDate(dateTime);
+    const opponents: Player[] = [];
+    const allOpponents = this.findAllOpponents(playerId, array);
+    const from = this.timeToNumber(fromTime);
+    const to = this.timeToNumber(toTime);
+    for (let pl of allOpponents) {
+      for (let w of pl.weeks) {
+        if (this.checkDay(w, day)) {
+          let wFrom: number;
+          let wTo: number;
+          if (w.time.from == '') {
+            wFrom = 0;
+          } else {
+            wFrom = this.timeToNumber(w.time.from);
+          }
+          if (w.time.to == '') {
+            wTo = 23.59;
+          } else {
+            wTo = this.timeToNumber(w.time.to);
+          }
+          if (wFrom <= from || wTo >= to) {
+            opponents.push(pl);
+          }
+        }
+      }
+    }
+    return opponents;
   }
 
 }

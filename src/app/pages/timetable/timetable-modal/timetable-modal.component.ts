@@ -34,9 +34,9 @@ export class TimetableModalComponent implements OnInit {
   isPlayerChosen: boolean = false;
   isTimeChosen: boolean = false;
 
-  activeFilers: ActiveFilters = {
-    playerOne: { isActive: false },
-    playerTwo: { isActive: false },
+  activeFilters: ActiveFilters = {
+    playerOne: { isActive: false, isDisabled: false },
+    playerTwo: { isActive: false, isDisabled: false },
     allOpponentsOne: { isActive: false, isDisabled: true },
     allOpponentsTwo: { isActive: false, isDisabled: true },
     opponentOne: { isActive: false, isDisabled: true },
@@ -121,6 +121,16 @@ export class TimetableModalComponent implements OnInit {
     this.handleIsPlayerChosen();
   }
 
+  handleChangeSelectOne() {
+    this.handleIsPlayerChosen();
+    this.refreshFilters('listOne');
+  }
+
+  handleChangeSelectTwo() {
+    this.handleIsPlayerChosen();
+    this.refreshFilters('listTwo');
+  }
+
   handleIsPlayerChosen() {
     const playerOne = this.getFormField('playerOne')?.value;
     const playerTwo = this.getFormField('playerTwo')?.value;
@@ -142,31 +152,35 @@ export class TimetableModalComponent implements OnInit {
   private handleActivateOpponentsFilter() {
     const playerOne = this.getFormField('playerOne')?.value;
     const playerTwo = this.getFormField('playerTwo')?.value;
-    if ((playerOne && this.isListOne) && !playerTwo) {
-      this.activeFilers.allOpponentsOne.isDisabled = false;
-      this.activeFilers.opponentOne.isDisabled = false;
+    if (playerOne && this.isListOne && !playerTwo && !this.activeFilters.playerTwo.isActive) {
+      this.activeFilters.allOpponentsOne.isDisabled = false;
+      this.activeFilters.opponentOne.isDisabled = false;
+      console.log(1)
     } else {
-      this.activeFilers.allOpponentsOne.isDisabled = true;
-      this.activeFilers.opponentOne.isDisabled = true;
+      this.activeFilters.allOpponentsOne.isDisabled = true;
+      this.activeFilters.opponentOne.isDisabled = true;
+      console.log(2)
     }
-    if ((playerTwo && this.isListTwo) && !playerOne) {
-      this.activeFilers.allOpponentsTwo.isDisabled = false;
-      this.activeFilers.opponentTwo.isDisabled = false;
+    if (playerTwo && this.isListTwo && !playerOne && !this.activeFilters.playerOne.isActive) {
+      this.activeFilters.allOpponentsTwo.isDisabled = false;
+      this.activeFilters.opponentTwo.isDisabled = false;
+      console.log(3)
     } else {
-      this.activeFilers.allOpponentsTwo.isDisabled = true;
-      this.activeFilers.opponentTwo.isDisabled = true;
+      this.activeFilters.allOpponentsTwo.isDisabled = true;
+      this.activeFilters.opponentTwo.isDisabled = true;
+      console.log(4)
     }
   }
 
   private resetOponentFilterOne() {
-    this.activeFilers.allOpponentsOne.isActive = false;
-    this.activeFilers.opponentOne.isActive = false;
+    this.activeFilters.allOpponentsOne.isActive = false;
+    this.activeFilters.opponentOne.isActive = false;
     this.playerTwo = [...this.players];
   }
 
   private resetOponentFilterTwo() {
-    this.activeFilers.allOpponentsTwo.isActive = false;
-    this.activeFilers.opponentTwo.isActive = false;
+    this.activeFilters.allOpponentsTwo.isActive = false;
+    this.activeFilters.opponentTwo.isActive = false;
     this.playerOne = [...this.players];
   }
 
@@ -174,81 +188,170 @@ export class TimetableModalComponent implements OnInit {
     return this.filter.findPlayers(this.players, this.getFormField('from')?.value, this.getFormField('to')?.value, this.getFormField('date')?.value);
   }
 
-  private findAllOpponents(playerId: string, players: Player[]) {
-    return this.filter.findAllOpponents(playerId, players);
+  private findAllOpponents(playerId: string) {
+    return this.filter.findAllOpponents(playerId, this.players);
+  }
+
+  private findOpponentsOnHour(playerId: string) {
+    return this.filter.findOpponentOnHour(playerId, this.getFormField('from')?.value, this.getFormField('to')?.value, this.getFormField('date')?.value, this.players);
   }
 
   findPlayerOne() {
-    if (!this.activeFilers.playerOne.isActive) {
+    if (!this.activeFilters.playerOne.isActive) {
       this.switchTypeToList('listOne');
       this.playerOne = [...this.findPlayer()];
-      this.activeFilers.playerOne.isActive = true;
-      this.activeFilers.allOpponentsTwo.isDisabled = true;
-      this.activeFilers.opponentTwo.isDisabled = true;
+      this.activeFilters.playerOne.isActive = true;
+      this.activeFilters.allOpponentsTwo.isDisabled = true;
+      this.activeFilters.opponentTwo.isDisabled = true;
+      this.activeFilters.opponentTwo.isDisabled = true;
+      this.activeFilters.allOpponentsTwo.isDisabled = false;
     } else {
       this.playerOne = [...this.players];
-      this.activeFilers.playerOne.isActive = false;
-      this.activeFilers.allOpponentsTwo.isDisabled = false;
-      this.activeFilers.opponentTwo.isDisabled = false;
-      if (this.activeFilers.allOpponentsOne.isActive || this.activeFilers.opponentOne.isActive) {
+      this.activeFilters.playerOne.isActive = false;
+      this.activeFilters.allOpponentsTwo.isDisabled = false;
+      this.activeFilters.opponentTwo.isDisabled = false;
+      this.activeFilters.opponentTwo.isDisabled = false;
+      this.activeFilters.allOpponentsTwo.isDisabled = false;
+      if (this.activeFilters.allOpponentsOne.isActive || this.activeFilters.opponentOne.isActive) {
         this.resetOponentFilterOne();
       }
     }
     this.handleActivateOpponentsFilter();
   }
 
-  findAllOpponentsOne() {
-    if (!this.activeFilers.allOpponentsOne.isActive) {
+  findAllOpponentsOne(refresh: boolean = false) {
+    if (!this.activeFilters.allOpponentsOne.isActive || refresh) {
+      if (refresh) {
+        this.getFormField('playerTwo')?.setValue('');
+      }
       const playerId = this.getFormField('playerOne')?.value;
       this.switchTypeToList('listTwo');
-      this.playerTwo = [...this.findAllOpponents(playerId, this.players)];
-      this.activeFilers.allOpponentsOne.isActive = true;
-      this.activeFilers.opponentOne.isActive = false;
-      this.activeFilers.allOpponentsTwo.isDisabled = true;
-      this.activeFilers.opponentTwo.isDisabled = true;
+      this.playerTwo = [...this.findAllOpponents(playerId)];
+      this.activeFilters.playerTwo.isDisabled = true;
+      this.activeFilters.opponentOne.isActive = false;
+      this.activeFilters.allOpponentsOne.isActive = true;
     } else {
       this.playerTwo = [...this.players];
-      this.activeFilers.allOpponentsOne.isActive = false;
-      this.activeFilers.allOpponentsTwo.isDisabled = false;
-      this.activeFilers.opponentTwo.isDisabled = false;
-      if (this.activeFilers.allOpponentsTwo.isActive || this.activeFilers.opponentTwo.isActive) {
+      this.activeFilters.playerTwo.isDisabled = false;
+      this.activeFilters.allOpponentsOne.isActive = false;
+      if (this.activeFilters.allOpponentsTwo.isActive || this.activeFilters.opponentTwo.isActive) {
+        this.resetOponentFilterTwo();
+      }
+    }
+  }
+
+  findOpponentOneOnHour(refresh: boolean = false) {
+    if (!this.activeFilters.opponentOne.isActive || refresh) {
+      if (refresh) {
+        this.getFormField('playerTwo')?.setValue('');
+      }
+      const playerId = this.getFormField('playerOne')?.value;
+      this.switchTypeToList('listTwo');
+      this.playerTwo = [...this.findOpponentsOnHour(playerId)];
+      this.activeFilters.playerTwo.isDisabled = true;
+      this.activeFilters.opponentOne.isActive = true;
+      this.activeFilters.allOpponentsOne.isActive = false;
+    } else {
+      this.playerTwo = [...this.players];
+      this.activeFilters.playerTwo.isDisabled = false;
+      this.activeFilters.opponentOne.isActive = false;
+      if (this.activeFilters.allOpponentsTwo.isActive || this.activeFilters.opponentTwo.isActive) {
         this.resetOponentFilterTwo();
       }
     }
   }
 
   findPlayerTwo() {
-    if (!this.activeFilers.playerTwo.isActive) {
+    if (!this.activeFilters.playerTwo.isActive) {
       this.switchTypeToList('listTwo');
       this.playerTwo = [...this.findPlayer()];
-      this.activeFilers.playerTwo.isActive = true;
-      this.activeFilers.allOpponentsOne.isDisabled = true;
-      this.activeFilers.opponentOne.isDisabled = true;
+      this.activeFilters.playerTwo.isActive = true;
+      this.activeFilters.allOpponentsOne.isDisabled = true;
+      this.activeFilters.opponentOne.isDisabled = true;
+      this.activeFilters.opponentOne.isDisabled = true;
+      this.activeFilters.allOpponentsOne.isDisabled = true;
     } else {
       this.playerTwo = [...this.players];
-      this.activeFilers.playerTwo.isActive = false;
-      this.activeFilers.allOpponentsOne.isDisabled = false;
-      this.activeFilers.opponentOne.isDisabled = false;
+      this.activeFilters.playerTwo.isActive = false;
+      this.activeFilters.allOpponentsOne.isDisabled = false;
+      this.activeFilters.opponentOne.isDisabled = false;
+      this.activeFilters.opponentOne.isDisabled = false;
+      this.activeFilters.allOpponentsOne.isDisabled = false;
     }
     this.handleActivateOpponentsFilter();
   }
 
-  findAllOpponentsTwo() {
-    if (!this.activeFilers.allOpponentsTwo.isActive) {
+  findAllOpponentsTwo(refresh: boolean = false) {
+    if (!this.activeFilters.allOpponentsTwo.isActive || refresh) {
+      if (refresh) {
+        this.getFormField('playerOne')?.setValue('');
+      }
       const playerId = this.getFormField('playerTwo')?.value;
       this.switchTypeToList('listOne');
-      this.playerOne = [...this.findAllOpponents(playerId, this.players)];
-      this.activeFilers.allOpponentsTwo.isActive = true;
-      this.activeFilers.opponentTwo.isActive = false;
-      this.activeFilers.allOpponentsOne.isDisabled = true;
-      this.activeFilers.opponentOne.isDisabled = true;
+      this.playerOne = [...this.findAllOpponents(playerId)];
+      this.activeFilters.playerOne.isDisabled = true;
+      this.activeFilters.opponentTwo.isActive = false;
+      this.activeFilters.allOpponentsTwo.isActive = true;
     } else {
       this.playerTwo = [...this.players];
-      this.activeFilers.allOpponentsTwo.isActive = false;
-      this.activeFilers.allOpponentsOne.isDisabled = false;
-      this.activeFilers.opponentOne.isDisabled = false;
-      if (this.activeFilers.allOpponentsOne.isActive || this.activeFilers.opponentOne.isActive) {
+      this.activeFilters.playerOne.isDisabled = false;
+      this.activeFilters.allOpponentsTwo.isActive = false;
+      if (this.activeFilters.allOpponentsOne.isActive || this.activeFilters.opponentOne.isActive) {
         this.resetOponentFilterOne();
+      }
+    }
+  }
+
+  findOpponentTwoOnHour(refresh: boolean = false) {
+    if (!this.activeFilters.opponentTwo.isActive || refresh) {
+      if (refresh) {
+        this.getFormField('playerOne')?.setValue('');
+      }
+      const playerId = this.getFormField('playerTwo')?.value;
+      this.switchTypeToList('listOne');
+      this.playerOne = [...this.findOpponentsOnHour(playerId)];
+      this.activeFilters.playerOne.isDisabled = true;
+      this.activeFilters.opponentTwo.isActive = true;
+      this.activeFilters.allOpponentsTwo.isActive = false;
+    } else {
+      this.playerOne = [...this.players];
+      this.activeFilters.playerOne.isDisabled = false;
+      this.activeFilters.opponentTwo.isActive = false;
+      if (this.activeFilters.allOpponentsOne.isActive || this.activeFilters.opponentOne.isActive) {
+        this.resetOponentFilterTwo();
+      }
+    }
+  }
+
+  refreshFilters(list: 'listOne' | 'listTwo') {
+    if (list === 'listOne' && this.getFormField('playerOne')?.value == '') {
+      this.resetOponentFilterOne();
+      this.activeFilters.playerOne.isDisabled = false;
+      return;
+    }
+    if (list === 'listTwo' && this.getFormField('playerTwo')?.value == '') {
+      this.resetOponentFilterTwo();
+      this.activeFilters.playerTwo.isDisabled = false;
+      return;
+    }
+    if (list === 'listOne' && this.getFormField('playerOne')?.value != '') {
+      if (this.activeFilters.allOpponentsOne.isActive) {
+        this.findAllOpponentsOne(true);
+        return;
+      }
+      if (this.activeFilters.opponentOne.isActive) {
+        this.findOpponentOneOnHour(true);
+        return;
+      }
+    }
+    if (list === 'listTwo' && this.getFormField('playerTwo')?.value != '') {
+      if (this.activeFilters.allOpponentsTwo.isActive) {
+        this.findAllOpponentsTwo(true);
+        return;
+      }
+      if (this.activeFilters.opponentTwo.isActive) {
+        this.findOpponentTwoOnHour(true);
+        return;
       }
     }
   }

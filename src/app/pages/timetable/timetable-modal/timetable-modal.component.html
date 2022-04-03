@@ -80,7 +80,7 @@
                 <select
                     class="select"
                     formControlName="playerOne"
-                    (change)="handleIsPlayerChosen()"
+                    (change)="handleChangeSelectOne()"
                     [attr.disabled]="isListOne ? null : true"
                 >
                     <option value></option>
@@ -137,7 +137,7 @@
                 <select
                     class="select"
                     formControlName="playerTwo"
-                    (change)="handleIsPlayerChosen()"
+                    (change)="handleChangeSelectTwo()"
                     [attr.disabled]="isListTwo ? null : true"
                 >
                     <option
@@ -187,8 +187,8 @@
                     <button
                         type="button"
                         class="btn btn--option btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.playerOne.isActive}"
-                        [attr.disabled]="!isTimeChosen ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.playerOne.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.playerOne.isDisabled) ? true : null"
                         (click)="findPlayerOne()"
                     >
                         Znajdź gracza 1
@@ -196,8 +196,8 @@
                     <button
                         type="button"
                         class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.playerTwo.isActive}"
-                        [attr.disabled]="!isTimeChosen  ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.playerTwo.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.playerTwo.isDisabled) ? true : null"
                         (click)="findPlayerTwo()"
                     >
                         Znajdź gracza 2
@@ -205,36 +205,38 @@
                     <button
                         type="button"
                         class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.allOpponentsOne.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilers.allOpponentsOne.isDisabled) ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.allOpponentsOne.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsOne.isDisabled) ? true : null"
                         (click)="findAllOpponentsOne()"
                     >
-                        Sparingpartnerzy 1
+                        Wszyscy przeciwnicy 1
                     </button>
                     <button
                         type="button"
                         class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.allOpponentsTwo.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilers.allOpponentsTwo.isDisabled) ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.allOpponentsTwo.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsTwo.isDisabled) ? true : null"
                         (click)="findAllOpponentsTwo()"
                     >
-                        Sparingpartnerzy 2
+                        Wszyscy przeciwnicy 2
                     </button>
                     <button
                         type="button"
                         class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.opponentOne.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilers.opponentOne.isDisabled) ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.opponentOne.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.opponentOne.isDisabled) ? true : null"
+                        (click)="findOpponentOneOnHour()"
                     >
-                        Sparing dla 1
+                        Przeciwnicy 1 na godzinę
                     </button>
                     <button
                         type="button"
                         class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilers.opponentTwo.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilers.opponentTwo.isDisabled) ? true : null"
+                        [ngClass]="{'btn--option--active': activeFilters.opponentTwo.isActive}"
+                        [attr.disabled]="(!isTimeChosen || activeFilters.opponentTwo.isDisabled) ? true : null"
+                        (click)="findOpponentTwoOnHour()"
                     >
-                        Sparing dla 2
+                        Przeciwnicy 2 na godzinę
                     </button>
                 </div>
             </div>

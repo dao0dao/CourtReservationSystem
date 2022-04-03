@@ -20,8 +20,8 @@ export interface Reservation {
 }
 
 export interface ActiveFilters {
-    playerOne: { isActive: boolean };
-    playerTwo: { isActive: boolean };
+    playerOne: { isActive: boolean, isDisabled: boolean; };
+    playerTwo: { isActive: boolean, isDisabled: boolean; };
     allOpponentsOne: { isActive: boolean, isDisabled: boolean; };
     allOpponentsTwo: { isActive: boolean, isDisabled: boolean; };
     opponentOne: { isActive: boolean, isDisabled: boolean; };

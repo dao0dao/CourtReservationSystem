@@ -19,23 +19,30 @@ export class SearchingService {
       for (let i = 0; i < value.length; i++) {
         const word = value[i].toLocaleLowerCase();
         if (
-          name.toLocaleLowerCase().includes(word) ||
-          surname.toLocaleLowerCase().includes(word) ||
-          telephone?.toString().includes(word) ||
-          email?.toLocaleLowerCase().includes(word) ||
-          stringsName?.toLocaleLowerCase().includes(word) ||
-          balls?.toLocaleLowerCase().includes(word) ||
-          notes?.toLocaleLowerCase().includes(word)
+          name.toLocaleLowerCase().startsWith(word) ||
+          surname.toLocaleLowerCase().startsWith(word) ||
+          telephone?.toString().startsWith(word) ||
+          email?.toLocaleLowerCase().startsWith(word) ||
+          stringsName?.toLocaleLowerCase().startsWith(word) ||
+          balls?.toLocaleLowerCase().startsWith(word)
           // || priceSummer?.toString().includes(word) ||
           // priceWinter?.toString().includes(word) 
         ) {
           matches += 1;
         }
-        if ('niebieski'.includes(word) && court == 1) {
+        if ('niebieski'.startsWith(word) && court == 1) {
           matches += 1;
         }
-        if ('fioletowy'.includes(word) && court == 2) {
+        if ('fioletowy'.startsWith(word) && court == 2) {
           matches += 1;
+        }
+        if (notes) {
+          const notesWords = notes.toLocaleLowerCase().split(' ');
+          for (let note of notesWords) {
+            if (note.startsWith(word)) {
+              matches += 1;
+            }
+          }
         }
       }
       if (matches >= value.length) {

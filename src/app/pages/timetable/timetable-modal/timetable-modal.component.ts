@@ -24,9 +24,7 @@ export class TimetableModalComponent implements OnInit {
 
 
   playerOne: Player[] = [];
-  filteredPlayerOne: Player[] = [];
   playerTwo: Player[] = [];
-  filteredPlayerTwo: Player[] = [];
 
   form: FormGroup = new FormGroup({});
   getFormField(name: string): AbstractControl | null {
@@ -50,9 +48,7 @@ export class TimetableModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerOne = [...this.players];
-    this.filteredPlayerOne = [...this.players];
     this.playerTwo = [...this.players];
-    this.filteredPlayerTwo = [...this.players];
     this.setForm();
   }
 
@@ -149,6 +145,14 @@ export class TimetableModalComponent implements OnInit {
       this.handleSelectPlayerOne('');
     }
   }
+  handleKeyEnterTwo() {
+    const player = this.selectHandler.keyEnter(this.playerTwo);
+    if (player) {
+      this.handleSelectPlayerTwo(player.id!);
+    } else {
+      this.handleSelectPlayerTwo('');
+    }
+  }
 
   handleSelectPlayerOne(id: string) {
     this.getFormField('playerOne')?.setValue(id);
@@ -160,7 +164,18 @@ export class TimetableModalComponent implements OnInit {
     }
     this.form.updateValueAndValidity();
     this.handleChangeSelectOne();
+  }
 
+  handleSelectPlayerTwo(id: string) {
+    this.getFormField('playerTwo')?.setValue(id);
+    const player = this.playerTwo.find(pl => pl.id === id);
+    if (player) {
+      this.getFormField('selectTwoValue')?.setValue(player.name + ' ' + player.surname);
+    } else {
+      this.getFormField('selectTwoValue')?.setValue('');
+    }
+    this.form.updateValueAndValidity();
+    this.handleChangeSelectOne();
   }
 
   handleClearPlayerOne() {
@@ -170,8 +185,18 @@ export class TimetableModalComponent implements OnInit {
     this.handleChangeSelectOne();
   }
 
+  handleClearPlayerTwo() {
+    this.getFormField('playerTwo')?.setValue('');
+    this.getFormField('selectTwoValue')?.setValue('');
+    this.form.updateValueAndValidity();
+    this.handleChangeSelectOne();
+  }
+
   handleReduceListOne() {
-    // this.playerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.players)];
+    this.playerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.players)];
+  }
+  handleReduceListTwo() {
+    this.playerTwo = [...this.filter.reduceList(this.getFormField('selectTwoValue')?.value, this.players)];
   }
 
   handleIsPlayerChosen() {

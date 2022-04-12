@@ -20,7 +20,7 @@ export class HandleSelectService {
 
   toggleClick(event: any) {
     const listOne = event.target.closest('#listOne');
-    const listTwo = event.target.closest('#listOne');
+    const listTwo = event.target.closest('#listTwo');
     if (listOne && !this.isOneOpen) {
       this.isOneOpen = true;
     } else {

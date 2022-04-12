@@ -98,7 +98,8 @@
                         formControlName="selectOneValue"
                         [placeholder]="'Wybrany: ' + filter.findPlayerById(getFormField('playerOne')?.value, players)"
                         (keydown.Enter)="handleKeyEnterOne()"
-                        (keydown)="selectHandler.keyDown($event, 'one', playerOne.length); handleReduceListOne()"
+                        (keydown)="selectHandler.keyDown($event, 'one', playerOne.length)"
+                        (keyup)="handleReduceListOne()"
                     >
                     <ul
                         class="list"
@@ -166,7 +167,51 @@
                     >
                     <label for="list-2">Wybierz z listy:</label>
                 </div>
-                <select
+                <div class="block_input">
+                    <input
+                        type="hidden"
+                        formControlName="playerTwo"
+                    >
+                    <svg
+                        class="icon"
+                        (click)="handleClearPlayerTwo()"
+                    >
+                        <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+                    </svg>
+                    <input
+                        type="text"
+                        class="select"
+                        id="listTwo"
+                        formControlName="selectTwoValue"
+                        [placeholder]="'Wybrany: ' + filter.findPlayerById(getFormField('playerTwo')?.value, players)"
+                        (keydown.Enter)="handleKeyEnterTwo()"
+                        (keydown)="selectHandler.keyDown($event, 'two', playerOne.length)"
+                        (keyup)="handleReduceListTwo()"
+                    >
+                    <ul
+                        class="list"
+                        [ngClass]="{'list--open': selectHandler.isTwoOpen}"
+                    >
+                        <li
+                            class="list_element"
+                            [ngClass]="{'list_element--active': selectHandler.indexTwo === 0}"
+                            (click)="handleSelectPlayerTwo('')"
+                            (pointerenter)="selectHandler.mouseEnter($event)"
+                            (pointerleave)="selectHandler.mouseLeave($event)"
+                        ></li>
+                        <li
+                            class="list_element"
+                            *ngFor="let player of playerTwo; let i = index"
+                            [ngClass]="{'list_element--active': selectHandler.indexTwo === i+1}"
+                            (pointerenter)="selectHandler.mouseEnter($event)"
+                            (pointerleave)="selectHandler.mouseLeave($event)"
+                            (click)="handleSelectPlayerTwo(player.id!)"
+                        >
+                            {{player.name}} {{player.surname}}
+                        </li>
+                    </ul>
+                </div>
+                <!-- <select
                     class="select"
                     formControlName="playerTwo"
                     (change)="handleChangeSelectTwo()"
@@ -182,7 +227,7 @@
                     >
                         {{player.name}} {{player.surname}}
                     </option>
-                </select>
+                </select> -->
                 <div class="radio">
                     <input
                         type="radio"

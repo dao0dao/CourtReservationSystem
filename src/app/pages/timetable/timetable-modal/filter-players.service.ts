@@ -95,4 +95,51 @@ export class FilterPlayersService {
     return opponents;
   }
 
+  findPlayerById(id: string, arr: Player[]): string {
+    let string = '';
+    const player = arr.find(pl => pl.id === id);
+    if (player) {
+      string = player.surname + ' ' + player.name;
+    }
+    return string;
+  }
+
+  reduceList(input: string, array: Player[]): Player[] {
+    if (!input) {
+      return array;
+    }
+    const value = input.toLocaleLowerCase().split(' ');
+    const players: Player[] = [];
+    array.forEach(p => {
+      const { name, surname, telephone, email, priceSummer, priceWinter, court, stringsName, balls, notes } = p;
+      let matches: number = 0;
+      for (let i = 0; i < value.length; i++) {
+        const word = value[i].toLocaleLowerCase();
+        if (
+          name.toLocaleLowerCase().includes(word) ||
+          surname.toLocaleLowerCase().includes(word) ||
+          telephone?.toString().includes(word) ||
+          email?.toLocaleLowerCase().includes(word) ||
+          stringsName?.toLocaleLowerCase().includes(word) ||
+          balls?.toLocaleLowerCase().includes(word) ||
+          notes?.toLocaleLowerCase().includes(word)
+          // || priceSummer?.toString().includes(word) ||
+          // priceWinter?.toString().includes(word) 
+        ) {
+          matches += 1;
+        }
+        if ('niebieski'.includes(word) && court == 1) {
+          matches += 1;
+        }
+        if ('fioletowy'.includes(word) && court == 2) {
+          matches += 1;
+        }
+      }
+      if (matches >= value.length) {
+        players.push(p);
+      }
+    });
+    return players;
+  }
+
 }

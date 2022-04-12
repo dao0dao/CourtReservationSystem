@@ -1,4 +1,7 @@
-<div class="background">
+<div
+    class="background"
+    (click)="selectHandler.toggleClick($event)"
+>
     <div class="container">
         <p
             *ngIf="modalAction === 'edit'"
@@ -77,20 +80,49 @@
                     >
                     <label for="list">Wybierz z listy:</label>
                 </div>
-                <select
-                    class="select"
-                    formControlName="playerOne"
-                    (change)="handleChangeSelectOne()"
-                    [attr.disabled]="isListOne ? null : true"
-                >
-                    <option value></option>
-                    <option
-                        *ngFor="let player of playerOne"
-                        [value]="player.id"
+                <div class="block_input">
+                    <input
+                        type="hidden"
+                        formControlName="playerOne"
                     >
-                        {{player.name}} {{player.surname}}
-                    </option>
-                </select>
+                    <svg
+                        class="icon"
+                        (click)="handleClearPlayerOne()"
+                    >
+                        <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+                    </svg>
+                    <input
+                        type="text"
+                        class="select"
+                        id="listOne"
+                        formControlName="selectOneValue"
+                        [placeholder]="'Wybrany: ' + filter.findPlayerById(getFormField('playerOne')?.value, players)"
+                        (keydown.Enter)="handleKeyEnterOne()"
+                        (keydown)="selectHandler.keyDown($event, 'one', playerOne.length); handleReduceListOne()"
+                    >
+                    <ul
+                        class="list"
+                        [ngClass]="{'list--open': selectHandler.isOneOpen}"
+                    >
+                        <li
+                            class="list_element"
+                            [ngClass]="{'list_element--active': selectHandler.indexOne === 0}"
+                            (click)="handleSelectPlayerOne('')"
+                            (pointerenter)="selectHandler.mouseEnter($event)"
+                            (pointerleave)="selectHandler.mouseLeave($event)"
+                        ></li>
+                        <li
+                            class="list_element"
+                            *ngFor="let player of playerOne; let i = index"
+                            [ngClass]="{'list_element--active': selectHandler.indexOne === i+1}"
+                            (pointerenter)="selectHandler.mouseEnter($event)"
+                            (pointerleave)="selectHandler.mouseLeave($event)"
+                            (click)="handleSelectPlayerOne(player.id!)"
+                        >
+                            {{player.name}} {{player.surname}}
+                        </li>
+                    </ul>
+                </div>
                 <div class="radio">
                     <input
                         type="radio"

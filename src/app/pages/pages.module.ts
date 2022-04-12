@@ -36,7 +36,7 @@ import { TimetableModalComponent } from './timetable/timetable-modal/timetable-m
     PlayersListComponent,
     SearchWeekComponent,
     TimetableComponent,
-    TimetableModalComponent
+    TimetableModalComponent,
   ],
   imports: [
     CommonModule,

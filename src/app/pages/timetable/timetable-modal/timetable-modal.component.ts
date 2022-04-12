@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
 import { ActiveFilters } from '../intefaces';
 import { FilterPlayersService } from './filter-players.service';
+import { HandleSelectService } from './handle-select.service';
 
 @Component({
   selector: 'app-timetable-modal',
@@ -14,7 +15,7 @@ export class TimetableModalComponent implements OnInit {
 
   environment = environment;
 
-  constructor(private fb: FormBuilder, private filter: FilterPlayersService) { }
+  constructor(private fb: FormBuilder, public filter: FilterPlayersService, public selectHandler: HandleSelectService) { }
 
   @Input() modalAction: 'new' | 'edit' | undefined;
   @Input() players: Player[] = [];
@@ -23,7 +24,9 @@ export class TimetableModalComponent implements OnInit {
 
 
   playerOne: Player[] = [];
+  filteredPlayerOne: Player[] = [];
   playerTwo: Player[] = [];
+  filteredPlayerTwo: Player[] = [];
 
   form: FormGroup = new FormGroup({});
   getFormField(name: string): AbstractControl | null {
@@ -33,6 +36,8 @@ export class TimetableModalComponent implements OnInit {
   isListTwo: boolean = true;
   isPlayerChosen: boolean = false;
   isTimeChosen: boolean = false;
+  selectOneValue: string = '';
+  selectTwo: string = '';
 
   activeFilters: ActiveFilters = {
     playerOne: { isActive: false, isDisabled: false },
@@ -45,7 +50,9 @@ export class TimetableModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerOne = [...this.players];
+    this.filteredPlayerOne = [...this.players];
     this.playerTwo = [...this.players];
+    this.filteredPlayerTwo = [...this.players];
     this.setForm();
   }
 
@@ -66,6 +73,9 @@ export class TimetableModalComponent implements OnInit {
       // obsługa wyboru
       listOne: ['true'],
       listTwo: ['true'],
+      // tylko wyświetlenie
+      selectOneValue: [''],
+      selectTwoValue: [''],
     });
   }
 
@@ -131,10 +141,43 @@ export class TimetableModalComponent implements OnInit {
     this.refreshFilters('listTwo');
   }
 
+  handleKeyEnterOne() {
+    const player = this.selectHandler.keyEnter(this.playerOne);
+    if (player) {
+      this.handleSelectPlayerOne(player.id!);
+    } else {
+      this.handleSelectPlayerOne('');
+    }
+  }
+
+  handleSelectPlayerOne(id: string) {
+    this.getFormField('playerOne')?.setValue(id);
+    const player = this.playerOne.find(pl => pl.id === id);
+    if (player) {
+      this.getFormField('selectOneValue')?.setValue(player.name + ' ' + player.surname);
+    } else {
+      this.getFormField('selectOneValue')?.setValue('');
+    }
+    this.form.updateValueAndValidity();
+    this.handleChangeSelectOne();
+
+  }
+
+  handleClearPlayerOne() {
+    this.getFormField('playerOne')?.setValue('');
+    this.getFormField('selectOneValue')?.setValue('');
+    this.form.updateValueAndValidity();
+    this.handleChangeSelectOne();
+  }
+
+  handleReduceListOne() {
+    // this.playerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.players)];
+  }
+
   handleIsPlayerChosen() {
     const playerOne = this.getFormField('playerOne')?.value;
-    const playerTwo = this.getFormField('playerTwo')?.value;
     const guestOne = this.getFormField('guestOne')?.value;
+    const playerTwo = this.getFormField('playerTwo')?.value;
     const guestTwo = this.getFormField('guestTwo')?.value;
     if (
       (playerOne && this.isListOne) ||
@@ -155,20 +198,16 @@ export class TimetableModalComponent implements OnInit {
     if (playerOne && this.isListOne && !playerTwo && !this.activeFilters.playerTwo.isActive) {
       this.activeFilters.allOpponentsOne.isDisabled = false;
       this.activeFilters.opponentOne.isDisabled = false;
-      console.log(1)
     } else {
       this.activeFilters.allOpponentsOne.isDisabled = true;
       this.activeFilters.opponentOne.isDisabled = true;
-      console.log(2)
     }
     if (playerTwo && this.isListTwo && !playerOne && !this.activeFilters.playerOne.isActive) {
       this.activeFilters.allOpponentsTwo.isDisabled = false;
       this.activeFilters.opponentTwo.isDisabled = false;
-      console.log(3)
     } else {
       this.activeFilters.allOpponentsTwo.isDisabled = true;
       this.activeFilters.opponentTwo.isDisabled = true;
-      console.log(4)
     }
   }
 

@@ -22,6 +22,16 @@ $front-theme: mat.define-light-theme(
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
     letter-spacing: 2px;
+    scrollbar-width: thin;
+    scrollbar-color: $mainColorOne $background;
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        background-color: $background;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $mainColorOne;
+    }
 }
 button {
     cursor: pointer;

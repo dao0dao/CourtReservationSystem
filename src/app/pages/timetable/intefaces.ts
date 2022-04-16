@@ -12,12 +12,18 @@ export interface Reservation {
     zIndex: number;
 
     date: string;
-    time: string;
+    timeFrom: string;
+    timeTo: string;
     court: number;
-    playerOne: Player;
-    playerTwo: Player;
+    playerOne: Player | undefined;
+    playerTwo: Player | undefined;
+    guestOne: string;
+    guestTwo: string;
+
     isPayed: boolean;
 }
+
+export type ReservationForm = Pick<Reservation, 'date' | 'timeFrom' | 'timeTo' | 'court' | 'playerOne' | 'playerTwo' | 'guestOne' | 'guestTwo'>;
 
 export interface ActiveFilters {
     playerOne: { isActive: boolean, isDisabled: boolean; };

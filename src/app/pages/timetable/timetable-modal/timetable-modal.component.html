@@ -28,6 +28,7 @@
             class="container_body"
             [formGroup]="form"
             (ngSubmit)="submitForm()"
+            (keydown.enter)="$event.preventDefault()"
         >
             <p
                 *ngIf="modalAction === 'edit'"
@@ -86,17 +87,19 @@
                         formControlName="playerOne"
                     >
                     <svg
+                        [id]="isListOne ? 'listOneSvg' : ''"
                         class="icon"
-                        (click)="handleClearPlayerOne()"
                     >
-                        <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+                        <use [attr.xlink:href]="environment.svg +'#icon-arrow-down'"></use>
                     </svg>
                     <input
                         type="text"
                         class="select"
                         id="listOne"
                         formControlName="selectOneValue"
+                        autocomplete="off"
                         [placeholder]="'Wybrany: ' + filter.findPlayerById(getFormField('playerOne')?.value, players)"
+                        [attr.disabled]="isListOne ? null : true"
                         (keydown.Enter)="handleKeyEnterOne()"
                         (keydown)="selectHandler.keyDown($event, 'one', playerOne.length)"
                         (keyup)="handleReduceListOne()"
@@ -114,7 +117,7 @@
                         ></li>
                         <li
                             class="list_element"
-                            *ngFor="let player of playerOne; let i = index"
+                            *ngFor="let player of filteredPlayerOne; let i = index"
                             [ngClass]="{'list_element--active': selectHandler.indexOne === i+1}"
                             (pointerenter)="selectHandler.mouseEnter($event)"
                             (pointerleave)="selectHandler.mouseLeave($event)"
@@ -173,17 +176,19 @@
                         formControlName="playerTwo"
                     >
                     <svg
+                        [id]="isListTwo ? 'listTwoSvg' : ''"
                         class="icon"
-                        (click)="handleClearPlayerTwo()"
                     >
-                        <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+                        <use [attr.xlink:href]="environment.svg +'#icon-arrow-down'"></use>
                     </svg>
                     <input
                         type="text"
                         class="select"
                         id="listTwo"
+                        autocomplete="off"
                         formControlName="selectTwoValue"
                         [placeholder]="'Wybrany: ' + filter.findPlayerById(getFormField('playerTwo')?.value, players)"
+                        [attr.disabled]="isListTwo ? null : true"
                         (keydown.Enter)="handleKeyEnterTwo()"
                         (keydown)="selectHandler.keyDown($event, 'two', playerOne.length)"
                         (keyup)="handleReduceListTwo()"
@@ -201,7 +206,7 @@
                         ></li>
                         <li
                             class="list_element"
-                            *ngFor="let player of playerTwo; let i = index"
+                            *ngFor="let player of filteredPlayerTwo; let i = index"
                             [ngClass]="{'list_element--active': selectHandler.indexTwo === i+1}"
                             (pointerenter)="selectHandler.mouseEnter($event)"
                             (pointerleave)="selectHandler.mouseLeave($event)"
@@ -211,23 +216,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- <select
-                    class="select"
-                    formControlName="playerTwo"
-                    (change)="handleChangeSelectTwo()"
-                    [attr.disabled]="isListTwo ? null : true"
-                >
-                    <option
-                        value
-                        selected
-                    ></option>
-                    <option
-                        *ngFor="let player of playerTwo"
-                        [value]="player.id"
-                    >
-                        {{player.name}} {{player.surname}}
-                    </option>
-                </select> -->
                 <div class="radio">
                     <input
                         type="radio"

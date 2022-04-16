@@ -20,13 +20,15 @@ export class HandleSelectService {
 
   toggleClick(event: any) {
     const listOne = event.target.closest('#listOne');
+    const listOneSvg = event.target.id === "listOneSvg" ? true : false;
     const listTwo = event.target.closest('#listTwo');
-    if (listOne && !this.isOneOpen) {
+    const listTwoSvg = event.target.id === "listTwoSvg" ? true : false;
+    if ((listOne || listOneSvg) && !this.isOneOpen) {
       this.isOneOpen = true;
     } else {
       this.isOneOpen = false;
     }
-    if (listTwo && !this.isTwoOpen) {
+    if ((listTwo || listTwoSvg) && !this.isTwoOpen) {
       this.isTwoOpen = true;
     } else {
       this.isTwoOpen = false;
@@ -87,8 +89,15 @@ export class HandleSelectService {
     }
   }
 
-  keyEnter(players: Player[]): Player | undefined {
-    const player = players.find((pl, index) => (index + 1) === this.indexOne);
+  keyEnter(index: 'listOne' | 'listTwo', players: Player[]): Player | undefined {
+    let elIndex: number | undefined;
+    if (index === 'listOne') {
+      elIndex = this.indexOne;
+    }
+    if (index === 'listTwo') {
+      elIndex = this.indexTwo;
+    }
+    const player = players.find((pl, index) => (index + 1) === elIndex);
     this.indexOne = undefined;
     this.indexTwo = undefined;
     this.isOneOpen = false;

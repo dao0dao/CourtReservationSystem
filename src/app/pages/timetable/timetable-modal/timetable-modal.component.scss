@@ -137,9 +137,9 @@
     .icon {
         position: absolute;
         top: 50%;
-        right: 15%;
-        max-height: 20px;
-        max-width: 20px;
+        right: calc(15% + 10px);
+        max-height: 10px;
+        max-width: 10px;
         transform: translate(100%, -50%);
         fill: $mainColorFour;
         cursor: pointer;
@@ -182,17 +182,7 @@
         background-color: hsl(0deg 0% 95%);
         font-size: 0.8em;
         list-style: none;
-        scrollbar-width: thin;
-        scrollbar-color: $mainColorOne $background;
         cursor: pointer;
-        &::-webkit-scrollbar {
-            width: 5px;
-            height: 8px;
-            background-color: $background;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: $mainColorOne;
-        }
         &--open {
             display: block;
         }

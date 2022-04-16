@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
-import { ActiveFilters } from '../intefaces';
+import { ActiveFilters, ReservationForm } from '../intefaces';
 import { FilterPlayersService } from './filter-players.service';
 import { HandleSelectService } from './handle-select.service';
 
@@ -21,10 +21,13 @@ export class TimetableModalComponent implements OnInit {
   @Input() players: Player[] = [];
   @Input() date: string = '';
   @Output() outputCloseModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() outputReservationForm: EventEmitter<ReservationForm> = new EventEmitter<ReservationForm>();
 
 
   playerOne: Player[] = [];
   playerTwo: Player[] = [];
+  filteredPlayerOne: Player[] = [];
+  filteredPlayerTwo: Player[] = [];
 
   form: FormGroup = new FormGroup({});
   getFormField(name: string): AbstractControl | null {
@@ -49,6 +52,8 @@ export class TimetableModalComponent implements OnInit {
   ngOnInit(): void {
     this.playerOne = [...this.players];
     this.playerTwo = [...this.players];
+    this.filteredPlayerOne = [...this.players];
+    this.filteredPlayerTwo = [...this.players];
     this.setForm();
   }
 
@@ -138,7 +143,7 @@ export class TimetableModalComponent implements OnInit {
   }
 
   handleKeyEnterOne() {
-    const player = this.selectHandler.keyEnter(this.playerOne);
+    const player = this.selectHandler.keyEnter('listOne', this.filteredPlayerOne);
     if (player) {
       this.handleSelectPlayerOne(player.id!);
     } else {
@@ -146,7 +151,7 @@ export class TimetableModalComponent implements OnInit {
     }
   }
   handleKeyEnterTwo() {
-    const player = this.selectHandler.keyEnter(this.playerTwo);
+    const player = this.selectHandler.keyEnter('listTwo', this.filteredPlayerTwo);
     if (player) {
       this.handleSelectPlayerTwo(player.id!);
     } else {
@@ -193,11 +198,22 @@ export class TimetableModalComponent implements OnInit {
   }
 
   handleReduceListOne() {
-    this.playerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.players)];
+    this.filteredPlayerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.playerOne)];
   }
+
+  resetSelectValueOne() {
+    this.getFormField('selectOneValue')?.setValue('');
+  }
+
+  resetSelectValueTwo() {
+    this.getFormField('selectTwoValue')?.setValue('');
+  }
+
   handleReduceListTwo() {
-    this.playerTwo = [...this.filter.reduceList(this.getFormField('selectTwoValue')?.value, this.players)];
+    this.filteredPlayerTwo = [...this.filter.reduceList(this.getFormField('selectTwoValue')?.value, this.playerTwo)];
   }
+
+
 
   handleIsPlayerChosen() {
     const playerOne = this.getFormField('playerOne')?.value;
@@ -240,12 +256,14 @@ export class TimetableModalComponent implements OnInit {
     this.activeFilters.allOpponentsOne.isActive = false;
     this.activeFilters.opponentOne.isActive = false;
     this.playerTwo = [...this.players];
+    this.filteredPlayerTwo = [...this.players];
   }
 
   private resetOponentFilterTwo() {
     this.activeFilters.allOpponentsTwo.isActive = false;
     this.activeFilters.opponentTwo.isActive = false;
     this.playerOne = [...this.players];
+    this.filteredPlayerOne = [...this.players];
   }
 
   private findPlayer(): Player[] {
@@ -261,9 +279,11 @@ export class TimetableModalComponent implements OnInit {
   }
 
   findPlayerOne() {
+    this.resetSelectValueOne();
     if (!this.activeFilters.playerOne.isActive) {
       this.switchTypeToList('listOne');
       this.playerOne = [...this.findPlayer()];
+      this.filteredPlayerOne = [...this.findPlayer()];
       this.activeFilters.playerOne.isActive = true;
       this.activeFilters.allOpponentsTwo.isDisabled = true;
       this.activeFilters.opponentTwo.isDisabled = true;
@@ -271,6 +291,7 @@ export class TimetableModalComponent implements OnInit {
       this.activeFilters.allOpponentsTwo.isDisabled = false;
     } else {
       this.playerOne = [...this.players];
+      this.filteredPlayerOne = [...this.players];
       this.activeFilters.playerOne.isActive = false;
       this.activeFilters.allOpponentsTwo.isDisabled = false;
       this.activeFilters.opponentTwo.isDisabled = false;
@@ -287,15 +308,20 @@ export class TimetableModalComponent implements OnInit {
     if (!this.activeFilters.allOpponentsOne.isActive || refresh) {
       if (refresh) {
         this.getFormField('playerTwo')?.setValue('');
+      } else {
+        this.resetSelectValueTwo();
       }
       const playerId = this.getFormField('playerOne')?.value;
       this.switchTypeToList('listTwo');
       this.playerTwo = [...this.findAllOpponents(playerId)];
+      this.filteredPlayerTwo = [...this.findAllOpponents(playerId)];
       this.activeFilters.playerTwo.isDisabled = true;
       this.activeFilters.opponentOne.isActive = false;
       this.activeFilters.allOpponentsOne.isActive = true;
     } else {
+      this.resetSelectValueTwo();
       this.playerTwo = [...this.players];
+      this.filteredPlayerTwo = [...this.players];
       this.activeFilters.playerTwo.isDisabled = false;
       this.activeFilters.allOpponentsOne.isActive = false;
       if (this.activeFilters.allOpponentsTwo.isActive || this.activeFilters.opponentTwo.isActive) {
@@ -308,15 +334,20 @@ export class TimetableModalComponent implements OnInit {
     if (!this.activeFilters.opponentOne.isActive || refresh) {
       if (refresh) {
         this.getFormField('playerTwo')?.setValue('');
+      } else {
+        this.resetSelectValueTwo();
       }
       const playerId = this.getFormField('playerOne')?.value;
       this.switchTypeToList('listTwo');
       this.playerTwo = [...this.findOpponentsOnHour(playerId)];
+      this.filteredPlayerTwo = [...this.findOpponentsOnHour(playerId)];
       this.activeFilters.playerTwo.isDisabled = true;
       this.activeFilters.opponentOne.isActive = true;
       this.activeFilters.allOpponentsOne.isActive = false;
     } else {
+      this.resetSelectValueTwo();
       this.playerTwo = [...this.players];
+      this.filteredPlayerTwo = [...this.players];
       this.activeFilters.playerTwo.isDisabled = false;
       this.activeFilters.opponentOne.isActive = false;
       if (this.activeFilters.allOpponentsTwo.isActive || this.activeFilters.opponentTwo.isActive) {
@@ -326,9 +357,11 @@ export class TimetableModalComponent implements OnInit {
   }
 
   findPlayerTwo() {
+    this.resetSelectValueTwo();
     if (!this.activeFilters.playerTwo.isActive) {
       this.switchTypeToList('listTwo');
       this.playerTwo = [...this.findPlayer()];
+      this.filteredPlayerTwo = [...this.findPlayer()];
       this.activeFilters.playerTwo.isActive = true;
       this.activeFilters.allOpponentsOne.isDisabled = true;
       this.activeFilters.opponentOne.isDisabled = true;
@@ -336,6 +369,7 @@ export class TimetableModalComponent implements OnInit {
       this.activeFilters.allOpponentsOne.isDisabled = true;
     } else {
       this.playerTwo = [...this.players];
+      this.filteredPlayerTwo = [...this.players];
       this.activeFilters.playerTwo.isActive = false;
       this.activeFilters.allOpponentsOne.isDisabled = false;
       this.activeFilters.opponentOne.isDisabled = false;
@@ -349,15 +383,20 @@ export class TimetableModalComponent implements OnInit {
     if (!this.activeFilters.allOpponentsTwo.isActive || refresh) {
       if (refresh) {
         this.getFormField('playerOne')?.setValue('');
+      } else {
+        this.resetSelectValueOne();
       }
       const playerId = this.getFormField('playerTwo')?.value;
       this.switchTypeToList('listOne');
       this.playerOne = [...this.findAllOpponents(playerId)];
+      this.filteredPlayerOne = [...this.findAllOpponents(playerId)];
       this.activeFilters.playerOne.isDisabled = true;
       this.activeFilters.opponentTwo.isActive = false;
       this.activeFilters.allOpponentsTwo.isActive = true;
     } else {
+      this.resetSelectValueOne();
       this.playerTwo = [...this.players];
+      this.filteredPlayerTwo = [...this.players];
       this.activeFilters.playerOne.isDisabled = false;
       this.activeFilters.allOpponentsTwo.isActive = false;
       if (this.activeFilters.allOpponentsOne.isActive || this.activeFilters.opponentOne.isActive) {
@@ -370,15 +409,20 @@ export class TimetableModalComponent implements OnInit {
     if (!this.activeFilters.opponentTwo.isActive || refresh) {
       if (refresh) {
         this.getFormField('playerOne')?.setValue('');
+      } else {
+        this.resetSelectValueOne();
       }
       const playerId = this.getFormField('playerTwo')?.value;
       this.switchTypeToList('listOne');
       this.playerOne = [...this.findOpponentsOnHour(playerId)];
+      this.filteredPlayerOne = [...this.findOpponentsOnHour(playerId)];
       this.activeFilters.playerOne.isDisabled = true;
       this.activeFilters.opponentTwo.isActive = true;
       this.activeFilters.allOpponentsTwo.isActive = false;
     } else {
+      this.resetSelectValueOne();
       this.playerOne = [...this.players];
+      this.filteredPlayerOne = [...this.players];
       this.activeFilters.playerOne.isDisabled = false;
       this.activeFilters.opponentTwo.isActive = false;
       if (this.activeFilters.allOpponentsOne.isActive || this.activeFilters.opponentOne.isActive) {
@@ -393,11 +437,6 @@ export class TimetableModalComponent implements OnInit {
       this.activeFilters.playerTwo.isDisabled = false;
       return;
     }
-    if (list === 'listTwo' && this.getFormField('playerTwo')?.value == '') {
-      this.resetOponentFilterTwo();
-      this.activeFilters.playerOne.isDisabled = false;
-      return;
-    }
     if (list === 'listOne' && this.getFormField('playerOne')?.value != '') {
       if (this.activeFilters.allOpponentsOne.isActive) {
         this.findAllOpponentsOne(true);
@@ -407,6 +446,11 @@ export class TimetableModalComponent implements OnInit {
         this.findOpponentOneOnHour(true);
         return;
       }
+    }
+    if (list === 'listTwo' && this.getFormField('playerTwo')?.value == '') {
+      this.resetOponentFilterTwo();
+      this.activeFilters.playerOne.isDisabled = false;
+      return;
     }
     if (list === 'listTwo' && this.getFormField('playerTwo')?.value != '') {
       if (this.activeFilters.allOpponentsTwo.isActive) {
@@ -421,7 +465,21 @@ export class TimetableModalComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.form.value);
+    const date: string = this.getFormField('date')?.value;
+    const timeFrom: string = this.getFormField('from')?.value;
+    const timeTo: string = this.getFormField('to')?.value;
+    const court: number = this.getFormField('court')?.value;
+    const playerOne: Player | undefined = this.players.find(pl => pl.id === this.getFormField('playerOne')?.value);
+    const playerTwo: Player | undefined = this.players.find(pl => pl.id === this.getFormField('playerTwo')?.value);
+    const guestOne: string = this.getFormField('guestOne')?.value;
+    const guestTwo: string = this.getFormField('guestTwo')?.value;
+
+    const form: ReservationForm = {
+      date, timeFrom, timeTo, court, playerOne, playerTwo,
+      guestOne, guestTwo
+    };
+    this.outputReservationForm.emit(form);
+    this.outputCloseModal.emit(true);
   }
 
 }

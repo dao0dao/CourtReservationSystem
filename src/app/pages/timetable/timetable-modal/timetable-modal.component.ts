@@ -464,6 +464,11 @@ export class TimetableModalComponent implements OnInit {
     }
   }
 
+  findPhone(id: string): number | undefined {
+    const player = this.players.find(pl => pl.id === id);
+    return player?.telephone;
+  }
+
   submitForm() {
     const date: string = this.getFormField('date')?.value;
     const timeFrom: string = this.getFormField('from')?.value;

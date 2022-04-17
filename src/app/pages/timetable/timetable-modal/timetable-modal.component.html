@@ -86,9 +86,26 @@
                         type="hidden"
                         formControlName="playerOne"
                     >
+                    <div
+                        *ngIf="getFormField('playerOne')?.value"
+                        class="icon icon--phone"
+                        [ngClass]="{'icon--disabled': !isListOne}"
+                    >
+                        <a [href]="'tel:+48'+findPhone(getFormField('playerOne')?.value)">
+                            <svg class="call">
+                                <use [attr.xlink:href]="environment.svg +'#icon-phone'"></use>
+                            </svg>
+                        </a>
+                        <a [href]="'sms:+48'+findPhone(getFormField('playerOne')?.value)">
+                            <svg class="sms">
+                                <use [attr.xlink:href]="environment.svg +'#icon-sms'"></use>
+                            </svg>
+                        </a>
+                    </div>
                     <svg
                         [id]="isListOne ? 'listOneSvg' : ''"
                         class="icon"
+                        [ngClass]="{'icon--disabled': !isListOne}"
                     >
                         <use [attr.xlink:href]="environment.svg +'#icon-arrow-down'"></use>
                     </svg>
@@ -175,9 +192,26 @@
                         type="hidden"
                         formControlName="playerTwo"
                     >
+                    <div
+                        *ngIf="getFormField('playerTwo')?.value"
+                        class="icon icon--phone"
+                        [ngClass]="{'icon--disabled': !isListOne}"
+                    >
+                        <a [href]="'tel:+48'+findPhone(getFormField('playerTwo')?.value)">
+                            <svg class="call">
+                                <use [attr.xlink:href]="environment.svg +'#icon-phone'"></use>
+                            </svg>
+                        </a>
+                        <a [href]="'sms:+48'+findPhone(getFormField('playerTwo')?.value)">
+                            <svg class="sms">
+                                <use [attr.xlink:href]="environment.svg +'#icon-sms'"></use>
+                            </svg>
+                        </a>
+                    </div>
                     <svg
                         [id]="isListTwo ? 'listTwoSvg' : ''"
                         class="icon"
+                        [ngClass]="{'icon--disabled': !isListTwo}"
                     >
                         <use [attr.xlink:href]="environment.svg +'#icon-arrow-down'"></use>
                     </svg>

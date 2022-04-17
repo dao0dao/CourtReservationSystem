@@ -14,7 +14,7 @@
 }
 .container {
     position: relative;
-    width: 95%;
+    width: 98%;
     height: 95%;
     padding: 15px;
     background-color: $clearWhite;
@@ -30,7 +30,7 @@
 .btnX {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 4px;
     width: 30px;
     height: 30px;
     background-color: $clearWhite;
@@ -87,7 +87,7 @@
         }
     }
     .radio {
-        margin: 0.5rem 0;
+        margin: 1rem 0;
         padding-left: 5px;
         display: flex;
         justify-content: flex-start;
@@ -137,12 +137,52 @@
     .icon {
         position: absolute;
         top: 50%;
-        right: calc(15% + 10px);
+        right: calc(25% + 10px);
         max-height: 10px;
         max-width: 10px;
         transform: translate(100%, -50%);
-        fill: $mainColorFour;
+        fill: $mainColorTwo;
         cursor: pointer;
+        &--phone {
+            top: 0;
+            right: 0;
+            transform: none;
+            max-height: unset;
+            max-width: unset;
+            transform: none;
+            a {
+                width: 20px;
+                height: 20px;
+                margin: 0 7px;
+                display: inline-block;
+            }
+            .call,
+            .sms {
+                width: 100%;
+                height: 100%;
+            }
+            .call {
+                fill: $confirm;
+            }
+            .sms {
+                fill: $yellow;
+            }
+        }
+        &--disabled {
+            fill: $mainColorFour;
+            cursor: auto;
+            a {
+                pointer-events: none;
+                cursor: auto;
+            }
+            .call,
+            .sms {
+                fill: $mainColorFour;
+            }
+        }
+    }
+    input.select {
+        margin-left: 5%;
     }
     .select {
         width: 70%;
@@ -256,6 +296,7 @@
         }
     }
     .btnX {
+        right: 0;
         width: 35px;
         height: 35px;
         transform: translate(50%, -50%);
@@ -273,6 +314,15 @@
         }
         &--add {
             flex-basis: 100%;
+        }
+        .icon {
+            right: calc(15% + 10px);
+        }
+        .icon--phone {
+            display: none;
+        }
+        input.select {
+            margin-left: auto;
         }
     }
 }

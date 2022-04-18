@@ -45,6 +45,8 @@ export class TimetableModalComponent implements OnInit {
   isMinutesCorrect: boolean = true;
   isTimeLongEnough: boolean = true;
 
+  isSending: boolean = false;
+
   activeFilters: ActiveFilters = {
     playerOne: { isActive: false, isDisabled: false },
     playerTwo: { isActive: false, isDisabled: false },
@@ -500,6 +502,7 @@ export class TimetableModalComponent implements OnInit {
         guestOne, guestTwo
       }
     };
+    this.isSending = true;
     this.outputReservationForm.emit(form);
   }
 

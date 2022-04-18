@@ -78,7 +78,6 @@ export class TimetableComponent implements OnInit {
     if (this.modalAction === 'edit') {
 
     }
-    this.closeModal();
   }
 
   addReservation(input: ReservationForm) {
@@ -103,18 +102,38 @@ export class TimetableComponent implements OnInit {
       },
       isPayed
     };
-    this.reservations.push(newReservation);
+    this.api.addReservation(newReservation).subscribe({
+      next: (res) => {
+        newReservation.id = res.id;
+        this.reservations.push(newReservation);
+        this.closeModal();
+      },
+      error: (err) => {
+        this.closeModal();
+      }
+    });
 
   }
 
-
-
-  moveRight(event: any) {
-
+  moveLeft(res: Reservation) {
+    if (res.form.court !== '1') {
+      let court: number = parseFloat(res.form.court);
+      court -= 1;
+      const translateX = this.reservationService.setTransformX(court.toString());
+      res.timetable.transformX = translateX;
+      res.form.court = court.toString();
+    }
   }
 
-  moveLeft(event: any) {
-
+  moveRight(res: Reservation) {
+    if (res.form.court !== '3') {
+      let court: number = parseFloat(res.form.court);
+      court += 1;
+      const translateX = this.reservationService.setTransformX(court.toString());
+      res.timetable.transformX = translateX;
+      res.form.court = court.toString();
+    }
   }
+
 
 }

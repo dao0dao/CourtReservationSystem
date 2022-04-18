@@ -88,7 +88,8 @@
                         'reservation--paid': res.isPayed
                     }"
                     [ngStyle]="{
-                        'transform': 'translate3d(' + res.timetable.transformX + 'px, ' + res.timetable.transformY + 'px, 0px)',
+                        'left': res.timetable.transformX + 'px',
+                        'transform': 'translate3d( 0px, ' + res.timetable.transformY + 'px, 0px)',
                         'z-index': res.timetable.zIndex,
                         'height': res.timetable.ceilHeight +'px'
                     }"
@@ -133,7 +134,10 @@
                         </p>
                     </div>
                     <div class="reservation_footer">
-                        <button (click)="moveLeft($event)">
+                        <button
+                            (click)="moveLeft(res)"
+                            [disabled]="res.form.court == '1'"
+                        >
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
                             </svg>
@@ -144,7 +148,10 @@
                                 <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
                             </svg>
                         </button>
-                        <button (click)="moveRight($event)">
+                        <button
+                            (click)="moveRight(res)"
+                            [disabled]="res.form.court == '3'"
+                        >
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
                             </svg>

@@ -52,6 +52,7 @@
                         class="input"
                         type="time"
                         id="from"
+                        step="1500"
                         formControlName="from"
                         (change)="handleIsTimeChosen()"
                     >
@@ -60,10 +61,29 @@
                         class="input"
                         type="time"
                         id="to"
+                        step="1500"
                         formControlName="to"
                         (change)="handleIsTimeChosen()"
                     >
                 </div>
+                <p
+                    *ngIf="!isTimeLongEnough"
+                    class="error"
+                >
+                    Min. czas gry: 30 min
+                </p>
+                <p
+                    *ngIf="!isTimeCorrect"
+                    class="error"
+                >
+                    Błędny czas startu lub końca
+                </p>
+                <p
+                    *ngIf="!isMinutesCorrect"
+                    class="error"
+                >
+                    Min. co 15 min
+                </p>
             </div>
             <div class="block">
                 <div class="block_name">
@@ -364,7 +384,7 @@
                 <button
                     type="submit"
                     class="btn btn--add"
-                    [disabled]="form.invalid || !isPlayerChosen"
+                    [disabled]="form.invalid || !isPlayerChosen || !isTimeCorrect || !isMinutesCorrect || !isTimeLongEnough"
                 >
                     Zapisz
                 </button>

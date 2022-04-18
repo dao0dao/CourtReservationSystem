@@ -86,6 +86,12 @@
             background-color: $background;
         }
     }
+    .error {
+        margin: 5px 0;
+        font-size: 0.7em;
+        text-align: center;
+        color: $mainColorOne;
+    }
     .radio {
         margin: 1rem 0;
         padding-left: 5px;

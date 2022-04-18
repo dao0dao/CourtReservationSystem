@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
 import { ActiveFilters, ReservationForm } from '../intefaces';
 import { FilterPlayersService } from './filter-players.service';
+import { HandDateService } from './hand-date.service';
 import { HandleSelectService } from './handle-select.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class TimetableModalComponent implements OnInit {
 
   environment = environment;
 
-  constructor(private fb: FormBuilder, public filter: FilterPlayersService, public selectHandler: HandleSelectService) { }
+  constructor(private fb: FormBuilder, public filter: FilterPlayersService, public selectHandler: HandleSelectService, private dateService: HandDateService) { }
 
   @Input() modalAction: 'new' | 'edit' | undefined;
   @Input() players: Player[] = [];
@@ -39,6 +40,10 @@ export class TimetableModalComponent implements OnInit {
   isTimeChosen: boolean = false;
   selectOneValue: string = '';
   selectTwo: string = '';
+
+  isTimeCorrect: boolean = true;
+  isMinutesCorrect: boolean = true;
+  isTimeLongEnough: boolean = true;
 
   activeFilters: ActiveFilters = {
     playerOne: { isActive: false, isDisabled: false },
@@ -64,8 +69,8 @@ export class TimetableModalComponent implements OnInit {
   setForm() {
     this.form = this.fb.group({
       date: [this.date, [Validators.required]],
-      from: [this.date, [Validators.required]],
-      to: [this.date, [Validators.required]],
+      from: ['', [Validators.required]],
+      to: ['', [Validators.required]],
       playerOne: [''],
       playerTwo: [''],
       guestOne: [''],
@@ -81,7 +86,17 @@ export class TimetableModalComponent implements OnInit {
   }
 
   handleIsTimeChosen() {
+    if (this.getFormField('from')?.value.length == 5) {
+      this.isMinutesCorrect = this.dateService.checkIsQuarterOfHour(this.getFormField('from')?.value);
+    }
+    if (this.getFormField('to')?.value.length == 5) {
+      this.isMinutesCorrect = this.dateService.checkIsQuarterOfHour(this.getFormField('to')?.value);
+    }
     if (this.getFormField('from')?.value.length == 5 && this.getFormField('to')?.value.length == 5) {
+      this.isTimeCorrect = this.dateService.checkIsHourCorrect(this.getFormField('from')?.value, this.getFormField('to')?.value);
+      this.isTimeLongEnough = this.dateService.checkIsLongEnough(this.getFormField('from')?.value, this.getFormField('to')?.value);
+    }
+    if (this.getFormField('from')?.value.length == 5 && this.getFormField('to')?.value.length == 5 && this.isTimeCorrect && this.isMinutesCorrect) {
       this.isTimeChosen = true;
     } else {
       this.isTimeChosen = false;

@@ -5,25 +5,32 @@ export interface TimeTable {
 }
 
 export interface Reservation {
-    id: string;
-    transformY: number;
-    transformX: number;
-    multiplierY: number;
-    zIndex: number;
+    id?: string;
+    timetable: {
+        transformY: number;
+        transformX: number;
+        ceilHeight: number;
+        zIndex: number;
+    };
+    form: {
+        date: string;
+        timeFrom: string;
+        timeTo: string;
+        court: string;
+        playerOne: Player | undefined;
+        playerTwo: Player | undefined;
+        guestOne: string;
+        guestTwo: string;
+    };
+    payment: {
+        hourCount: number;
+    };
 
-    date: string;
-    timeFrom: string;
-    timeTo: string;
-    court: number;
-    playerOne: Player | undefined;
-    playerTwo: Player | undefined;
-    guestOne: string;
-    guestTwo: string;
-
+    isEditable?: boolean;
     isPayed: boolean;
 }
 
-export type ReservationForm = Pick<Reservation, 'date' | 'timeFrom' | 'timeTo' | 'court' | 'playerOne' | 'playerTwo' | 'guestOne' | 'guestTwo'>;
+export type ReservationForm = Pick<Reservation, 'form'>;
 
 export interface ActiveFilters {
     playerOne: { isActive: boolean, isDisabled: boolean; };

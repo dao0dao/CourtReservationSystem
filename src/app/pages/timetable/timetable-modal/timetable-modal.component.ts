@@ -473,18 +473,19 @@ export class TimetableModalComponent implements OnInit {
     const date: string = this.getFormField('date')?.value;
     const timeFrom: string = this.getFormField('from')?.value;
     const timeTo: string = this.getFormField('to')?.value;
-    const court: number = this.getFormField('court')?.value;
+    const court: string = this.getFormField('court')?.value;
     const playerOne: Player | undefined = this.players.find(pl => pl.id === this.getFormField('playerOne')?.value);
     const playerTwo: Player | undefined = this.players.find(pl => pl.id === this.getFormField('playerTwo')?.value);
     const guestOne: string = this.getFormField('guestOne')?.value;
     const guestTwo: string = this.getFormField('guestTwo')?.value;
 
     const form: ReservationForm = {
-      date, timeFrom, timeTo, court, playerOne, playerTwo,
-      guestOne, guestTwo
+      form: {
+        date, timeFrom, timeTo, court, playerOne, playerTwo,
+        guestOne, guestTwo
+      }
     };
     this.outputReservationForm.emit(form);
-    this.outputCloseModal.emit(true);
   }
 
 }

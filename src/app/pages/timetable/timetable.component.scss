@@ -150,11 +150,12 @@
                 display: flex;
                 align-items: center;
                 button {
-                    margin: 0 2px 2px;
+                    margin: 2px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     fill: $mainColorOne;
+                    color: $mainColorOne;
                     border: none;
                     background-color: transparent;
                     &[disabled] {

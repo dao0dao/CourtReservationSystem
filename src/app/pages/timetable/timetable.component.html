@@ -78,54 +78,25 @@
             </div>
             <div class="board">
                 <div
-                    class="reservation reservation--small reservation--paid"
+                    *ngFor="let res of reservations"
                     cdkDragBoundary=".board"
                     cdkDragLockAxis="y"
                     cdkDrag
-                    [style.transform]="'translate3d(0px, 0px, 0px)'"
-                >
-                    <div class="reservation_head">
-                        <p class="reservation_hour">10:20 - 12:20</p>
-                        <button>
-                            <svg>
-                                <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    <div
-                        class="reservation_main"
-                        cdkDragHandle
-                    >
-                        <p class="reservation_player">J. Brzechwa</p>
-                        <p class="reservation_player">T. Pokorniecki</p>
-                    </div>
-                    <div class="reservation_footer">
-                        <button (click)="moveLeft($event)">
-                            <svg>
-                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
-                            </svg>
-                        </button>
-                        <button>
-                            <svg>
-                                <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
-                            </svg>
-                        </button>
-                        <button (click)="moveRight($event)">
-                            <svg>
-                                <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div
                     class="reservation"
-                    cdkDragBoundary=".board"
-                    cdkDragLockAxis="y"
-                    cdkDrag
-                    [style.transform]="'translate3d(0px, 80px, 0px)'"
+                    [ngClass]="{
+                        'reservation--small': res.timetable.ceilHeight <= 80,
+                        'reservation--paid': res.isPayed
+                    }"
+                    [ngStyle]="{
+                        'transform': 'translate3d(' + res.timetable.transformX + 'px, ' + res.timetable.transformY + 'px, 0px)',
+                        'z-index': res.timetable.zIndex,
+                        'height': res.timetable.ceilHeight +'px'
+                    }"
                 >
                     <div class="reservation_head">
-                        <p class="reservation_hour">10:20 - 12:20</p>
+                        <p class="reservation_hour">
+                            {{res.form.timeFrom}} - {{res.form.timeTo}}
+                        </p>
                         <button (click)="editReservation()">
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
@@ -136,8 +107,30 @@
                         class="reservation_main"
                         cdkDragHandle
                     >
-                        <p class="reservation_player">J. Brzechwa</p>
-                        <p class="reservation_player">T. Pokorniecki</p>
+                        <p
+                            *ngIf="res.form.playerOne"
+                            class="reservation_player"
+                        >
+                            {{res.form.playerOne.name.slice(0,1)+ '. '}}{{res.form.playerOne.surname}}
+                        </p>
+                        <p
+                            *ngIf="res.form.guestOne"
+                            class="reservation_player"
+                        >
+                            {{res.form.guestOne}}
+                        </p>
+                        <p
+                            *ngIf="res.form.playerTwo"
+                            class="reservation_player"
+                        >
+                            {{res.form.playerTwo.name.slice(0,1)+ '. '}}{{res.form.playerTwo.surname}}
+                        </p>
+                        <p
+                            *ngIf="res.form.guestTwo"
+                            class="reservation_player"
+                        >
+                            {{res.form.guestTwo}}
+                        </p>
                     </div>
                     <div class="reservation_footer">
                         <button (click)="moveLeft($event)">
@@ -146,6 +139,7 @@
                             </svg>
                         </button>
                         <button>
+                            {{res.timetable.zIndex}}
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
                             </svg>
@@ -166,5 +160,6 @@
         [players]="players"
         [date]="date"
         (outputCloseModal)="closeModal()"
+        (outputReservationForm)="submit($event)"
     ></app-timetable-modal>
 </div>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Reservation, ReservationForm, TimeTable } from './intefaces';
+import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL } from './intefaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
 import { DatePipe } from '@angular/common';
 import { ReservationService } from './reservation.service';
+import { CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 
 @Component({
   selector: 'app-timetable',
@@ -35,6 +36,11 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit(): void {
     this.date = this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!;
+    this.api.getAllReservations(this.date).subscribe({
+      next: (res) => {
+        this.reservations = res.reservations;
+      }
+    });
     this.api.getAllPlayers().subscribe({
       next: (res) => { this.players = res; }
     });
@@ -82,6 +88,17 @@ export class TimetableComponent implements OnInit {
 
   addReservation(input: ReservationForm) {
     const { form } = input;
+    const { date, timeFrom, timeTo, court, playerOne, playerTwo, guestOne, guestTwo } = form;
+    const formSQL: FormSQL = {
+      date,
+      timeFrom,
+      timeTo,
+      court,
+      playerOneId: playerOne?.id!,
+      playerTwoId: playerTwo?.id!,
+      guestOne,
+      guestTwo
+    };
     const transformY: number = this.reservationService.setTransformY(form.timeFrom);
     const transformX: number = this.reservationService.setTransformX(form.court);
     const ceilHeight: number = this.reservationService.setCeilHeight(form.timeFrom, form.timeTo);
@@ -102,7 +119,20 @@ export class TimetableComponent implements OnInit {
       },
       isPayed
     };
-    this.api.addReservation(newReservation).subscribe({
+    const newReservationSQL: ReservationSQL = {
+      timetable: {
+        transformY,
+        transformX,
+        ceilHeight,
+        zIndex
+      },
+      form: formSQL,
+      payment: {
+        hourCount
+      },
+      isPayed
+    };
+    this.api.addReservation(newReservationSQL).subscribe({
       next: (res) => {
         newReservation.id = res.id;
         this.reservations.push(newReservation);
@@ -120,8 +150,25 @@ export class TimetableComponent implements OnInit {
       let court: number = parseFloat(res.form.court);
       court -= 1;
       const translateX = this.reservationService.setTransformX(court.toString());
-      res.timetable.transformX = translateX;
-      res.form.court = court.toString();
+      const zIndex = this.reservationService.setHighestIndexInColumn(court.toString(), this.reservations, res.id!);
+      const updatedRes: UpdateReservationSQL = {
+        id: res.id,
+        form: {
+          date: res.form.date,
+          court: court.toString()
+        },
+        timetable: {
+          transformX: translateX,
+          zIndex: zIndex
+        }
+      };
+      this.api.updateReservation(updatedRes).subscribe({
+        next: () => {
+          res.timetable.transformX = translateX;
+          res.form.court = court.toString();
+          res.timetable.zIndex = zIndex;
+        }
+      });
     }
   }
 
@@ -130,10 +177,51 @@ export class TimetableComponent implements OnInit {
       let court: number = parseFloat(res.form.court);
       court += 1;
       const translateX = this.reservationService.setTransformX(court.toString());
-      res.timetable.transformX = translateX;
-      res.form.court = court.toString();
+      const zIndex = this.reservationService.setHighestIndexInColumn(court.toString(), this.reservations, res.id!);
+      const updatedRes: UpdateReservationSQL = {
+        id: res.id,
+        form: {
+          date: res.form.date,
+          court: court.toString()
+        },
+        timetable: {
+          transformX: translateX,
+          zIndex: zIndex
+        }
+      };
+      this.api.updateReservation(updatedRes).subscribe({
+        next: () => {
+          res.timetable.transformX = translateX;
+          res.form.court = court.toString();
+          res.timetable.zIndex = zIndex;
+        }
+      });
     }
   }
 
+  moveDown(res: Reservation) {
+    if (res.timetable.zIndex > 1) {
+      const zIndex = res.timetable.zIndex - 1;
+      const updatedRes = {
+        id: res.id,
+        form: { date: res.form.date },
+        timetable: { zIndex }
+      };
+      this.api.updateReservation(updatedRes).subscribe({
+        next: () => {
+          res.timetable.zIndex = zIndex;
+        }
+      });
+    }
+  }
+
+  moveOnTop(res: Reservation) {
+    const zIndex = this.reservationService.setHighestIndexInColumn(res.form.court, this.reservations, res.id!);
+    res.timetable.zIndex = zIndex;
+  }
+
+  dragEnd(res: Reservation, event: CdkDragEnd) {
+
+  }
 
 }

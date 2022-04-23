@@ -32,6 +32,15 @@ export interface Reservation {
 
 export type ReservationForm = Pick<Reservation, 'form'>;
 
+export type FormSQL = Omit<Reservation['form'], 'playerOne' | 'playerTwo'> & { playerOneId: string; } & { playerTwoId: string; };
+
+export type ReservationSQL = Omit<Reservation, 'form'> & { form: FormSQL; };
+
+export type UpdateReservationSQL = Omit<Partial<ReservationSQL>, 'form' | 'timetable' | 'payment'>
+    & { form: Partial<Omit<FormSQL, 'date'>> & { date: string; }; }
+    & { timetable?: Partial<Reservation['timetable']>; }
+    & { payment?: Partial<Reservation['payment']>; };
+
 export interface ActiveFilters {
     playerOne: { isActive: boolean, isDisabled: boolean; };
     playerTwo: { isActive: boolean, isDisabled: boolean; };

@@ -82,6 +82,7 @@
                     cdkDragBoundary=".board"
                     cdkDragLockAxis="y"
                     cdkDrag
+                    (cdkDragEnded)="dragEnd(res, $event)"
                     class="reservation"
                     [ngClass]="{
                         'reservation--small': res.timetable.ceilHeight <= 80,
@@ -107,6 +108,8 @@
                     <div
                         class="reservation_main"
                         cdkDragHandle
+                        (click)="moveOnTop(res)"
+                        (pointerdown)="moveOnTop(res)"
                     >
                         <p
                             *ngIf="res.form.playerOne"
@@ -142,7 +145,7 @@
                                 <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
                             </svg>
                         </button>
-                        <button>
+                        <button (click)="moveDown(res)">
                             {{res.timetable.zIndex}}
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>

@@ -59,10 +59,10 @@ export class ReservationService {
     return height;
   }
 
-  setHighestIndexInColumn(court: string, reservation: Reservation[]): number {
+  setHighestIndexInColumn(court: string, reservation: Reservation[], elId: string = ''): number {
     let zIndex = 10;
     reservation.forEach(r => {
-      if (r.form.court === court && r.timetable.zIndex >= zIndex) {
+      if (r.form.court === court && r.timetable.zIndex >= zIndex && r.id !== elId) {
         zIndex = r.timetable.zIndex + 1;
       }
     });

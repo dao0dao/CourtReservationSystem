@@ -4,11 +4,11 @@
     max-height: 100%;
     padding-top: 1rem;
 }
-.btn {
-    margin: 1rem 0;
-}
-.input {
-    margin-bottom: 1rem;
+.date {
+    margin: 0 auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .scroll {
     overflow: auto;

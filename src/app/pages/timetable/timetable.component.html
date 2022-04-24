@@ -1,18 +1,21 @@
 <div class="container">
-    <button
-        class="btn btn--add"
-        (click)="newReservation()"
-    >
-        Dodaj wpis
-    </button>
-    <div class="input">
-        <label for="day">Dzień</label>
-        <input
-            type="date"
-            name
-            id="day"
-            [(ngModel)]="date"
+    <div class="date">
+        <button
+            class="btn btn--add"
+            (click)="newReservation()"
         >
+            Dodaj wpis
+        </button>
+        <div class="input">
+            <label for="day">Dzień</label>
+            <input
+                type="date"
+                name
+                id="day"
+                [(ngModel)]="date"
+                (change)="reloadReservations()"
+            >
+        </div>
     </div>
     <div class="scroll">
         <div class="timetable">
@@ -78,11 +81,12 @@
             </div>
             <div class="board">
                 <div
+                    #element
                     *ngFor="let res of reservations"
                     cdkDragBoundary=".board"
                     cdkDragLockAxis="y"
                     cdkDrag
-                    (cdkDragEnded)="dragEnd(res, $event)"
+                    (cdkDragEnded)="dragEnd(res, $event, element)"
                     class="reservation"
                     [ngClass]="{
                         'reservation--small': res.timetable.ceilHeight <= 80,
@@ -90,7 +94,7 @@
                     }"
                     [ngStyle]="{
                         'left': res.timetable.transformX + 'px',
-                        'transform': 'translate3d( 0px, ' + res.timetable.transformY + 'px, 0px)',
+                        'top': res.timetable.transformY + 'px',
                         'z-index': res.timetable.zIndex,
                         'height': res.timetable.ceilHeight +'px'
                     }"
@@ -99,7 +103,7 @@
                         <p class="reservation_hour">
                             {{res.form.timeFrom}} - {{res.form.timeTo}}
                         </p>
-                        <button (click)="editReservation()">
+                        <button (click)="editReservation(res)">
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
                             </svg>
@@ -169,6 +173,7 @@
         [modalAction]="modalAction"
         [players]="players"
         [date]="date"
+        [editedReservation]="editedReservation"
         (outputCloseModal)="closeModal()"
         (outputReservationForm)="submit($event)"
     ></app-timetable-modal>

@@ -7,7 +7,7 @@
             *ngIf="modalAction === 'edit'"
             class="title"
         >
-            Opcje rezerwacji
+            Edycja rezerwacji
         </p>
         <p
             *ngIf="modalAction === 'new'"
@@ -34,7 +34,7 @@
                 *ngIf="modalAction === 'edit'"
                 class="subtitle"
             >
-                Data: 13.03.22, 14:00-17:00
+                Data: {{editedReservation!.form.date}}, {{editedReservation!.form.timeFrom}}-{{editedReservation!.form.timeTo}}
             </p>
             <div class="block">
                 <div class="block_name">
@@ -132,6 +132,7 @@
                     <input
                         type="text"
                         class="select"
+                        [ngClass]="{'select--chosen': filter.findPlayerById(getFormField('playerOne')?.value, players)}"
                         id="listOne"
                         formControlName="selectOneValue"
                         autocomplete="off"
@@ -238,6 +239,7 @@
                     <input
                         type="text"
                         class="select"
+                        [ngClass]="{'select--chosen': filter.findPlayerById(getFormField('playerTwo')?.value, players)}"
                         id="listTwo"
                         autocomplete="off"
                         formControlName="selectTwoValue"

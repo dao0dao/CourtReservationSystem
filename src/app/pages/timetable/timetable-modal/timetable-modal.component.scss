@@ -209,7 +209,12 @@
             border-color: $background;
         }
         &::placeholder {
-            font-size: 0.7em;
+            font-size: 0.8em;
+        }
+        &--chosen {
+            &::placeholder {
+                color: $mainColorOne;
+            }
         }
     }
     .list {
@@ -293,6 +298,7 @@
 }
 @media screen and (min-width: 992px) {
     .container {
+        width: 95%;
         max-height: 700px;
         &_body {
             display: flex;

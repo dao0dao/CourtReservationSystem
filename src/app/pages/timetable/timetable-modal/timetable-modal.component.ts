@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
-import { ActiveFilters, ReservationForm } from '../intefaces';
+import { ActiveFilters, Reservation, ReservationForm } from '../intefaces';
 import { FilterPlayersService } from './filter-players.service';
 import { HandDateService } from './hand-date.service';
 import { HandleSelectService } from './handle-select.service';
@@ -21,6 +21,7 @@ export class TimetableModalComponent implements OnInit {
   @Input() modalAction: 'new' | 'edit' | undefined;
   @Input() players: Player[] = [];
   @Input() date: string = '';
+  @Input() editedReservation: Reservation | undefined;
   @Output() outputCloseModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() outputReservationForm: EventEmitter<ReservationForm> = new EventEmitter<ReservationForm>();
 
@@ -62,6 +63,9 @@ export class TimetableModalComponent implements OnInit {
     this.filteredPlayerOne = [...this.players];
     this.filteredPlayerTwo = [...this.players];
     this.setForm();
+    if (this.editedReservation !== undefined) {
+      this.setReservationToForm();
+    }
   }
 
   closeModal() {
@@ -85,6 +89,30 @@ export class TimetableModalComponent implements OnInit {
       selectOneValue: [''],
       selectTwoValue: [''],
     });
+  }
+
+  setReservationToForm() {
+    const { form } = this.editedReservation!;
+    const { date, timeFrom, timeTo, playerOne, playerTwo, guestOne, guestTwo, court } = form;
+    this.getFormField('date')?.setValue(date);
+    this.getFormField('from')?.setValue(timeFrom);
+    this.getFormField('to')?.setValue(timeTo);
+    this.getFormField('court')?.setValue(court);
+    if (playerOne) {
+      this.getFormField('playerOne')?.setValue(playerOne.id);
+    }
+    if (playerTwo) {
+      this.getFormField('playerTwo')?.setValue(playerTwo.id);
+    }
+    if (guestOne) {
+      this.getFormField('guestOne')?.setValue(guestOne);
+    }
+    if (guestTwo) {
+      this.getFormField('guestTwo')?.setValue(guestTwo);
+    }
+    this.form.updateValueAndValidity();
+    this.handleIsTimeChosen();
+    this.handleIsPlayerChosen();
   }
 
   handleIsTimeChosen() {

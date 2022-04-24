@@ -28,4 +28,8 @@ export class ApiService {
     return this.http.put<{ updated: boolean; }>(environment.apiLink + 'reservation', reservation);
   }
 
+  deleteReservation(id: string): Observable<any> {
+    return this.http.delete(environment.apiLink + 'reservation/' + id);
+  }
+
 }

@@ -62,6 +62,7 @@ export class AddPlayerComponent implements OnInit {
         this.isSending = false;
         this.errors = {};
         this.outputRefreshList.emit(true);
+        this.infoService.showInfo('Stworzono gracza', true);
       },
       error: (err: { error: AddPlayerError | string; }) => {
         if (typeof (err.error) === 'string') {

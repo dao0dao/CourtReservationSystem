@@ -13,7 +13,7 @@ export class ReservationService {
   public lastCeilStep: number = this.maxSteps * this.ceilStep;
   private ceilStartStep: number = 0.25;
   private columnStartStep: number = 250;
-  private ceilHeighHourStep: number = 160;
+  public ceilHeighHourStep: number = 160;
 
 
   private timeToDecimals(time: string) {

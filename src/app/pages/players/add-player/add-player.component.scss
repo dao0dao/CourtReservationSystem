@@ -85,9 +85,12 @@
             }
         }
     }
-    .btn {
-        display: block;
-        margin: 1rem auto;
+    .submit {
+        flex-basis: 100%;
+        .btn {
+            display: block;
+            margin: 1rem auto;
+        }
     }
 }
 @media screen and (min-width: 992px) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL } from './intefaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
@@ -13,9 +13,10 @@ import { mergeMap } from 'rxjs';
   templateUrl: './timetable.component.html',
   styleUrls: ['./timetable.component.scss']
 })
-export class TimetableComponent implements OnInit {
+export class TimetableComponent implements OnInit, AfterViewInit {
 
   environment = environment;
+  @ViewChild('board') board!: ElementRef<HTMLElement>;
 
   constructor(
     private api: ApiService,
@@ -59,6 +60,13 @@ export class TimetableComponent implements OnInit {
       }
       this.timetable.push({ label: hour });
     }
+  }
+
+  ngAfterViewInit(): void {
+    const hour = new Date().getHours() - 0.5;
+    const div = this.board.nativeElement;
+    const scroll = (hour * this.reservationService.ceilHeighHourStep);
+    div.scrollTo(0, scroll);
   }
 
   loadReservations() {

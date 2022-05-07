@@ -7,7 +7,7 @@
             Dodaj wpis
         </button>
         <div class="input">
-            <label for="day">Dzień</label>
+            <label for="day">Data:</label>
             <input
                 type="date"
                 name
@@ -16,12 +16,37 @@
                 (change)="reloadReservations()"
             >
         </div>
+        <div class="zoom">
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-zoom-2'"></use>
+            </svg>
+            <input
+                type="range"
+                id="zoom"
+                min="10"
+                max="100"
+                step="10"
+                [(ngModel)]="zoom"
+                (ngModelChange)="handleZoomScroll()"
+            >
+            <input
+                type="number"
+                min="10"
+                max="100"
+                step="10"
+                [(ngModel)]="zoom"
+                (ngModelChange)="handleZoomScroll()"
+            >
+        </div>
     </div>
     <div
         #board
         class="scroll"
     >
-        <div class="timetable">
+        <div
+            class="timetable"
+            [ngStyle]="{'transform': 'scaleY(' + (zoom/100) + ')'}"
+        >
             <div class="timetable_hours">
                 <div class="row row--first">
                     <p>Godz.</p>
@@ -106,7 +131,18 @@
                         <p class="reservation_hour">
                             {{res.form.timeFrom}} - {{res.form.timeTo}}
                         </p>
-                        <button (click)="editReservation(res)">
+                        <button
+                            class="delete"
+                            (click)="openDeleteModal(res)"
+                        >
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
+                            </svg>
+                        </button>
+                        <button
+                            class="edit"
+                            (click)="editReservation(res)"
+                        >
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-edit-2'"></use>
                             </svg>
@@ -180,4 +216,9 @@
         (outputCloseModal)="closeModal()"
         (outputReservationForm)="submit($event)"
     ></app-timetable-modal>
+    <app-delete-modal
+        *ngIf="isDeleteModal"
+        [reservation]="deletedReservation"
+        (outputIsConfirm)="handleDeleteModal($event)"
+    ></app-delete-modal>
 </div>

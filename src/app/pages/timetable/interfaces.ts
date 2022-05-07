@@ -49,3 +49,8 @@ export interface ActiveFilters {
     opponentOne: { isActive: boolean, isDisabled: boolean; };
     opponentTwo: { isActive: boolean, isDisabled: boolean; };
 }
+
+export interface DeleteConfirm {
+    isConfirm: boolean,
+    id?: string;
+}

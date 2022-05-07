@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
-import { ActiveFilters, Reservation, ReservationForm } from '../intefaces';
+import { ActiveFilters, Reservation, ReservationForm } from '../interfaces';
 import { FilterPlayersService } from './filter-players.service';
 import { HandDateService } from './hand-date.service';
 import { HandleSelectService } from './handle-select.service';
@@ -24,7 +24,6 @@ export class TimetableModalComponent implements OnInit {
   @Input() editedReservation: Reservation | undefined;
   @Output() outputCloseModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() outputReservationForm: EventEmitter<ReservationForm> = new EventEmitter<ReservationForm>();
-
 
   playerOne: Player[] = [];
   playerTwo: Player[] = [];
@@ -533,5 +532,4 @@ export class TimetableModalComponent implements OnInit {
     this.isSending = true;
     this.outputReservationForm.emit(form);
   }
-
 }

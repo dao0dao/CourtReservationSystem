@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
-import { Reservation, ReservationSQL, UpdateReservationSQL } from './intefaces';
+import { Reservation, ReservationSQL, UpdateReservationSQL } from './interfaces';
 
 @Injectable({
   providedIn: 'root'

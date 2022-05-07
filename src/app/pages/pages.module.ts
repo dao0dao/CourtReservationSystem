@@ -18,7 +18,9 @@ import { SearchingService } from './players/searching.service';
 import { SearchWeekComponent } from './players/search-week/search-week.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimetableModalComponent } from './timetable/timetable-modal/timetable-modal.component';
+import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.component';
 
 
 
@@ -37,6 +39,7 @@ import { TimetableModalComponent } from './timetable/timetable-modal/timetable-m
     SearchWeekComponent,
     TimetableComponent,
     TimetableModalComponent,
+    DeleteModalComponent,
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import { TimetableModalComponent } from './timetable/timetable-modal/timetable-m
       { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
       { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
     ]),
-    DragDropModule
+    DragDropModule,
+    MatDatepickerModule
   ],
   exports: [
     PagesComponent

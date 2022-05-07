@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Reservation } from './intefaces';
+import { Reservation } from './interfaces';
 
 @Injectable({
   providedIn: 'root'

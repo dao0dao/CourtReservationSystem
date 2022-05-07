@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL } from './intefaces';
+import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL, DeleteConfirm } from './interfaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
@@ -38,6 +38,11 @@ export class TimetableComponent implements OnInit, AfterViewInit {
 
   editedReservation: Reservation | undefined;
 
+  isDeleteModal: boolean = false;
+  deletedReservation: Reservation | undefined;
+
+  zoom: number = 100;
+
   ngOnInit(): void {
     this.date = this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!;
     this.loadReservations();
@@ -63,10 +68,22 @@ export class TimetableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.scrollToHour();
+  }
+
+  scrollToHour() {
     const hour = new Date().getHours() - 0.5;
     const div = this.board.nativeElement;
     const scroll = (hour * this.reservationService.ceilHeighHourStep);
     div.scrollTo(0, scroll);
+  }
+
+  handleZoomScroll() {
+    if (this.zoom !== 100) {
+      this.board.nativeElement.scrollTo(0, 0);
+    } else {
+      this.scrollToHour();
+    }
   }
 
   loadReservations() {
@@ -200,6 +217,36 @@ export class TimetableComponent implements OnInit, AfterViewInit {
     this.api.addReservation(newReservationSQL).pipe(
       mergeMap(() => this.api.deleteReservation(id))
     ).subscribe({
+      next: () => {
+        const index = this.reservations.findIndex(r => r.id === id);
+        this.reservations.splice(index, 1);
+        this.closeModal();
+      },
+      error: () => {
+        this.closeModal();
+      }
+    });
+  }
+
+  openDeleteModal(item: Reservation) {
+    this.isDeleteModal = true;
+    this.deletedReservation = item;
+  }
+
+  closeDeleteModa() {
+    this.isDeleteModal = false;
+    this.deletedReservation = undefined;
+  }
+
+  handleDeleteModal(event: DeleteConfirm) {
+    if (event.isConfirm) {
+      this.deleteReservation(event.id!);
+    }
+    this.closeDeleteModa();
+  }
+
+  deleteReservation(id: string) {
+    this.api.deleteReservation(id).subscribe({
       next: () => {
         const index = this.reservations.findIndex(r => r.id === id);
         this.reservations.splice(index, 1);

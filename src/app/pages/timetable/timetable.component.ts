@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { ReservationService } from './reservation.service';
 import { CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 import { mergeMap } from 'rxjs';
+import { LoginStateService } from '../login-state.service';
 
 @Component({
   selector: 'app-timetable',
@@ -21,7 +22,8 @@ export class TimetableComponent implements OnInit, AfterViewInit {
   constructor(
     private api: ApiService,
     private DatePipe: DatePipe,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private stateService: LoginStateService
   ) { }
 
   timetable: TimeTable[] = [{ label: '00:00' }];
@@ -38,6 +40,7 @@ export class TimetableComponent implements OnInit, AfterViewInit {
 
   editedReservation: Reservation | undefined;
 
+  isDeleteBtn: boolean = false;
   isDeleteModal: boolean = false;
   deletedReservation: Reservation | undefined;
 
@@ -45,6 +48,7 @@ export class TimetableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.date = this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!;
+    this.checkCanShowDeleteBtn();
     this.loadReservations();
     this.api.getAllPlayers().subscribe({
       next: (res) => { this.players = res; }
@@ -100,6 +104,32 @@ export class TimetableComponent implements OnInit, AfterViewInit {
   reloadReservations() {
     this.reservations = [];
     this.loadReservations();
+    this.checkCanShowDeleteBtn();
+  }
+
+  checkCanShowDeleteBtn() {
+    if (this.stateService.state.isAdmin) {
+      return this.isDeleteBtn = true;
+    }
+    const todayDay = new Date().getDate();
+    const todayMonth = new Date().getMonth();
+    const todayYear = new Date().getFullYear();
+
+    const chosenDate = new Date(this.date);
+    const chosenDay = chosenDate.getDate();
+    const chosenMonth = chosenDate.getMonth();
+    const chosenYear = chosenDate.getFullYear();
+
+    if (chosenYear < todayYear) {
+      return this.isDeleteBtn = false;
+    }
+    if (chosenMonth < todayMonth && chosenYear <= todayYear) {
+      return this.isDeleteBtn = false;
+    }
+    if (chosenDay < todayDay && chosenDay <= todayDay && chosenYear <= todayYear) {
+      return this.isDeleteBtn = false;
+    }
+    return this.isDeleteBtn = true;
   }
 
   newReservation() {

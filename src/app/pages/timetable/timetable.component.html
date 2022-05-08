@@ -132,6 +132,7 @@
                             {{res.form.timeFrom}} - {{res.form.timeTo}}
                         </p>
                         <button
+                            *ngIf="isDeleteBtn"
                             class="delete"
                             (click)="openDeleteModal(res)"
                         >

@@ -151,6 +151,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
+
                 button {
                     width: 30px;
                     padding: 2px;
@@ -164,7 +165,6 @@
                         max-width: 30px;
                     }
                     &.delete {
-                        margin-left: auto;
                         svg {
                             fill: $mainColorOne;
                         }
@@ -215,6 +215,7 @@
                 }
             }
             &_hour {
+                margin-right: auto;
                 color: $mainColorThree;
             }
         }

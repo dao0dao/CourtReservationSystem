@@ -35,17 +35,8 @@
             (keyup)="searchFor()"
         >
         <div class="searchWeek">
-            <button
-                class="title btn--sort"
-                [ngClass]="{'btn--sort--active': isSearchWeek}"
-                (click)="toggleSearchWeek()"
-            >
-                Uwzględnij dni
-            </button>
-            <app-search-week
-                [ngClass]="{'active': isSearchWeek}"
-                (outputSearchDay)="searchForWeek($event)"
-            ></app-search-week>
+            <p class="title">Uwzględnij dni</p>
+            <app-search-week (outputSearchDay)="searchForWeek($event)"></app-search-week>
         </div>
     </div>
     <div *ngFor="let player of filteredPlayers; let i = index">

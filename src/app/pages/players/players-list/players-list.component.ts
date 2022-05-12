@@ -280,10 +280,6 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
-  toggleSearchWeek() {
-    this.isSearchWeek = !this.isSearchWeek;
-  }
-
   searchForWeek(event: Week) {
     this.searchWeek = event;
     this.filteredPlayers = this.searchingService.searchFor(this.search, this.searchWeek, this.players);

@@ -66,10 +66,7 @@
                 margin-bottom: 0.5rem;
             }
             app-search-week {
-                display: none;
-                &.active {
-                    display: inline;
-                }
+                display: inline;
             }
         }
     }
@@ -352,9 +349,6 @@
                 .title {
                     box-shadow: unset;
                     cursor: auto;
-                }
-                app-search-week {
-                    display: inline;
                 }
             }
         }

@@ -1,5 +1,9 @@
 <div class="container">
-    <div class="date">
+    <app-loader *ngIf="!isLoaded"></app-loader>
+    <div
+        *ngIf="isLoaded"
+        class="date"
+    >
         <button
             class="btn btn--add"
             (click)="newReservation()"
@@ -21,16 +25,17 @@
                 <use [attr.xlink:href]="environment.svg +'#icon-zoom-2'"></use>
             </svg>
             <input
-                type="range"
-                id="zoom"
+                type="number"
                 min="10"
                 max="100"
                 step="10"
+                id="zoom"
                 [(ngModel)]="zoom"
                 (ngModelChange)="handleZoomScroll()"
             >
+            <label for="zoom">%</label>
             <input
-                type="number"
+                type="range"
                 min="10"
                 max="100"
                 step="10"
@@ -44,6 +49,7 @@
         class="scroll"
     >
         <div
+            *ngIf="isLoaded"
             class="timetable"
             [ngStyle]="{'transform': 'scaleY(' + (zoom/100) + ')'}"
         >

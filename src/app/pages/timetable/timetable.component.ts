@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {  Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL, DeleteConfirm } from './interfaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
@@ -14,7 +14,7 @@ import { LoginStateService } from '../login-state.service';
   templateUrl: './timetable.component.html',
   styleUrls: ['./timetable.component.scss']
 })
-export class TimetableComponent implements OnInit, AfterViewInit {
+export class TimetableComponent implements OnInit {
 
   environment = environment;
   @ViewChild('board') board!: ElementRef<HTMLElement>;
@@ -26,6 +26,7 @@ export class TimetableComponent implements OnInit, AfterViewInit {
     private stateService: LoginStateService
   ) { }
 
+  isLoaded: boolean = false;
   timetable: TimeTable[] = [{ label: '00:00' }];
   isModal: boolean = false;
   modalAction: 'new' | 'edit' | undefined = undefined;
@@ -71,15 +72,19 @@ export class TimetableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.scrollToHour();
-  }
-
   scrollToHour() {
-    const hour = new Date().getHours() - 0.5;
-    const div = this.board.nativeElement;
-    const scroll = (hour * this.reservationService.ceilHeighHourStep);
-    div.scrollTo(0, scroll);
+    if (this.date !== this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!) {
+      return;
+    }
+    const interval = setInterval(() => {
+      if (this.board) {
+        const hour = new Date().getHours() - 0.5;
+        const div = this.board.nativeElement;
+        const scroll = (hour * this.reservationService.ceilHeighHourStep);
+        div.scrollTo(0, scroll);
+        clearInterval(interval);
+      }
+    }, 400);
   }
 
   handleZoomScroll() {
@@ -96,12 +101,15 @@ export class TimetableComponent implements OnInit, AfterViewInit {
       this.api.getAllReservations(this.date).subscribe({
         next: (res) => {
           this.reservations = res.reservations;
+          this.isLoaded = true;
+          this.scrollToHour();
         }
       });
     }
   }
 
   reloadReservations() {
+    this.isLoaded = false;
     this.reservations = [];
     this.loadReservations();
     this.checkCanShowDeleteBtn();

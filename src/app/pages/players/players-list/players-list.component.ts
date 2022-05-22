@@ -84,9 +84,9 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
       priceSummer: [0, [Validators.min(0), Validators.max(1000)]],
       priceWinter: [0, [Validators.min(0), Validators.max(1000)]],
       court: [0],
-      strings: ['', Validators.maxLength(20)],
-      tension: [25, [Validators.min(15), Validators.max(35)]],
-      balls: ['', Validators.maxLength(20)],
+      strings: ['', Validators.maxLength(250)],
+      tension: ['', Validators.maxLength(250)],
+      balls: ['', Validators.maxLength(150)],
       notes: ['', Validators.maxLength(500)]
     });
   }

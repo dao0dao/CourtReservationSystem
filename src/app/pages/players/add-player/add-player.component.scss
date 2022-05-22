@@ -32,9 +32,13 @@
                 font-size: 0.8rem;
                 text-align: right;
                 letter-spacing: 1px;
+                &.top {
+                    top: 10px;
+                    left: -5px;
+                }
             }
-            input {
-                width: 160px;
+            input,
+            .input {
                 padding: 5px 10px;
                 border-width: 0 0px 1px 0px;
                 border-style: solid;
@@ -46,10 +50,32 @@
                 &.full {
                     border-color: $mainColorOne;
                 }
+            }
+            input{
+                width: 160px;
                 &:hover + label,
                 &:focus-within + label,
                 &.full + label {
                     transform: translate(-101%, -50%);
+                }
+                
+            }
+            .input {
+                width: 15rem;
+                height: 5rem;
+                resize: none;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid $mainColorTwo;
+                font-size: 0.8em;
+                &:focus {
+                    border-color: $mainColorOne;
+                    outline: none;
+                }
+                &:hover + label,
+                &:focus-within + label,
+                &.full + label {
+                    transform: translate(0%, -180%);
                 }
             }
             .select {

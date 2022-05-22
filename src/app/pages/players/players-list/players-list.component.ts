@@ -153,7 +153,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.getField('priceWinter')?.setValue(player.priceWinter);
     this.getField('court')?.setValue(player.court);
     this.getField('strings')?.setValue(player.stringsName);
-    this.getField('tensions')?.setValue(player.tension);
+    this.getField('tension')?.setValue(player.tension);
     this.getField('balls')?.setValue(player.balls);
     this.getField('notes')?.setValue(player.notes);
     this.formEditPlayer.updateValueAndValidity();

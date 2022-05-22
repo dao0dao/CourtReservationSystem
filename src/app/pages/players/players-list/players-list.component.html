@@ -274,32 +274,39 @@
                         <div class="line"></div>
                     </div>
                     <div class="category_field">
-                        <input
-                            type="text"
+                        <textarea
                             id="strings"
+                            class="textarea"
                             formControlName="strings"
                             [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('strings')?.value}"
+                        ></textarea>
+                        <label
+                            class="top"
+                            for="strings"
                         >
-                        <label for="strings">Ulubiony naciąg</label>
+                            Ulubiony naciąg
+                        </label>
                         <div class="error">
-                            <p *ngIf="(getField('strings')?.invalid && getField('strings')?.touched) || errors.strings">Max 20 znaków</p>
+                            <p *ngIf="(getField('strings')?.invalid && getField('strings')?.touched) || errors.strings">Max 250 znaków</p>
                         </div>
                     </div>
                     <div class="category_field">
-                        <input
-                            type="number"
+                        <textarea
                             id="tension"
-                            step="0.1"
-                            min="15"
-                            max="35"
+                            class="textarea"
                             formControlName="tension"
                             [attr.disabled]="isView ? true: null"
-                            [ngClass]="{'full':getField('tension')?.value}"
+                            [ngClass]="{'full': getField('tension')?.value}"
+                        ></textarea>
+                        <label
+                            class="top"
+                            for="tension"
                         >
-                        <label for="tension">Siła naciągu</label>
+                            Siła naciągu
+                        </label>
                         <div class="error">
-                            <p *ngIf="(getField('tension')?.invalid && getField('tension')?.touched) || errors.tension">Zakres 15 - 35kg</p>
+                            <p *ngIf="(getField('tension')?.invalid && getField('tension')?.touched) || errors.tension">Max 250 znaków</p>
                         </div>
                     </div>
                     <div class="category_field">
@@ -312,7 +319,7 @@
                         >
                         <label for="balls">Ulubione piłki</label>
                         <div class="error">
-                            <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 20 znaków</p>
+                            <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 150 znaków</p>
                         </div>
                     </div>
                 </div>

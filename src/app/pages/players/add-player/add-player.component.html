@@ -137,7 +137,12 @@
                 formControlName="strings"
                 [ngClass]="{'full': getField('strings')?.value}"
             ></textarea>
-            <label class="top" for="strings">Ulubiony naciąg</label>
+            <label
+                class="top"
+                for="strings"
+            >
+                Ulubiony naciąg
+            </label>
             <div class="error">
                 <p *ngIf="(getField('strings')?.invalid && getField('strings')?.touched) || errors.strings">Max 250 znaków</p>
             </div>
@@ -149,7 +154,12 @@
                 formControlName="tension"
                 [ngClass]="{'full': getField('tension')?.value}"
             ></textarea>
-            <label class="top" for="tension">Siła naciągu</label>
+            <label
+                class="top"
+                for="tension"
+            >
+                Siła naciągu
+            </label>
             <div class="error">
                 <p *ngIf="(getField('tension')?.invalid && getField('tension')?.touched) || errors.tension">Max 250 znaków</p>
             </div>

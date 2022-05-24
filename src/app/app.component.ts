@@ -16,10 +16,20 @@ export class AppComponent {
 
   constructor(public infoService: InfoService, private http: HttpClient, public loginState: LoginStateService) { }
 
-  isMenu: boolean = false;
+  isMenu: boolean = true;
+  isPayments: boolean = false;
 
   toggleMenu() {
     this.isMenu = !this.isMenu;
+    this.closeList();
+  }
+
+  togglePayments() {
+    this.isPayments = !this.isPayments;
+  }
+
+  private closeList() {
+    this.isPayments = false;
   }
 
   logout() {

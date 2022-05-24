@@ -26,7 +26,7 @@
             <a
                 routerLinkActive="btn--active"
                 [routerLink]="['/timetable']"
-                class="btn btn--left"
+                class="btn "
                 routerLinkActive="btn--active"
                 (click)="toggleMenu()"
             >
@@ -35,25 +35,55 @@
             <a
                 routerLinkActive="btn--active"
                 [routerLink]="['/players']"
-                class="btn btn--right"
+                class="btn"
                 routerLinkActive="btn--active"
                 (click)="toggleMenu()"
             >
                 Gracze
             </a>
-            <a
-                routerLinkActive="btn--active"
-                [routerLink]="['/stats']"
-                class="btn btn--left"
-                routerLinkActive="btn--active"
-                (click)="toggleMenu()"
+            <div
+                class="group"
+                [ngClass]="{'group--active': isPayments}"
+                (click)="togglePayments()"
             >
-                Statystyki
-            </a>
+                <p class="btn group_title">Płatności</p>
+                <div
+                    *ngIf="isPayments"
+                    class="group_list"
+                >
+                    <a
+                        routerLinkActive="btn--active"
+                        [routerLink]="['/payments']"
+                        class="btn group_element"
+                        routerLinkActive="btn--active"
+                        (click)="toggleMenu()"
+                    >
+                        Stan konta
+                    </a>
+                    <a
+                        routerLinkActive="btn--active"
+                        [routerLink]="['/payments']"
+                        class="btn group_element"
+                        routerLinkActive="btn--active"
+                        (click)="toggleMenu()"
+                    >
+                        Transakcje
+                    </a>
+                    <a
+                        routerLinkActive="btn--active"
+                        [routerLink]="['/payments']"
+                        class="btn group_element"
+                        routerLinkActive="btn--active"
+                        (click)="toggleMenu()"
+                    >
+                        Cenniki
+                    </a>
+                </div>
+            </div>
             <a
                 routerLinkActive="btn--active"
                 [routerLink]="['/users']"
-                class="btn btn--right"
+                class="btn "
                 routerLinkActive="btn--active"
                 (click)="toggleMenu()"
             >
@@ -61,7 +91,7 @@
             </a>
             <button
                 type="button"
-                class="btn btn--left"
+                class="btn "
                 (click)="logout()"
             >
                 Wyloguj

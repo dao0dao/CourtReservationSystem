@@ -51,6 +51,32 @@ nav {
         align-items: center;
         background-color: $black;
         transition: transform 0.3s linear;
+        user-select: none;
+        .group {
+            margin: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            border-right: 1px solid $black;
+            &--active {
+                border-right: 1px solid $mainColorOne;
+            }
+            &_title {
+                margin: 0 1rem;
+            }
+            &_list {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+            }
+            &_element {
+                margin: 0.25rem 0rem 0.25rem 1rem;
+                padding: 0.25rem;
+                font-size: 0.8em;
+            }
+        }
     }
     &.active {
         .menuList {
@@ -124,6 +150,25 @@ footer {
             justify-content: flex-end;
             flex-direction: row;
             transition: none;
+            .group {
+                position: relative;
+                &_list {
+                    position: absolute;
+                    top: 100%;
+                    left: 5px;
+                    width: 100%;
+                    padding-bottom: 0.5rem;
+                    border-radius: 0 0 5px 5px;
+                    align-items: stretch;
+                    background-color: $black;
+                }
+                &_element {
+                    margin: 0 0.25rem;
+                    padding: 0.5rem;
+                    border-right: 1px solid $mainColorOne;
+                    text-align: right;
+                }
+            }
         }
     }
     footer {

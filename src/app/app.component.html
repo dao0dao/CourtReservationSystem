@@ -44,9 +44,13 @@
             <div
                 class="group"
                 [ngClass]="{'group--active': isPayments}"
-                (click)="togglePayments()"
             >
-                <p class="btn group_title">Płatności</p>
+                <p
+                    class="btn group_title"
+                    (click)="togglePayments()"
+                >
+                    Płatności
+                </p>
                 <div
                     *ngIf="isPayments"
                     class="group_list"
@@ -71,7 +75,7 @@
                     </a>
                     <a
                         routerLinkActive="btn--active"
-                        [routerLink]="['/payments']"
+                        [routerLink]="['/price/list']"
                         class="btn group_element"
                         routerLinkActive="btn--active"
                         (click)="toggleMenu()"

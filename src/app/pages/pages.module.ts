@@ -21,6 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimetableModalComponent } from './timetable/timetable-modal/timetable-modal.component';
 import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.component';
+import { PriceListComponent } from './price-list/price-list.component';
 
 
 
@@ -40,6 +41,7 @@ import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.comp
     TimetableComponent,
     TimetableModalComponent,
     DeleteModalComponent,
+    PriceListComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.comp
       { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
       { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
       { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
+      { path: 'price/list', component: PriceListComponent, canActivate: [IsLoginGuard] }
     ]),
     DragDropModule,
     MatDatepickerModule

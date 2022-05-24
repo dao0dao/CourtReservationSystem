@@ -28,7 +28,7 @@ export class AppComponent {
     this.isPayments = !this.isPayments;
   }
 
-  private closeList() {
+  closeList() {
     this.isPayments = false;
   }
 

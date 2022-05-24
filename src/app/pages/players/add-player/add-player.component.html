@@ -165,13 +165,19 @@
             </div>
         </div>
         <div class="category_field">
-            <input
+            <textarea
                 type="text"
                 id="balls"
+                class="input input--short"
                 formControlName="balls"
                 [ngClass]="{'full': getField('balls')?.value}"
+            ></textarea>
+            <label
+                class="top"
+                for="balls"
             >
-            <label for="balls">Ulubione piłki</label>
+                Ulubione piłki
+            </label>
             <div class="error">
                 <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 150 znaków</p>
             </div>

@@ -310,14 +310,15 @@
                         </div>
                     </div>
                     <div class="category_field">
-                        <input
+                        <textarea
                             type="text"
                             id="balls"
+                            class="textarea textarea--short"
                             formControlName="balls"
                             [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('balls')?.value}"
-                        >
-                        <label for="balls">Ulubione piłki</label>
+                        ></textarea>
+                        <label class="top" for="balls">Ulubione piłki</label>
                         <div class="error">
                             <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 150 znaków</p>
                         </div>

@@ -279,6 +279,9 @@
                         border-radius: 5px;
                         border: 1px solid $mainColorTwo;
                         font-size: 0.8em;
+                        &--short {
+                            height: 2.5rem;
+                        }
                         &:focus {
                             border-color: $mainColorOne;
                             outline: none;
@@ -290,6 +293,7 @@
                         }
                     }
                     .select {
+                        width: 160px;
                         padding: 0.5rem;
                         border-style: none none solid;
                         border-color: $mainColorTwo;

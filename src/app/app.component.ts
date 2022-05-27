@@ -16,7 +16,7 @@ import { LoginStateService } from './pages/login-state.service';
 })
 export class AppComponent implements OnInit {
 
-  isMenu: boolean = true;
+  isMenu: boolean = false;
   isPayments: boolean = false;
   isActivePayments: boolean = false;
 

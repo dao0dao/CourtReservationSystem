@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="actions">
+        <button class="btn btn--option">
+            Sortuj
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-sort-up'"></use>
+            </svg>
+        </button>
+        <input
+            type="text"
+            placeholder="Wyszukaj w nazwie..."
+        >
+        <button class="btn btn--add">Dodaj</button>
+    </div>
+    <div class="list">
+        <div class="element">
+            <p class="number">#1</p>
+            <p class="name">Jakiś cennik</p>
+            <button class="btn btn--edit">Edytuj</button>
+        </div>
+    </div>
+    <div class="pagination">
+        <p class="pagination_perPage">Graczy na stronę:</p>
+        <input
+            type="number"
+            min="1"
+            max="100"
+            class="pagination_count"
+            step="1"
+            [(ngModel)]="itemsPerPage"
+        >
+        <button
+            class="pagination_btn"
+            (click)="prevPage()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
+            </svg>
+        </button>
+        <p class="pagination_info">{{page}} z {{pageCount}}</p>
+        <button
+            class="pagination_btn"
+            (click)="nextPage()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
+            </svg>
+        </button>
+    </div>
+</div>

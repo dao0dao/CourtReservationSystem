@@ -1,4 +1,4 @@
-import {  Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL, DeleteConfirm } from './interfaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
@@ -203,8 +203,9 @@ export class TimetableComponent implements OnInit {
       },
       isPayed
     };
+    const addToTimetable: boolean = date == this.date;
     if (this.modalAction === 'new') {
-      this.addReservation(newReservationSQL, newReservation);
+      this.addReservation(newReservationSQL, newReservation, addToTimetable);
     }
     if (this.modalAction === 'edit') {
       newReservationSQL.id = this.editedReservation!.id;
@@ -218,7 +219,7 @@ export class TimetableComponent implements OnInit {
     }
   }
 
-  addReservation(newReservationSQL: ReservationSQL, newReservation: Reservation, addToTimetable: boolean = true) {
+  addReservation(newReservationSQL: ReservationSQL, newReservation: Reservation, addToTimetable: boolean) {
     this.api.addReservation(newReservationSQL).subscribe({
       next: (res) => {
         newReservation.id = res.id;

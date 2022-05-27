@@ -47,6 +47,7 @@
             >
                 <p
                     class="btn group_title"
+                    [ngClass]="{'btn--active': isActivePayments}"
                     (click)="togglePayments()"
                 >
                     Płatności

@@ -16,7 +16,11 @@
         <div class="element">
             <p class="number">#1</p>
             <p class="name">Jakiś cennik</p>
-            <button class="btn btn--edit">Edytuj</button>
+            <button class="btn btn--edit">
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-pencil'"></use>
+                </svg>
+            </button>
         </div>
     </div>
     <div class="pagination">

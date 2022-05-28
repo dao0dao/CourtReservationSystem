@@ -1,5 +1,9 @@
 @import "~src/assets/colors";
 
+.container {
+    height: 100%;
+}
+
 .title {
     margin-top: 1rem;
     font-size: 1.2rem;
@@ -37,13 +41,32 @@
         padding: 0 5px;
         margin: 0.5rem auto;
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        .number {
+            margin-right: 1rem;
+        }
         .name {
             margin: 0 auto;
+            font-weight: 700;
         }
-        .btn {
-            margin: 0 0.5rem;
+        .buttons {
+            flex-basis: 100%;
+            margin-top: 0.5rem;
+            text-align: right;
+            .btn {
+                margin: 0 0.5rem;
+                padding: 5px;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                svg {
+                    max-height: 15px;
+                    max-width: 15px;
+                    margin: 0;
+                }
+            }
         }
     }
 }
@@ -98,6 +121,16 @@
     .actions {
         input {
             order: unset;
+        }
+    }
+    .list {
+        .element {
+            .buttons {
+                flex-basis: unset;
+                .btn {
+                    padding: 10px;
+                }
+            }
         }
     }
 }

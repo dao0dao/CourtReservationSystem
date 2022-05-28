@@ -19,7 +19,7 @@ export class PriceListComponent implements OnInit {
   itemsPerPage: number = 10;
   pageCount: number = 1;
 
-  isModal: boolean = true;
+  isModal: boolean = false;
   modalAction: ModalAction | undefined;
 
   constructor(

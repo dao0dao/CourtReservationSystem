@@ -1,4 +1,5 @@
 <div class="container">
+    <p class="title">Cenniki</p>
     <div class="actions">
         <button class="btn btn--option">
             Sortuj
@@ -10,15 +11,40 @@
             type="text"
             placeholder="Wyszukaj w nazwie..."
         >
-        <button class="btn btn--add">Dodaj</button>
+        <button
+            class="btn btn--add"
+            (click)="openModal('new')"
+        >
+            Dodaj
+        </button>
     </div>
     <div class="list">
         <div class="element">
             <p class="number">#1</p>
             <p class="name">Jakiś cennik</p>
-            <button class="btn btn--edit">
+            <button
+                class="btn btn--add"
+                (click)="openModal('show')"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-zoom-2'"></use>
+                </svg>
+            </button>
+            <button
+                *ngIf="stateService.state.isAdmin"
+                class="btn btn--edit"
+                (click)="openModal('edit')"
+            >
                 <svg>
                     <use [attr.xlink:href]="environment.svg +'#icon-pencil'"></use>
+                </svg>
+            </button>
+            <button
+                *ngIf="stateService.state.isAdmin"
+                class="btn btn--delete"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
                 </svg>
             </button>
         </div>
@@ -52,3 +78,8 @@
         </button>
     </div>
 </div>
+<app-price-list-modal
+    *ngIf="isModal"
+    [action]="modalAction"
+    (outputClose)="closeModal($event)"
+></app-price-list-modal>

@@ -1,0 +1,84 @@
+<div class="background">
+    <form class="container">
+        <p class="title">Nowy cennik</p>
+        <button
+            type="button"
+            class="btnX"
+            (click)="closeModal()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+            </svg>
+        </button>
+        <div class="field">
+            <div class="block">
+                <input
+                    type="text"
+                    id="name"
+                >
+                <label
+                    class="moved"
+                    for="name"
+                >
+                    Nazwa
+                </label>
+            </div>
+        </div>
+        <div class="scroll">
+            <div
+                *ngFor="let field of fields"
+                class="field field--data"
+            >
+                <div class="column">
+                    <div class="block block--inline">
+                        <label for="from">Od</label>
+                        <input
+                            type="time"
+                            id="from"
+                        >
+                    </div>
+                    <div class="block block--inline">
+                        <label for="to">do</label>
+                        <input
+                            type="time"
+                            id="to"
+                        >
+                    </div>
+                    <div class="block">
+                        <input
+                            type="number"
+                            id="price"
+                            step="0.01"
+                            min="0"
+                        >
+                        <label
+                            class="moved moved--price"
+                            for="price"
+                        >
+                            Cena
+                        </label>
+                    </div>
+                </div>
+                <button type="button">
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="addField">
+            <button type="button">
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-plus-2'"></use>
+                </svg>
+                pole
+            </button>
+        </div>
+        <button
+            type="submit"
+            class="btn btn--add"
+        >
+            Zapisz
+        </button>
+    </form>
+</div>

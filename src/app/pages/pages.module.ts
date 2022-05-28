@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimetableModalComponent } from './timetable/timetable-modal/timetable-modal.component';
 import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.component';
 import { PriceListComponent } from './price-list/price-list.component';
+import { PriceListModalComponent } from './price-list/price-list-modal/price-list-modal.component';
 
 
 
@@ -42,6 +43,7 @@ import { PriceListComponent } from './price-list/price-list.component';
     TimetableModalComponent,
     DeleteModalComponent,
     PriceListComponent,
+    PriceListModalComponent,
   ],
   imports: [
     CommonModule,

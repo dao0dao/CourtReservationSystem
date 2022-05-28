@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { LoginStateService } from '../login-state.service';
+import { ModalAction } from './interfaces';
 
 
 @Component({
@@ -11,15 +13,18 @@ export class PriceListComponent implements OnInit {
 
   environment = environment;
 
-  priceList: any[]=[]
+  priceList: any[] = [];
 
   page: number = 1;
   itemsPerPage: number = 10;
   pageCount: number = 1;
 
+  isModal: boolean = true;
+  modalAction: ModalAction | undefined;
 
-
-  constructor() { }
+  constructor(
+    public stateService: LoginStateService
+  ) { }
 
   ngOnInit(): void {
     this.pageCount = Math.ceil(this.priceList.length / this.itemsPerPage);
@@ -31,6 +36,14 @@ export class PriceListComponent implements OnInit {
     }
   }
 
+  openModal(action: ModalAction) {
+    this.isModal = true;
+    this.modalAction = action;
+  }
+
+  closeModal(event: boolean) {
+    if (event) { this.isModal = false; }
+  }
 
   nextPage() {
     if (this.page < this.pageCount) {

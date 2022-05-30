@@ -84,4 +84,5 @@
     *ngIf="isModal"
     [action]="modalAction"
     (outputClose)="closeModal($event)"
+    (outputNewList)="createList($event)"
 ></app-price-list-modal>

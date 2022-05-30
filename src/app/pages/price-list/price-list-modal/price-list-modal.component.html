@@ -1,5 +1,9 @@
 <div class="background">
-    <form class="container">
+    <form
+        [formGroup]="form"
+        class="container"
+        (ngSubmit)="submit()"
+    >
         <p class="title">Nowy cennik</p>
         <button
             type="button"
@@ -15,6 +19,8 @@
                 <input
                     type="text"
                     id="name"
+                    formControlName="name"
+                    [ngClass]="{'dirty': form.get('name')?.value}"
                 >
                 <label
                     class="moved"
@@ -26,48 +32,65 @@
         </div>
         <div class="scroll">
             <div
-                *ngFor="let field of fields"
+                *ngFor="let field of fields | keyvalue"
                 class="field field--data"
+                [formGroupName]="'group-'+field.key"
             >
                 <div class="column">
                     <div class="block block--inline">
-                        <label for="from">Od</label>
+                        <label [for]="'from'+field.key">Od</label>
                         <input
                             type="time"
-                            id="from"
+                            [id]="'from'+field.key"
+                            formControlName="from"
+                            (keyup)="validateSameHours()"
                         >
                     </div>
                     <div class="block block--inline">
-                        <label for="to">do</label>
+                        <label [for]="'to' + field.key">do</label>
                         <input
                             type="time"
-                            id="to"
+                            [id]="'to'+field.key"
+                            formControlName="to"
+                            (keyup)="validateSameHours()"
                         >
                     </div>
                     <div class="block">
                         <input
                             type="number"
-                            id="price"
+                            [id]="'price'+field.key"
                             step="0.01"
                             min="0"
+                            formControlName="price"
+                            [ngClass]="{'dirty': getField(field.key, 'price')?.value !== ''}"
                         >
                         <label
                             class="moved moved--price"
-                            for="price"
+                            [for]="'price'+field.key"
                         >
                             Cena
                         </label>
                     </div>
                 </div>
-                <button type="button">
+                <button
+                    type="button"
+                    (click)="removeField(field.key)"
+                >
                     <svg>
                         <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
                     </svg>
                 </button>
+                <div class="error">
+                    <p *ngIf="isErrorRequired(field.key)">Obowiązkowe pola</p>
+                    <p *ngIf="isSameHours && sameHoursIndex == field.key">Nakładająca się godzina</p>
+                </div>
             </div>
         </div>
         <div class="addField">
-            <button type="button">
+            <button
+                type="button"
+                (click)="addField()"
+            >
                 <svg>
                     <use [attr.xlink:href]="environment.svg +'#icon-plus-2'"></use>
                 </svg>
@@ -77,6 +100,7 @@
         <button
             type="submit"
             class="btn btn--add"
+            [disabled]="form.invalid"
         >
             Zapisz
         </button>

@@ -1,22 +1,115 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { ModalAction } from '../interfaces';
+import { HourPrice, ModalAction, PriceList } from '../interfaces';
 
 @Component({
   selector: 'app-price-list-modal',
   templateUrl: './price-list-modal.component.html',
   styleUrls: ['./price-list-modal.component.scss']
 })
-export class PriceListModalComponent {
+export class PriceListModalComponent implements OnInit {
 
   environment = environment;
 
   @Input() action: ModalAction | undefined;
   @Output() outputClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() outputNewList: EventEmitter<PriceList> = new EventEmitter<PriceList>();
 
-  fields: any[] = [1, 2, 3 ];
+  fields: { [key: string]: HourPrice; } = {};
 
-  constructor() { }
+  form: FormGroup = new FormGroup({});
+  isSameHours: boolean = false;
+  sameHoursIndex: string = '';
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      'name': ['', Validators.required]
+    });
+    if (this.action === 'new') {
+      this.addField();
+    }
+  }
+
+  getField(groupNumber: string, fieldName: string) {
+    const group = this.form.get('group-' + groupNumber);
+    const field = group?.get(fieldName);
+    return field;
+  }
+
+  getGroup(groupNumber: string) {
+    return this.form.get('group-' + groupNumber);
+  }
+
+  addField() {
+    let lastIndex: number = 0;
+    Object.keys(this.fields).forEach(k => parseInt(k) >= lastIndex ? lastIndex = parseInt(k) + 1 : null);
+    const field: HourPrice = { from: '', to: '', price: 0 };
+    const fields = this.fb.group({
+      'from': ['', Validators.required],
+      'to': ['', Validators.required],
+      'price': ['', [Validators.required, Validators.min(0)]],
+    });
+    const groupName = 'group-' + lastIndex;
+    this.fields[lastIndex] = field;
+    this.form.addControl(groupName, fields);
+    this.form.updateValueAndValidity();
+  }
+
+  removeField(groupNumber: string) {
+    const groupName = 'group-' + groupNumber;
+    this.form.removeControl(groupName);
+    this.form.updateValueAndValidity();
+    delete this.fields[groupNumber];
+  }
+
+  isErrorRequired(groupNumber: string): boolean | undefined {
+    const isFrom = this.getField(groupNumber, 'from')?.invalid && this.getField(groupNumber, 'from')?.touched;
+    const isTo = this.getField(groupNumber, 'to')?.invalid && this.getField(groupNumber, 'to')?.touched;
+    const isPrice = this.getField(groupNumber, 'price')?.invalid && this.getField(groupNumber, 'price')?.touched;
+    return isFrom || isTo || isPrice;
+  }
+
+  validateSameHours() {
+    let isError: boolean = false;
+    let sameHourIndex: string = '';
+    for (let i in this.fields) {
+      const fromA = parseFloat((this.getField(i, 'from')?.value).replace(':', '.'));
+      const toA = parseFloat((this.getField(i, 'to')?.value).replace(':', '.'));
+      for (let j in this.fields) {
+        if (i != j) {
+          const fromB = parseFloat((this.getField(j, 'from')?.value).replace(':', '.'));
+          const toB = parseFloat((this.getField(j, 'to')?.value).replace(':', '.'));
+          if (
+            fromA < fromB && toA > fromB ||
+            fromA >= fromB && toA <= toB ||
+            fromA < toB && toA > toB
+          ) {
+            isError = true;
+            sameHourIndex = i;
+          }
+        }
+      }
+    }
+    this.isSameHours = isError;
+    this.sameHoursIndex = sameHourIndex;
+  }
+
+  submit() {
+    const priceList: PriceList = {
+      name: this.form.get('name')?.value,
+      hours: this.fields
+    };
+    for (let i in this.fields) {
+      const { hours } = priceList;
+      hours[i].from = this.getField(i, 'from')?.value;
+      hours[i].to = this.getField(i, 'to')?.value;
+      hours[i].price = this.getField(i, 'price')?.value;
+    }
+    this.outputNewList.emit(priceList);
+  }
 
   closeModal() {
     this.outputClose.emit(true);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { LoginStateService } from '../login-state.service';
-import { ModalAction } from './interfaces';
+import { ModalAction, PriceList } from './interfaces';
 
 
 @Component({
@@ -43,6 +43,11 @@ export class PriceListComponent implements OnInit {
 
   closeModal(event: boolean) {
     if (event) { this.isModal = false; }
+  }
+
+  createList(event: PriceList) {
+    console.log(event);
+    this.isModal = false;
   }
 
   nextPage() {

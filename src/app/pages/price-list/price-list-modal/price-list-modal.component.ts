@@ -13,6 +13,7 @@ export class PriceListModalComponent implements OnInit {
   environment = environment;
 
   @Input() action: ModalAction | undefined;
+  @Input() priceList: PriceList | undefined;
   @Output() outputClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() outputNewList: EventEmitter<PriceList> = new EventEmitter<PriceList>();
 
@@ -30,6 +31,12 @@ export class PriceListModalComponent implements OnInit {
     });
     if (this.action === 'new') {
       this.addField();
+    }
+    if (this.action === 'edit' && this.priceList) {
+      this.fields = this.priceList.hours;
+      this.form.get('name')?.setValue(this.priceList.name);
+      this.setFormForEdition();
+      this.form.updateValueAndValidity();
     }
   }
 
@@ -95,6 +102,19 @@ export class PriceListModalComponent implements OnInit {
     }
     this.isSameHours = isError;
     this.sameHoursIndex = sameHourIndex;
+  }
+
+  setFormForEdition() {
+    for (let i in this.priceList?.hours) {
+      const { from, to, price } = this.priceList?.hours[i]!;
+      const groupName = 'group-' + i;
+      const fields = this.fb.group({
+        'from': [from, Validators.required],
+        'to': [to, Validators.required],
+        'price': [price, [Validators.required, Validators.min(0)]],
+      });
+      this.form.addControl(groupName, fields);
+    }
   }
 
   submit() {

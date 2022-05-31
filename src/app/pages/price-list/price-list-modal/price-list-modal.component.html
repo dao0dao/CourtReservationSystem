@@ -1,10 +1,22 @@
 <div class="background">
     <form
+        *ngIf="action === 'new' || action === 'edit'"
         [formGroup]="form"
         class="container"
         (ngSubmit)="submit()"
     >
-        <p class="title">Nowy cennik</p>
+        <p
+            *ngIf="action === 'new'"
+            class="title title--new"
+        >
+            Nowy cennik
+        </p>
+        <p
+            *ngIf="action === 'edit'"
+            class="title title--edit"
+        >
+            Edycja cennika
+        </p>
         <button
             type="button"
             class="btnX"
@@ -105,4 +117,30 @@
             Zapisz
         </button>
     </form>
+    <div
+        *ngIf="action === 'show'"
+        class="container container--show"
+    >
+        <button
+            type="button"
+            class="btnX"
+            (click)="closeModal()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+            </svg>
+        </button>
+        <p class="title title--show">{{priceList?.name}}</p>
+        <div
+            *ngFor="let field of priceList?.hours | keyvalue"
+            class="field"
+        >
+            <p class="data">
+                <span>
+                    {{field.value.from}} - {{field.value.to}},
+                </span>
+                <span>Cena: {{field.value.price}}zł</span>
+            </p>
+        </div>
+    </div>
 </div>

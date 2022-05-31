@@ -26,9 +26,11 @@ export class PriceListModalComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      'name': ['', Validators.required]
-    });
+    if (this.action === 'new' || this.action === 'edit') {
+      this.form = this.fb.group({
+        'name': ['', Validators.required]
+      });
+    }
     if (this.action === 'new') {
       this.addField();
     }
@@ -119,6 +121,7 @@ export class PriceListModalComponent implements OnInit {
 
   submit() {
     const priceList: PriceList = {
+      id: this.priceList?.id,
       name: this.form.get('name')?.value,
       hours: this.fields
     };

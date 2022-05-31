@@ -7,6 +7,7 @@ export interface HourPrice {
 }
 
 export interface PriceList {
-    name: string,
+    id?: string;
+    name: string;
     hours: { [key: string]: HourPrice; };
 }

@@ -23,6 +23,8 @@ import { TimetableModalComponent } from './timetable/timetable-modal/timetable-m
 import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { PriceListModalComponent } from './price-list/price-list-modal/price-list-modal.component';
+import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price-delete-modal.component';
+
 
 
 
@@ -44,6 +46,7 @@ import { PriceListModalComponent } from './price-list/price-list-modal/price-lis
     DeleteModalComponent,
     PriceListComponent,
     PriceListModalComponent,
+    PriceDeleteModalComponent
   ],
   imports: [
     CommonModule,

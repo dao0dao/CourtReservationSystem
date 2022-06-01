@@ -13,19 +13,22 @@
         >
         <button
             class="btn btn--add"
-            (click)="openModal('new')"
+            (click)="openEditModal('new')"
         >
             Dodaj
         </button>
     </div>
     <div class="list">
-        <div class="element">
-            <p class="number">#1</p>
-            <p class="name">Jakiś cennik</p>
+        <div
+            *ngFor="let item of priceList; let i = index"
+            class="element"
+        >
+            <p class="number">#{{i}}</p>
+            <p class="name">{{item.name}}</p>
             <div class="buttons">
                 <button
                     class="btn btn--add"
-                    (click)="openModal('show')"
+                    (click)="openEditModal('show', item.id)"
                 >
                     <svg>
                         <use [attr.xlink:href]="environment.svg +'#icon-zoom-2'"></use>
@@ -34,7 +37,7 @@
                 <button
                     *ngIf="stateService.state.isAdmin"
                     class="btn btn--edit"
-                    (click)="openModal('edit')"
+                    (click)="openEditModal('edit', item.id)"
                 >
                     <svg>
                         <use [attr.xlink:href]="environment.svg +'#icon-pencil'"></use>
@@ -81,8 +84,14 @@
     </div>
 </div>
 <app-price-list-modal
-    *ngIf="isModal"
+    *ngIf="isEditModal"
     [action]="modalAction"
-    (outputClose)="closeModal($event)"
+    [priceList]="editedPriceList"
+    (outputClose)="closeEditModal($event)"
     (outputNewList)="createList($event)"
 ></app-price-list-modal>
+<app-price-delete-modal
+    *ngIf="isDeleteModal"
+    [priceList]="deletedPriceList"
+    (outputConfirm)="closeDeleteModal($event)"
+></app-price-delete-modal>

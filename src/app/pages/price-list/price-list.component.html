@@ -23,7 +23,7 @@
             *ngFor="let item of priceList; let i = index"
             class="element"
         >
-            <p class="number">#{{i}}</p>
+            <p class="number">#{{i+1}}</p>
             <p class="name">{{item.name}}</p>
             <div class="buttons">
                 <button
@@ -46,6 +46,7 @@
                 <button
                     *ngIf="stateService.state.isAdmin"
                     class="btn btn--delete"
+                    (click)="openDeleteModal(item)"
                 >
                     <svg>
                         <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>

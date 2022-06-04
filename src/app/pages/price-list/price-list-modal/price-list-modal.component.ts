@@ -28,7 +28,7 @@ export class PriceListModalComponent implements OnInit {
   ngOnInit(): void {
     if (this.action === 'new' || this.action === 'edit') {
       this.form = this.fb.group({
-        'name': ['', Validators.required]
+        'name': ['', [Validators.required, Validators.maxLength(150)]]
       });
     }
     if (this.action === 'new') {
@@ -82,6 +82,11 @@ export class PriceListModalComponent implements OnInit {
   }
 
   validateSameHours() {
+    this.checkCoveringHours();
+    this.checkFromToHours();
+  }
+
+  checkCoveringHours() {
     let isError: boolean = false;
     let sameHourIndex: string = '';
     for (let i in this.fields) {
@@ -104,6 +109,10 @@ export class PriceListModalComponent implements OnInit {
     }
     this.isSameHours = isError;
     this.sameHoursIndex = sameHourIndex;
+  }
+
+  checkFromToHours() {
+    
   }
 
   setFormForEdition() {

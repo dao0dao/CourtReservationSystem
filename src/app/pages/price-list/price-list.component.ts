@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { InfoService } from 'src/app/info.service';
 import { environment } from 'src/environments/environment';
 import { LoginStateService } from '../login-state.service';
 import { ApiService } from './api.service';
-import { ModalAction, PriceList } from './interfaces';
+import { ApiError, ModalAction, PriceList } from './interfaces';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class PriceListComponent implements OnInit {
 
   constructor(
     public stateService: LoginStateService,
-    private api: ApiService
+    private api: ApiService,
+    private infoService: InfoService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,13 @@ export class PriceListComponent implements OnInit {
     if (this.page < 1) {
       this.page = 1;
     }
+    this.getAllPriceList();
+  }
+
+  getAllPriceList() {
+    this.api.getPriceList().subscribe((res) => {
+      this.priceList = res;
+    });
   }
 
   openEditModal(action: ModalAction, editedId?: string) {
@@ -66,7 +75,11 @@ export class PriceListComponent implements OnInit {
             return;
           }
         },
-        error: () => {
+        error: (err: ApiError) => {
+          if (err.status === 400 && err.error.alreadyExist) {
+            this.infoService.showInfo('Taki cennik już istnieje');
+            return;
+          }
           this.isEditModal = false;
           return;
         }
@@ -74,14 +87,23 @@ export class PriceListComponent implements OnInit {
     }
     if (this.modalAction === 'edit') {
       this.api.editPriceList(event).subscribe({
-        next: (res) => {
-          if (res.status === 202) {
-            this.priceList.forEach(pl => pl.id === event.id ? pl = event : null);
+        next: (res: any) => {
+          if (res.updated) {
+            this.priceList.forEach(pl => {
+              if (pl.id === event.id) {
+                pl.name = event.name;
+                pl.hours = event.hours;
+              }
+            });
             this.isEditModal = false;
             return;
           }
         },
-        error: () => {
+        error: (err: ApiError) => {
+          if (err.status === 400 && err.error.alreadyExist) {
+            this.infoService.showInfo('Taki cennik już istnieje');
+            return;
+          }
           this.isEditModal = false;
           return;
         }
@@ -103,6 +125,7 @@ export class PriceListComponent implements OnInit {
     if (isConfirm) {
       this.api.deletePriceList(this.deletedPriceList?.id!).subscribe({
         next: (res) => {
+          this.priceList = this.priceList.filter(p => p.id !== this.deletedPriceList?.id);
           this.hideDeleteModal();
         },
         error: () => {

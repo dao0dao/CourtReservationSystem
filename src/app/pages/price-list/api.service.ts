@@ -24,7 +24,7 @@ export class ApiService {
   }
 
   deletePriceList(id: string): Observable<{ status: number; }> {
-    return this.http.delete<{ status: number; }>(environment + 'price/list' + id);
+    return this.http.delete<{ status: number; }>(environment.apiLink + 'price/list/' + id);
   }
 
 }

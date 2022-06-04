@@ -11,3 +11,10 @@ export interface PriceList {
     name: string;
     hours: { [key: string]: HourPrice; };
 }
+
+export interface ApiError {
+    status: number;
+    error: {
+        alreadyExist?: boolean;
+    };
+}

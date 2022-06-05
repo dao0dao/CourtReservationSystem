@@ -65,13 +65,14 @@
     bottom: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
     font-size: 0.6em;
     color: $mainColorOne;
     text-align: center;
 }
 .field {
     position: relative;
-    padding-bottom: 1.5rem;
+    padding-bottom: 2rem;
     &:not(:first-of-type) {
         margin: 1rem auto 0;
     }

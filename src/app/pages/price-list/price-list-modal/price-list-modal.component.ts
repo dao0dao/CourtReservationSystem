@@ -21,7 +21,9 @@ export class PriceListModalComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
   isSameHours: boolean = false;
-  sameHoursIndex: string = '';
+  existedHourIndex: string = '';
+  wrongHours: { [key: string]: boolean; } = {};
+  isWrongHours: boolean = false;
 
   constructor(private fb: FormBuilder) { }
 
@@ -57,7 +59,7 @@ export class PriceListModalComponent implements OnInit {
     Object.keys(this.fields).forEach(k => parseInt(k) >= lastIndex ? lastIndex = parseInt(k) + 1 : null);
     const field: HourPrice = { from: '', to: '', price: 0 };
     const fields = this.fb.group({
-      'from': ['', Validators.required],
+      'from': ['', [Validators.required]],
       'to': ['', Validators.required],
       'price': ['', [Validators.required, Validators.min(0)]],
     });
@@ -81,9 +83,10 @@ export class PriceListModalComponent implements OnInit {
     return isFrom || isTo || isPrice;
   }
 
-  validateSameHours() {
+  validateSameHours(key: string) {
     this.checkCoveringHours();
-    this.checkFromToHours();
+    this.checkFromToHours(key);
+    this.checkWrongHour()
   }
 
   checkCoveringHours() {
@@ -108,11 +111,25 @@ export class PriceListModalComponent implements OnInit {
       }
     }
     this.isSameHours = isError;
-    this.sameHoursIndex = sameHourIndex;
+    this.existedHourIndex = sameHourIndex;
   }
 
-  checkFromToHours() {
-    
+  checkFromToHours(key: string) {
+    const fromField = this.getField(key, 'from')?.value;
+    const toField = this.getField(key, 'to')?.value;
+    if (!fromField || !toField) { return; }
+    const from = parseFloat(fromField.replace(':', '.'));
+    let to = parseFloat(toField.replace(':', '.'));
+    to == 0 ? to = 24 : null;
+    from < to ? this.wrongHours[key] = false : this.wrongHours[key] = true;
+  }
+
+  checkWrongHour() {
+    let isWrong = false;
+    for (let i in this.wrongHours) {
+      this.wrongHours[i] === true ? isWrong = true : null;
+    }
+    this.isWrongHours = isWrong;
   }
 
   setFormForEdition() {

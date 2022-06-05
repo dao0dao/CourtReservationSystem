@@ -15,7 +15,12 @@ export class PriceListComponent implements OnInit {
 
   environment = environment;
 
+  isSortAscending: boolean = true;
+
+  searchingContent: string = '';
+
   priceList: PriceList[] = [];
+  sortedPriceList: PriceList[] = [];
 
   page: number = 1;
   itemsPerPage: number = 10;
@@ -35,7 +40,7 @@ export class PriceListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.pageCount = Math.ceil(this.priceList.length / this.itemsPerPage);
+
     if (this.page > this.pageCount) {
       this.page = this.pageCount;
     }
@@ -48,6 +53,9 @@ export class PriceListComponent implements OnInit {
   getAllPriceList() {
     this.api.getPriceList().subscribe((res) => {
       this.priceList = res;
+      this.sortedPriceList = this.priceList;
+      this.setPageCount();
+      this.changeSortDirection();
     });
   }
 
@@ -71,6 +79,7 @@ export class PriceListComponent implements OnInit {
           if (res.status === 201) {
             event.id = res.id;
             this.priceList.push(event);
+            this.searchForName();
             this.isEditModal = false;
             return;
           }
@@ -95,6 +104,7 @@ export class PriceListComponent implements OnInit {
                 pl.hours = event.hours;
               }
             });
+            this.searchForName();
             this.isEditModal = false;
             return;
           }
@@ -126,6 +136,7 @@ export class PriceListComponent implements OnInit {
       this.api.deletePriceList(this.deletedPriceList?.id!).subscribe({
         next: (res) => {
           this.priceList = this.priceList.filter(p => p.id !== this.deletedPriceList?.id);
+          this.searchForName();
           this.hideDeleteModal();
         },
         error: () => {
@@ -134,6 +145,37 @@ export class PriceListComponent implements OnInit {
       });
     } else {
       this.hideDeleteModal();
+    }
+  }
+
+  changeSortDirection(click?: boolean) {
+    if (click) {
+      this.isSortAscending = !this.isSortAscending;
+    }
+    if (this.isSortAscending) {
+      this.sortedPriceList.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      this.sortedPriceList.sort((a, b) => b.name.localeCompare(a.name));
+    }
+  }
+
+  searchForName() {
+    if (!this.searchingContent) {
+      this.sortedPriceList = this.priceList;
+      return;
+    }
+    const newList = [...this.priceList];
+    this.sortedPriceList = newList.filter(el => el.name.toLowerCase().includes(this.searchingContent.toLowerCase()));
+    this.changeSortDirection();
+  }
+
+  setPageCount() {
+    this.pageCount = Math.ceil(this.sortedPriceList.length / this.itemsPerPage);
+    if (this.page > this.pageCount) {
+      this.page = this.pageCount;
+    }
+    if (this.page < 1) {
+      this.page = 1;
     }
   }
 

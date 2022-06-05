@@ -50,7 +50,15 @@ export class LoginComponent implements OnInit {
       nick: ['', Validators.required],
       password: ['', Validators.required]
     });
-
+    this.http.get<Login>(environment.apiLink + 'isLogin').subscribe({
+      next: (res: Login) => {
+        if (res.isLogin) {
+          this.loginStateService.logIn(res.isAdmin, res.user);
+          this.loginForm.reset();
+          this.router.navigate(['/timetable']);
+        }
+      }
+    });
   }
 
 }

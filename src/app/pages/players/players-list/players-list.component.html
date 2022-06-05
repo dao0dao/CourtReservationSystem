@@ -4,9 +4,9 @@
         <button
             class="btn--sort"
             [ngClass]="{
-        'btn--sort--active': sortedView.name.isActive,
-        'btn--sort--down': !sortedView.name.top
-    }"
+            'btn--sort--active': sortedView.name.isActive,
+            'btn--sort--down': !sortedView.name.top
+            }"
             (click)="sortBy('name')"
         >
             Imię
@@ -318,7 +318,12 @@
                             [attr.disabled]="isView ? true: null"
                             [ngClass]="{'full': getField('balls')?.value}"
                         ></textarea>
-                        <label class="top" for="balls">Ulubione piłki</label>
+                        <label
+                            class="top"
+                            for="balls"
+                        >
+                            Ulubione piłki
+                        </label>
                         <div class="error">
                             <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 150 znaków</p>
                         </div>

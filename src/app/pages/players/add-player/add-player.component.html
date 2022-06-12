@@ -161,19 +161,19 @@
         <div class="category_field">
             <textarea
                 type="text"
-                id="balls"
+                id="racquet"
                 class="input input--short"
-                formControlName="balls"
-                [ngClass]="{'full': getField('balls')?.value}"
+                formControlName="racquet"
+                [ngClass]="{'full': getField('racquet')?.value}"
             ></textarea>
             <label
                 class="top"
-                for="balls"
+                for="racquet"
             >
                 Ulubione piłki
             </label>
             <div class="error">
-                <p *ngIf="(getField('balls')?.invalid && getField('balls')?.touched) || errors.balls">Max 150 znaków</p>
+                <p *ngIf="(getField('racquet')?.invalid && getField('racquet')?.touched) || errors.racquet">Max 150 znaków</p>
             </div>
         </div>
     </div>

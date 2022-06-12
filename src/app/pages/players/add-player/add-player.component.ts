@@ -50,11 +50,11 @@ export class AddPlayerComponent implements OnInit {
 
   submit() {
     this.isSending = true;
-    const { name, surname, telephone, email, account, priceListId, court, strings, tension, balls, notes } = this.formAddPlayer.value;
+    const { name, surname, telephone, email, account, priceListId, court, strings, tension, racquet, notes } = this.formAddPlayer.value;
     const player: PlayerSql = {
       weeks: this.weeks,
       opponents: this.opponents,
-      name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, balls, notes
+      name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, racquet, notes
     };
     this.api.addPlayer(player).subscribe({
       next: (res: { id: string; }) => {
@@ -87,7 +87,7 @@ export class AddPlayerComponent implements OnInit {
       court: [0],
       strings: ['', Validators.maxLength(250)],
       tension: [, Validators.maxLength(250)],
-      balls: ['', Validators.maxLength(150)],
+      racquet: ['', Validators.maxLength(150)],
       notes: ['', Validators.maxLength(500)]
     });
   }

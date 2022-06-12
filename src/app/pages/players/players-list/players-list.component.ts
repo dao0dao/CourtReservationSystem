@@ -87,7 +87,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
       court: [0],
       strings: ['', Validators.maxLength(250)],
       tension: ['', Validators.maxLength(250)],
-      balls: ['', Validators.maxLength(150)],
+      racquet: ['', Validators.maxLength(150)],
       notes: ['', Validators.maxLength(500)]
     });
   }
@@ -153,7 +153,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.getField('court')?.setValue(player.court);
     this.getField('strings')?.setValue(player.stringsName);
     this.getField('tension')?.setValue(player.tension);
-    this.getField('balls')?.setValue(player.balls);
+    this.getField('racquet')?.setValue(player.racquet);
     this.getField('notes')?.setValue(player.notes);
     this.formEditPlayer.updateValueAndValidity();
   }
@@ -180,11 +180,11 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
 
   submit() {
     this.isSending = true;
-    const { id, name, surname, telephone, email, account, priceListId, court, strings, tension, balls, notes } = this.formEditPlayer.value;
+    const { id, name, surname, telephone, email, account, priceListId, court, strings, tension, racquet, notes } = this.formEditPlayer.value;
     const player: PlayerSql = {
       weeks: this.updatedWeeks,
       opponents: this.updatedOpponents,
-      id, name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, balls, notes
+      id, name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, racquet, notes
     };
     this.api.updatePlayer(player).subscribe({
       next: () => {

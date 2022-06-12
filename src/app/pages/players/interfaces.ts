@@ -35,7 +35,7 @@ export interface Player {
   court: number,
   stringsName: string,
   tension: number,
-  balls: string,
+  racquet: string,
   notes: string;
 };
 
@@ -51,7 +51,7 @@ export interface AddPlayerError {
   court?: boolean;
   strings?: boolean;
   tension?: boolean;
-  balls?: boolean;
+  racquet?: boolean;
   opponents?: boolean;
   weeks?: boolean;
   notes?: boolean;

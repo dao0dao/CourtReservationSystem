@@ -111,7 +111,7 @@ export class FilterPlayersService {
     const value = input.toLocaleLowerCase().split(' ');
     const players: Player[] = [];
     array.forEach(p => {
-      const { name, surname, telephone, email, court, stringsName, balls, notes } = p;
+      const { name, surname, telephone, email, court, stringsName, racquet, notes } = p;
       let matches: number = 0;
       for (let i = 0; i < value.length; i++) {
         const word = value[i].toLocaleLowerCase();
@@ -121,7 +121,7 @@ export class FilterPlayersService {
           telephone?.toString().startsWith(word) ||
           email?.toLocaleLowerCase().startsWith(word) ||
           stringsName?.toLocaleLowerCase().startsWith(word) ||
-          balls?.toLocaleLowerCase().startsWith(word)
+          racquet?.toLocaleLowerCase().startsWith(word)
           // || notes?.toLocaleLowerCase().includes(word)
           // || priceSummer?.toString().includes(word) ||
           // priceWinter?.toString().includes(word) 

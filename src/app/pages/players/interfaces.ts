@@ -31,8 +31,7 @@ export interface Player {
   telephone: number,
   email: string,
   account: number,
-  priceSummer: number,
-  priceWinter: number,
+  priceListId: string;
   court: number,
   stringsName: string,
   tension: number,
@@ -48,8 +47,7 @@ export interface AddPlayerError {
   telephone?: boolean;
   email?: boolean;
   account?: boolean;
-  priceSummer?: boolean;
-  priceWinter?: boolean;
+  priceListId?: boolean;
   court?: boolean;
   strings?: boolean;
   tension?: boolean;

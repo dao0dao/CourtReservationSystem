@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PriceList } from '../price-list/interfaces';
 import { Player, PlayerSql } from './interfaces';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class ApiService {
 
   deletePlayer(playerId: string): Observable<any> {
     return this.http.delete<any>(environment.apiLink + 'players/deletePlayer/' + playerId);
+  }
+
+  getPriceList(): Observable<PriceList[]> {
+    return this.http.get<PriceList[]>(environment.apiLink + 'price/list');
   }
 
 }

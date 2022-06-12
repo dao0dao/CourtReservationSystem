@@ -27,11 +27,13 @@
     <app-add-player
         *ngIf="overlap === 'add'"
         [allOpponents]="allOpponents"
+        [priceList]="priceList"
         (outputRefreshList)="reloadPlayers()"
     ></app-add-player>
     <app-players-list
         *ngIf="overlap === 'list'"
         [players]="players"
+        [priceList]="priceList"
         [allOpponents]="allOpponents"
         (outputUpdateUser)="reloadPlayers()"
     ></app-players-list>

@@ -7,6 +7,7 @@ import { EditPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from 
 import { LoginStateService } from '../../login-state.service';
 import { animations } from './animations';
 import { SearchingService } from '../searching.service';
+import { PriceList } from '../../price-list/interfaces';
 
 interface Sort {
   surname: { isActive: boolean, top: boolean; },
@@ -33,6 +34,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
 
   @Input() players: Player[] = [];
   @Input() allOpponents: Opponent[] = [];
+  @Input() priceList: PriceList[] = [];
   @Output() outputUpdateUser: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isAdmin: boolean = false;
@@ -81,8 +83,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
       surname: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
       telephone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       email: ['', [Validators.email]],
-      priceSummer: [0, [Validators.min(0), Validators.max(1000)]],
-      priceWinter: [0, [Validators.min(0), Validators.max(1000)]],
+      priceListId: [''],
       court: [0],
       strings: ['', Validators.maxLength(250)],
       tension: ['', Validators.maxLength(250)],
@@ -119,8 +120,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.formEditPlayer.reset();
     this.changeStatus = !this.changeStatus;
     this.getField('id')?.setValue('');
-    this.getField('priceSummer')?.setValue(0);
-    this.getField('priceWinter')?.setValue(0);
+    this.getField('priceListId')?.setValue('');
     this.getField('court')?.setValue(0);
     this.getField('tension')?.setValue(25);
     this.formEditPlayer.updateValueAndValidity();
@@ -149,8 +149,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
     this.getField('surname')?.setValue(player.surname);
     this.getField('telephone')?.setValue(player.telephone);
     this.getField('email')?.setValue(player.email);
-    this.getField('priceSummer')?.setValue(player.priceSummer);
-    this.getField('priceWinter')?.setValue(player.priceWinter);
+    this.getField('priceListId')?.setValue(player.priceListId);
     this.getField('court')?.setValue(player.court);
     this.getField('strings')?.setValue(player.stringsName);
     this.getField('tension')?.setValue(player.tension);
@@ -181,11 +180,11 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
 
   submit() {
     this.isSending = true;
-    const { id, name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formEditPlayer.value;
+    const { id, name, surname, telephone, email, account, priceListId, court, strings, tension, balls, notes } = this.formEditPlayer.value;
     const player: PlayerSql = {
       weeks: this.updatedWeeks,
       opponents: this.updatedOpponents,
-      id, name, surname, telephone, email, account, priceSummer, priceWinter, court, stringsName: strings, tension, balls, notes
+      id, name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, balls, notes
     };
     this.api.updatePlayer(player).subscribe({
       next: () => {

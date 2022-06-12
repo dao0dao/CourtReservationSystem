@@ -77,31 +77,26 @@
             </div>
         </div>
         <div class="category_field">
-            <input
-                type="number"
-                id="price"
-                step="0.01"
-                min="0"
-                formControlName="priceSummer"
-                [ngClass]="{'full': getField('priceSummer')?.value >= 0}"
+            <select
+                class="select"
+                formControlName="priceListId"
             >
-            <label for="price">Letnia stawka</label>
+                <option
+                    value
+                    selected
+                    id="priceListId"
+                >
+                    Wybierz cennik
+                </option>
+                <option
+                    *ngFor="let price of priceList"
+                    [value]="price.id"
+                >
+                    {{price.name}}
+                </option>
+            </select>
             <div class="error">
-                <p *ngIf="(getField('priceSummer')?.invalid && getField('priceSummer')?.touched) || errors.priceSummer">Zakres 0 - 1000PLN</p>
-            </div>
-        </div>
-        <div class="category_field">
-            <input
-                type="number"
-                id="price"
-                step="0.01"
-                min="0"
-                formControlName="priceWinter"
-                [ngClass]="{'full': getField('priceWinter')?.value >= 0}"
-            >
-            <label for="price">Zimowa stawka</label>
-            <div class="error">
-                <p *ngIf="(getField('priceWinter')?.invalid && getField('priceWinter')?.touched) || errors.priceWinter">Zakres 0 - 1000PLN</p>
+                <p *ngIf="errors.priceListId">Niewłaściwy cennik</p>
             </div>
         </div>
         <div class="category_field">
@@ -111,7 +106,6 @@
                 formControlName="court"
             >
                 <option
-                    disabled
                     value="0"
                     selected="selected"
                 >

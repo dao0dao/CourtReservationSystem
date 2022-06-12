@@ -14,7 +14,7 @@ export class SearchingService {
     const value = input.toLocaleLowerCase().split(' ');
     const players: Player[] = [];
     array.forEach(p => {
-      const { name, surname, telephone, email, priceSummer, priceWinter, court, stringsName, balls, notes } = p;
+      const { name, surname, telephone, email, court, stringsName, balls, notes } = p;
       let matches: number = 0;
       for (let i = 0; i < value.length; i++) {
         const word = value[i].toLocaleLowerCase();

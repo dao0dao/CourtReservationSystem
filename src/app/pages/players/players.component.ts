@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoginStateService } from '../login-state.service';
+import { PriceList } from '../price-list/interfaces';
 import { ApiService } from './api.service';
 import { Opponent, Player } from './interfaces';
 
@@ -18,10 +19,12 @@ export class PlayersComponent implements OnInit {
 
   overlap: Overlap = 'list';
   players: Player[] = [];
+  priceList: PriceList[] = [];
   isLoading: boolean = true;
 
   ngOnInit(): void {
     this.loadPlayers();
+    this.api.getPriceList().subscribe(res => { this.priceList = res; });
   }
 
   changeOverlap(name: Overlap) {

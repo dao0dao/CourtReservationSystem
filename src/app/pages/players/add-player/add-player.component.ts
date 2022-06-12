@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InfoService } from 'src/app/info.service';
-import { Player, AddPlayerError, Opponent, Week, OpponentSql, PlayerSql } from '../interfaces';
+import { AddPlayerError, Opponent, Week, OpponentSql, PlayerSql } from '../interfaces';
 import { ApiService } from '../api.service';
+import { PriceList } from '../../price-list/interfaces';
 
 @Component({
   selector: 'app-add-player',
@@ -14,6 +15,7 @@ export class AddPlayerComponent implements OnInit {
   weeks: Week[] = [];
   opponents: OpponentSql[] = [];
   @Input() allOpponents: Opponent[] = [];
+  @Input() priceList: PriceList[] = [];
   @Output() outputRefreshList: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isSending: boolean = false;
@@ -39,8 +41,7 @@ export class AddPlayerComponent implements OnInit {
   resetForm() {
     this.formAddPlayer.reset();
     this.getField('account')?.setValue(0);
-    this.getField('priceSummer')?.setValue(0);
-    this.getField('priceWinter')?.setValue(0);
+    this.getField('priceListId')?.setValue('');
     this.getField('tension')?.setValue(25);
     this.getField('court')?.setValue(0);
     this.formAddPlayer.updateValueAndValidity();
@@ -49,11 +50,11 @@ export class AddPlayerComponent implements OnInit {
 
   submit() {
     this.isSending = true;
-    const { name, surname, telephone, email, account, priceSummer, priceWinter, court, strings, tension, balls, notes } = this.formAddPlayer.value;
+    const { name, surname, telephone, email, account, priceListId, court, strings, tension, balls, notes } = this.formAddPlayer.value;
     const player: PlayerSql = {
       weeks: this.weeks,
       opponents: this.opponents,
-      name, surname, telephone, email, account, priceSummer, priceWinter, court, stringsName: strings, tension, balls, notes
+      name, surname, telephone, email, account, priceListId, court, stringsName: strings, tension, balls, notes
     };
     this.api.addPlayer(player).subscribe({
       next: (res: { id: string; }) => {
@@ -82,8 +83,7 @@ export class AddPlayerComponent implements OnInit {
       telephone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       email: ['', [Validators.email]],
       account: [0, [Validators.required, Validators.min(0)]],
-      priceSummer: [0, [Validators.min(0), Validators.max(1000)]],
-      priceWinter: [0, [Validators.min(0), Validators.max(1000)]],
+      priceListId: [''],
       court: [0],
       strings: ['', Validators.maxLength(250)],
       tension: [, Validators.maxLength(250)],

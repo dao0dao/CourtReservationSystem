@@ -17,6 +17,7 @@
             (keyup)="searchForName()"
         >
         <button
+            *ngIf="stateService.state.isAdmin"
             class="btn btn--add"
             (click)="openEditModal('new')"
         >

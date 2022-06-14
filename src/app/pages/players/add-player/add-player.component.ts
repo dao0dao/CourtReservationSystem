@@ -42,7 +42,7 @@ export class AddPlayerComponent implements OnInit {
     this.formAddPlayer.reset();
     this.getField('account')?.setValue(0);
     this.getField('priceListId')?.setValue('');
-    this.getField('tension')?.setValue(25);
+    this.getField('tension')?.setValue('');
     this.getField('court')?.setValue(0);
     this.formAddPlayer.updateValueAndValidity();
     this.changeStatus = !this.changeStatus;

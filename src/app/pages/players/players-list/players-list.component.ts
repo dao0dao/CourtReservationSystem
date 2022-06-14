@@ -106,7 +106,7 @@ export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['players'].currentValue != changes['players'].previousValue) {
+    if (changes['players']?.currentValue != changes['players']?.previousValue) {
       this.filteredPlayers = [...this.players];
       this.sortBy('surname');
     }

@@ -24,6 +24,7 @@ import { DeleteModalComponent } from './timetable/delete-modal/delete-modal.comp
 import { PriceListComponent } from './price-list/price-list.component';
 import { PriceListModalComponent } from './price-list/price-list-modal/price-list-modal.component';
 import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price-delete-modal.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 
 
@@ -46,7 +47,8 @@ import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price
     DeleteModalComponent,
     PriceListComponent,
     PriceListModalComponent,
-    PriceDeleteModalComponent
+    PriceDeleteModalComponent,
+    PaymentsComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price
       { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
       { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
       { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
-      { path: 'price/list', component: PriceListComponent, canActivate: [IsLoginGuard] }
+      { path: 'price/list', component: PriceListComponent, canActivate: [IsLoginGuard] },
+      { path: 'price/services', component: PaymentsComponent, canActivate: [IsLoginGuard] },
     ]),
     DragDropModule,
     MatDatepickerModule

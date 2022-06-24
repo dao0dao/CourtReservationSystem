@@ -1,4 +1,11 @@
 <div
+    *ngIf="!isLoadedServices || !isLoadedPlayers"
+    class="container"
+>
+    <app-loader></app-loader>
+</div>
+<div
+    *ngIf="isLoadedServices && isLoadedPlayers"
     class="container"
     (click)="selectHandler.toggleList($event)"
 >
@@ -7,6 +14,7 @@
         <button
             *ngIf="loginService.state.isAdmin"
             class="btn btn--edit"
+            (click)="openServiceList()"
         >
             <svg>
                 <use [attr.xlink:href]="environment.svg +'#icon-settings'"></use>
@@ -101,10 +109,10 @@
                     Wybierz usługę
                 </option>
                 <option
-                    *ngFor="let serv of services"
-                    [value]="serv.name"
+                    *ngFor="let serv of services |keyvalue"
+                    [value]="serv.value.name"
                 >
-                    {{serv.name}}
+                    {{serv.value.name}}
                 </option>
             </select>
         </div>
@@ -132,4 +140,9 @@
             Pobierz z konta
         </button>
     </div>
+    <app-service-list
+        *ngIf="isServiceList"
+        [services]="services"
+        (outputCloseServiceList)="closeServiceList()"
+    ></app-service-list>
 </div>

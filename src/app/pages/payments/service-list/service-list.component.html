@@ -1,0 +1,83 @@
+<div class="background">
+    <form
+        class="container"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+    >
+        <button
+            type="button"
+            class="btnX"
+            (click)="closeList()"
+        >
+            <svg>
+                <use [attr.xlink:href]="environment.svg +'#icon-close'"></use>
+            </svg>
+        </button>
+        <div class="scroll">
+            <div
+                *ngFor="let s of services| keyvalue;"
+                class="block"
+                [ngClass]="{'deleting': s.value.isDeleting}"
+                [formGroupName]="'group-'+s.key"
+            >
+                <div class="column">
+                    <div class="field">
+                        <input
+                            type="text"
+                            formControlName="name"
+                            [id]="'name-'+s.key"
+                            [ngClass]="{'full': getField(s.key, 'name')?.value}"
+                        >
+                        <label
+                            class="top"
+                            [for]="'name-'+s.key"
+                        >
+                            Usługa:
+                        </label>
+                    </div>
+                    <div class="field">
+                        <input
+                            type="number"
+                            name
+                            [id]="'cost-'+s.key"
+                            min="0"
+                            step="0.01"
+                            formControlName="cost"
+                            [ngClass]="{'full': getField(s.key, 'cost')?.value !== null}"
+                        >
+                        <label [for]="'cost-'+s.key">Cena:</label>
+                    </div>
+                </div>
+                <button
+                    type="button"
+                    class="btn btn--delete"
+                    (click)="removeField(s.key)"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-delete'"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="addField">
+                <button
+                    type="button"
+                    (click)="addField()"
+                >
+                    <svg>
+                        <use [attr.xlink:href]="environment.svg +'#icon-plus-2'"></use>
+                    </svg>
+                    pole
+                </button>
+            </div>
+        </div>
+        <div class="submit">
+            <button
+                type="submit"
+                class="btn btn--add"
+                [disabled]="form.invalid"
+            >
+                Zapisz
+            </button>
+        </div>
+    </form>
+</div>

@@ -22,10 +22,16 @@ export class PaymentsComponent implements OnInit {
 
   environment = environment;
 
-  services: Services[] = [
-    { name: 'Opłata manipulacyjna', cost: 0 },
-    { name: 'Wymiana naciągu', cost: 40 },
-  ];
+  services: { [key: string]: Services; } = {
+    0: { id: '1', name: 'Opłata manipulacyjna', cost: 0 },
+    1: { id: '2', name: 'Wymiana naciągu', cost: 40 },
+    2: { id: '3', name: 'Zakup owijki', cost: 40 },
+    3: { id: '4', name: 'Woda gazowana', cost: 40 },
+    4: { id: '5', name: 'Czekoladka', cost: 40 },
+  };
+
+  isLoadedServices: boolean = false;
+  isLoadedPlayers: boolean = false;
 
   players: Player[] = [];
   selectedPlayer: Player | undefined;
@@ -37,10 +43,21 @@ export class PaymentsComponent implements OnInit {
   selectService: string = '';
   inputService: number | undefined;
 
+  isServiceList: boolean = false;
+
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this.api.getAllPlayers().pipe(take(1)).subscribe((res) => {
       this.players = res;
       this.selectHandler.filteredPlayers = res;
+      this.isLoadedPlayers = true;
+    });
+    this.api.getAllServices().subscribe((res) => {
+      this.services = res;
+      this.isLoadedServices = true;
     });
   }
 
@@ -59,6 +76,8 @@ export class PaymentsComponent implements OnInit {
     this.action = undefined;
     this.selectedPlayer = undefined;
     this.inputCharge = 0;
+    this.inputService = undefined;
+    this.selectService = '';
   }
 
   selectPlayer() {
@@ -87,14 +106,34 @@ export class PaymentsComponent implements OnInit {
 
   changeService() {
     if (this.selectService) {
-      this.services.forEach(s => {
+      for (let i in this.services) {
+        const s = this.services[i];
         if (s.name === this.selectService) {
           this.inputService = s.cost;
         }
-      });
+      }
     } else {
       this.inputService = undefined;
     }
+  }
+
+  openServiceList() {
+    this.isServiceList = true;
+  }
+
+  closeServiceList() {
+    this.isServiceList = false;
+    this.services = {};
+    this.isLoadedServices = false;
+    this.api.getAllServices().subscribe({
+      next: (res) => {
+        this.services = res;
+        this.isLoadedServices = true;
+      },
+      error: (err) => {
+        this.isLoadedServices = true;
+      }
+    });
   }
 
 

@@ -89,6 +89,7 @@
         <button
             class="btn btn--add"
             [attr.disabled]="(this.inputCharge > 0) ? null : true"
+            (click)="chargeAccount()"
         >
             Doładuj
         </button>
@@ -125,17 +126,26 @@
                 [ngClass]="{'full': (inputService !== undefined && inputService !== null)}"
                 [(ngModel)]="inputService"
             >
-            <label for="price">Cena w PLN</label>
+            <label for="price">Cena:</label>
         </div>
         <button
             class="btn btn--add"
             [attr.disabled]="(inputService !== undefined && inputService !== null) ? null: true"
+            (click)="getPaymentForService('cash')"
         >
             Zapłacono gotówką
         </button>
         <button
+            class="btn btn--edit"
+            [attr.disabled]="(inputService !== undefined && inputService !== null) ? null: true"
+            (click)="getPaymentForService('transfer')"
+        >
+            Zapłacono przelewem
+        </button>
+        <button
             class="btn btn--delete"
             [attr.disabled]="(inputService !== undefined && inputService !== null) ? null: true"
+            (click)="getPaymentForService('payment')"
         >
             Pobierz z konta
         </button>

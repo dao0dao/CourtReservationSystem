@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LoginStateService } from '../login-state.service';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
-import { Action, Services } from './interfaces';
+import { Action, ServicePayment, Services } from './interfaces';
 import { SelectHandlerService } from './select-handler.service';
 
 @Component({
@@ -22,13 +22,7 @@ export class PaymentsComponent implements OnInit {
 
   environment = environment;
 
-  services: { [key: string]: Services; } = {
-    0: { id: '1', name: 'Opłata manipulacyjna', cost: 0 },
-    1: { id: '2', name: 'Wymiana naciągu', cost: 40 },
-    2: { id: '3', name: 'Zakup owijki', cost: 40 },
-    3: { id: '4', name: 'Woda gazowana', cost: 40 },
-    4: { id: '5', name: 'Czekoladka', cost: 40 },
-  };
+  services: { [key: string]: Services; } = {};
 
   isLoadedServices: boolean = false;
   isLoadedPlayers: boolean = false;
@@ -72,9 +66,9 @@ export class PaymentsComponent implements OnInit {
   }
 
   resetPayments() {
-    this.playerInput = '';
     this.action = undefined;
     this.selectedPlayer = undefined;
+    this.playerInput = '';
     this.inputCharge = 0;
     this.inputService = undefined;
     this.selectService = '';
@@ -122,8 +116,8 @@ export class PaymentsComponent implements OnInit {
   }
 
   closeServiceList() {
-    this.isServiceList = false;
     this.services = {};
+    this.isServiceList = false;
     this.isLoadedServices = false;
     this.api.getAllServices().subscribe({
       next: (res) => {
@@ -136,5 +130,34 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
+  chargeAccount() {
+    const data: ServicePayment = {
+      id: this.selectedPlayer?.id!,
+      value: this.inputCharge,
+      name: this.selectedPlayer?.name! + ' ' + this.selectedPlayer?.surname!,
+      serviceName: 'Doładowanie konta',
+      action: 'charge'
+    };
+    this.api.accountChargeOrPayment(data).subscribe({
+      next: (res) => {
+        this.resetPayments();
+      }
+    });
+  }
+
+  getPaymentForService(action: 'payment' | 'cash' | 'transfer') {
+    const data: ServicePayment = {
+      id: this.selectedPlayer?.id!,
+      value: this.inputService!,
+      name: this.selectedPlayer?.name! + ' ' + this.selectedPlayer?.surname!,
+      serviceName: this.selectService,
+      action
+    };
+    this.api.accountChargeOrPayment(data).subscribe({
+      next: (res) => {
+        this.resetPayments();
+      }
+    });
+  }
 
 }

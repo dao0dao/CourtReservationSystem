@@ -22,7 +22,7 @@ export class ServiceListComponent implements OnInit {
 
   ngOnInit(): void {
     for (let i in this.services) {
-      this.addFields(i, this.services[i].name, this.services[i].cost);
+      this.addFields(i, this.services[i].name, this.services[i].cost, this.services[i].id!);
     }
     this.form.updateValueAndValidity();
   }
@@ -34,8 +34,9 @@ export class ServiceListComponent implements OnInit {
     return this.getGroup(groupNumber)?.get(fieldName);
   }
 
-  addFields(index: string, serviceName: string, value: number) {
+  addFields(index: string, serviceName: string, value: number, serviceId: string) {
     const group = this.fb.group({
+      id: [serviceId],
       name: [serviceName, [Validators.required, Validators.maxLength(50)]],
       cost: [value, [Validators.required, Validators.min(0)]]
     });
@@ -46,24 +47,31 @@ export class ServiceListComponent implements OnInit {
   addField() {
     let lastIndex: number = 0;
     Object.keys(this.services).forEach(k => parseInt(k) >= lastIndex ? lastIndex = parseInt(k) + 1 : null);
-    this.addFields(lastIndex.toString(), '', 0);
+    this.addFields(lastIndex.toString(), '', 0, '');
     this.form.updateValueAndValidity();
     this.services[lastIndex] = { name: '', cost: 0 };
   }
 
   removeField(key: string) {
     this.services[key].isDeleting = true;
-    this.api.deleteService(key).subscribe({
-      next: () => {
-        const groupName = 'group-' + key;
-        this.form.removeControl(groupName);
-        this.form.updateValueAndValidity();
-        delete this.services[key];
-      },
-      error: () => {
-        this.services[key].isDeleting = false;
-      }
-    });
+    if (this.services[key].id) {
+      this.api.deleteService(this.services[key].id!).subscribe({
+        next: () => {
+          const groupName = 'group-' + key;
+          this.form.removeControl(groupName);
+          this.form.updateValueAndValidity();
+          delete this.services[key];
+        },
+        error: () => {
+          this.services[key].isDeleting = false;
+        }
+      });
+    } else {
+      const groupName = 'group-' + key;
+      this.form.removeControl(groupName);
+      this.form.updateValueAndValidity();
+      delete this.services[key];
+    }
   }
 
   closeList() {
@@ -71,8 +79,14 @@ export class ServiceListComponent implements OnInit {
   }
 
   submit() {
-    this.api.submitList(this.services).subscribe({
+    const data: { [key: string]: Services; } = {};
+    for (let i in this.form.value) {
+      const groupNumber = i.slice(i.lastIndexOf('-') + 1);
+      data[groupNumber] = this.form.value[i];
+    }
+    this.api.submitList(data).subscribe({
       next: (res) => {
+        this.services = {};
         this.closeList();
       },
       error: (err) => {

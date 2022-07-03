@@ -159,7 +159,7 @@ export class TimetableComponent implements OnInit {
 
   submit(input: ReservationForm) {
     const { form } = input;
-    const { date, timeFrom, timeTo, court, playerOne, playerTwo, guestOne, guestTwo } = form;
+    const { date, timeFrom, timeTo, court, playerOne, playerTwo, guestOne, guestTwo, } = form;
     const formSQL: FormSQL = {
       date,
       timeFrom,
@@ -168,14 +168,15 @@ export class TimetableComponent implements OnInit {
       playerOneId: playerOne?.id!,
       playerTwoId: playerTwo?.id!,
       guestOne,
-      guestTwo
+      guestTwo,
     };
     const transformY: number = this.reservationService.setTransformY(form.timeFrom);
     const transformX: number = this.reservationService.setTransformX(form.court);
     const ceilHeight: number = this.reservationService.setCeilHeight(form.timeFrom, form.timeTo);
     const zIndex: number = this.reservationService.setHighestIndexInColumn(form.court, this.reservations);
     const hourCount: number = this.reservationService.setHourCount(form.timeFrom, form.timeTo);
-    const isPayed: boolean = false;
+    const isPlayerOnePayed: boolean = false;
+    const isPlayerTwoPayed: boolean = false;
 
     const newReservation: Reservation = {
       timetable: {
@@ -188,7 +189,8 @@ export class TimetableComponent implements OnInit {
       payment: {
         hourCount
       },
-      isPayed
+      isPlayerOnePayed,
+      isPlayerTwoPayed
     };
     const newReservationSQL: ReservationSQL = {
       timetable: {
@@ -201,7 +203,8 @@ export class TimetableComponent implements OnInit {
       payment: {
         hourCount
       },
-      isPayed
+      isPlayerOnePayed,
+      isPlayerTwoPayed
     };
     const addToTimetable: boolean = date == this.date;
     if (this.modalAction === 'new') {
@@ -241,7 +244,8 @@ export class TimetableComponent implements OnInit {
           if (r.id === this.editedReservation?.id) {
             r.timetable = updatedReservation.timetable;
             r.form = updatedReservation.form;
-            r.isPayed = updatedReservation.isPayed;
+            r.isPlayerOnePayed = updatedReservation.isPlayerOnePayed;
+            r.isPlayerTwoPayed = updatedReservation.isPlayerTwoPayed;
           }
         });
         this.closeModal();

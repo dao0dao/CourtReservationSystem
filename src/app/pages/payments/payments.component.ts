@@ -136,7 +136,7 @@ export class PaymentsComponent implements OnInit {
       value: this.inputCharge,
       name: this.selectedPlayer?.name! + ' ' + this.selectedPlayer?.surname!,
       serviceName: 'Doładowanie konta',
-      action: 'charge'
+      paymentMethod: 'charge'
     };
     this.api.accountChargeOrPayment(data).subscribe({
       next: (res) => {
@@ -145,13 +145,13 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  getPaymentForService(action: 'payment' | 'cash' | 'transfer') {
+  getPaymentForService(paymentMethod: 'payment' | 'cash' | 'transfer') {
     const data: ServicePayment = {
       id: this.selectedPlayer?.id!,
       value: this.inputService!,
       name: this.selectedPlayer?.name! + ' ' + this.selectedPlayer?.surname!,
       serviceName: this.selectService,
-      action
+      paymentMethod
     };
     this.api.accountChargeOrPayment(data).subscribe({
       next: (res) => {

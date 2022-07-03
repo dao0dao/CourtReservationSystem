@@ -26,6 +26,7 @@ import { PriceListModalComponent } from './price-list/price-list-modal/price-lis
 import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price-delete-modal.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { ServiceListComponent } from './payments/service-list/service-list.component';
+import { AccountBalanceComponent } from './account-balance/account-balance.component';
 
 
 
@@ -50,7 +51,8 @@ import { ServiceListComponent } from './payments/service-list/service-list.compo
     PriceListModalComponent,
     PriceDeleteModalComponent,
     PaymentsComponent,
-    ServiceListComponent
+    ServiceListComponent,
+    AccountBalanceComponent
   ],
   imports: [
     CommonModule,
@@ -63,6 +65,7 @@ import { ServiceListComponent } from './payments/service-list/service-list.compo
       { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
       { path: 'price/list', component: PriceListComponent, canActivate: [IsLoginGuard] },
       { path: 'price/services', component: PaymentsComponent, canActivate: [IsLoginGuard] },
+      { path: 'price/balance', component: AccountBalanceComponent, canActivate: [IsLoginGuard] },
     ]),
     DragDropModule,
     MatDatepickerModule

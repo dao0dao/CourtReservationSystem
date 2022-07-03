@@ -1,0 +1,131 @@
+<div
+    class="container"
+    (click)="selectHandler.toggleList($event)"
+>
+    <div class="header">
+        <p class="title">Finanse gracza</p>
+    </div>
+    <div class="field">
+        <input
+            type="text"
+            id="player"
+            [ngClass]="{'full': playerInput}"
+            [(ngModel)]="playerInput"
+            placeholder="Wybierz gracza"
+            (keydown)="selectHandler.keyDown($event, selectHandler.filteredPlayers.length)"
+            (keydown.enter)="selectPlayer()"
+            (keyup)="checkInput($event); selectHandler.findPlayer(playerInput, players)"
+        >
+        <ul
+            class="list"
+            [ngClass]="{'list--open': selectHandler.isOpen}"
+        >
+            <li
+                class="list_element"
+                [ngClass]="{'list_element--active' : selectHandler.activeIndex === 0}"
+                (click)="selectPlayerOnClick(null)"
+            >
+            </li>
+            <li
+                class="list_element"
+                [ngClass]="{'list_element--active' : selectHandler.activeIndex === i+1}"
+                *ngFor="let pl of selectHandler.filteredPlayers; let i = index"
+                (click)="selectPlayerOnClick(pl.id!)"
+            >
+                {{pl.name}} {{pl.surname}}
+            </li>
+        </ul>
+    </div>
+    <div class="action">
+        <button
+            type="button"
+            class="btn btn--add"
+            [attr.disabled]="selectedPlayer === undefined ? true: null"
+        >
+            Wyświetl saldo
+        </button>
+        <p class="text">lub</p>
+        <div
+            class="block block--data"
+            [ngClass]="{'block--disabled': selectedPlayer === undefined}"
+        >
+            <div class="field">
+                <label for="date">Od</label>
+                <input
+                    type="date"
+                    id="from"
+                    [(ngModel)]="dateFrom"
+                >
+            </div>
+            <div class="field">
+                <label for="date">do</label>
+                <input
+                    type="date"
+                    id="to"
+                    [(ngModel)]="dateTo"
+                >
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn btn--edit"
+            [attr.disabled]="(selectedPlayer === undefined || !(dateFrom !== '' || dateTo !== '')) ? true: null"
+        >
+            Pokaż historię
+        </button>
+    </div>
+    <div class="balance">
+        <p
+            *ngIf="selectedPlayer"
+            class="text"
+        >
+            <span class="name">
+                {{selectedPlayer.name.slice(0,1)}}. {{selectedPlayer.surname}}
+            </span>
+            <span class="small">stan konta:</span>
+            <span
+                class="currency"
+                [ngClass]="{'currency--red': accountBalance < 0}"
+            >
+                {{accountBalance}}PLN
+            </span>
+        </p>
+    </div>
+    <div class="history">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Usługa</th>
+                    <th>Cena</th>
+                    <th>Opłacona</th>
+                    <th>Kasjer</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of history">
+                    <td>{{row.date}}</td>
+                    <td>{{row.service}}</td>
+                    <td>{{row.price}}</td>
+                    <td
+                        class="paid"
+                        [ngClass]="{'paid--red': !row.isPaid}"
+                    >
+                        {{row.isPaid ? 'tak': 'nie'}}
+                    </td>
+                    <td>{{row.cashier}}</td>
+                    <td>
+                        <button
+                            *ngIf="!row.isPaid"
+                            type="button"
+                            class="btn btn--add"
+                        >
+                            Zapłać
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

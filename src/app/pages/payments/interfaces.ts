@@ -14,5 +14,5 @@ export interface ServicePayment {
     value: number,
     name: string;
     serviceName: string;
-    action: 'charge' | 'payment' | 'cash' | 'transfer';
+    paymentMethod: 'charge' | 'payment' | 'cash' | 'transfer';
 }

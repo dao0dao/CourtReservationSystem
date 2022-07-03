@@ -133,6 +133,65 @@ app-loader {
         .field {
             margin-bottom: 2rem;
         }
+        .methods {
+            margin-bottom: 1rem;
+        }
+        .radio {
+            margin: 10px auto;
+            font-size: 0.8em;
+            text-align: left;
+            input {
+                position: relative;
+                width: 1em;
+                height: 1em;
+                margin-right: 10px;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                &::before,
+                &::after {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                    border: 1px solid $mainColorFour;
+                    content: "";
+                    pointer-events: none;
+                }
+                &::before {
+                    width: 100%;
+                    height: 100%;
+                }
+                &::after {
+                    display: none;
+                    width: 60%;
+                    height: 60%;
+                    background-color: $mainColorFour;
+                }
+                &[value="debet"] {
+                    &::before,
+                    &::after {
+                        border-color: $mainColorOne;
+                    }
+                    &::after {
+                        background-color: $mainColorOne;
+                    }
+                }
+                &:checked {
+                    &::after {
+                        display: block;
+                    }
+                }
+            }
+            label {
+                color: $mainColorFour;
+                font-weight: 600;
+                &[for="debet"] {
+                    color: $mainColorOne;
+                }
+            }
+        }
         .btn {
             display: inline-flex;
         }

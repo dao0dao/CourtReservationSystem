@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LoginStateService } from '../login-state.service';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
-import { Action, ServicePayment, Services } from './interfaces';
+import { Action, PaymentMethod, ServicePayment, Services } from './interfaces';
 import { SelectHandlerService } from './select-handler.service';
 
 @Component({
@@ -36,6 +36,7 @@ export class PaymentsComponent implements OnInit {
 
   selectService: string = '';
   inputService: number | undefined;
+  paymentMethod: PaymentMethod | undefined;
 
   isServiceList: boolean = false;
 
@@ -72,6 +73,7 @@ export class PaymentsComponent implements OnInit {
     this.inputCharge = 0;
     this.inputService = undefined;
     this.selectService = '';
+    this.paymentMethod = undefined;
   }
 
   selectPlayer() {
@@ -145,13 +147,13 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  getPaymentForService(paymentMethod: 'payment' | 'cash' | 'transfer') {
+  getPaymentForService() {
     const data: ServicePayment = {
       id: this.selectedPlayer?.id!,
       value: this.inputService!,
       name: this.selectedPlayer?.name! + ' ' + this.selectedPlayer?.surname!,
       serviceName: this.selectService,
-      paymentMethod
+      paymentMethod: this.paymentMethod!
     };
     this.api.accountChargeOrPayment(data).subscribe({
       next: (res) => {

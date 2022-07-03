@@ -14,5 +14,7 @@ export interface ServicePayment {
     value: number,
     name: string;
     serviceName: string;
-    paymentMethod: 'charge' | 'payment' | 'cash' | 'transfer';
+    paymentMethod: 'charge' | 'payment' | 'cash' | 'transfer' | 'debit';
 }
+
+export type PaymentMethod = ServicePayment['paymentMethod'];

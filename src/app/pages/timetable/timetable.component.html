@@ -124,7 +124,7 @@
                     class="reservation"
                     [ngClass]="{
                         'reservation--small': res.timetable.ceilHeight <= 80,
-                        'reservation--paid': res.isPayed
+                        'reservation--paid': 'true'
                     }"
                     [ngStyle]="{
                         'left': res.timetable.transformX + 'px',

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
+import { Balance } from './interfaces';
 import { SelectHandlerService } from './select-handler.service';
 
 @Component({
@@ -20,8 +21,9 @@ export class AccountBalanceComponent implements OnInit {
   dateTo: string = '';
 
   accountBalance: number | string = 120;
-  history: Array<any> = [
+  history: Balance[] = [
     {
+      id: '',
       date: '2022-06-30',
       service: 'Naciąganie rakiety',
       price: 35,
@@ -32,6 +34,7 @@ export class AccountBalanceComponent implements OnInit {
       cashier: 'Admin'
     },
     {
+      id: '',
       date: '2022-06-29',
       service: 'Kort -1.5h',
       price: 30,
@@ -42,6 +45,7 @@ export class AccountBalanceComponent implements OnInit {
       cashier: 'Admin'
     },
     {
+      id: '',
       date: '2022-06-28',
       service: 'Kort -2h',
       price: 40,

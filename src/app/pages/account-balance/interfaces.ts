@@ -4,14 +4,21 @@ export interface Balance {
     service: string;
     price: number;
     isPaid: boolean;
-    method: string;
+    method: method;
     beforePayment: number;
     afterPayment: number;
     cashier: string;
 }
 
+export type method = 'payment' | 'cash' | 'transfer' | 'debet' | 'game';
+
 export interface BalancePayment {
     id: string;
     playerId: string;
-    method: 'payment' | 'cash' | 'transfer';
+    method: method;
+}
+
+export interface Timestamp {
+    dateFrom: string,
+    dateTo: string;
 }

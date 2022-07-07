@@ -44,7 +44,7 @@
     position: relative;
     position: relative;
     width: min-content;
-    margin: 2rem auto;
+    margin: 2rem auto 1rem;
     label {
         position: absolute;
         top: 50%;
@@ -140,8 +140,69 @@
     flex-shrink: 0;
     max-height: 90vh;
     padding: 0 10px 10px;
+    .filters {
+        margin: 1.5rem auto 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .filter {
+        margin: 10px;
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+        input {
+            position: relative;
+            width: 15px;
+            height: 15px;
+            border-width: 2px;
+            border-color: $mainColorFour;
+            border-style: none solid solid none;
+            border-radius: 2px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            &::before,
+            &::after {
+                position: absolute;
+                height: 2px;
+                background-color: $mainColorOne;
+            }
+            &::before {
+                top: 10px;
+                left: 0;
+                width: 6px;
+                transform-origin: right center;
+                transform: rotate(45deg);
+            }
+            &::after {
+                top: 10px;
+                left: 5px;
+                width: 12px;
+                transform-origin: left center;
+                transform: rotate(-60deg);
+            }
+            &:checked {
+                border-color: $mainColorOne;
+                &::before,
+                &::after {
+                    content: "";
+                }
+            }
+        }
+        label {
+            margin-left: 5px;
+        }
+    }
+    .noData {
+        margin: 1rem auto;
+        color: $mainColorFour;
+        text-align: center;
+    }
     table {
-        margin: 1.5rem auto;
+        margin: 0.5rem auto;
         border-collapse: collapse;
         .btn {
             margin: 0;

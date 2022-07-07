@@ -41,6 +41,7 @@
             type="button"
             class="btn btn--add"
             [attr.disabled]="selectedPlayer === undefined ? true: null"
+            (click)="showBalance()"
         >
             Wyświetl saldo
         </button>
@@ -50,11 +51,13 @@
             [ngClass]="{'block--disabled': selectedPlayer === undefined}"
         >
             <div class="field">
-                <label for="date">Od</label>
+                <label for="date">od</label>
                 <input
                     type="date"
                     id="from"
+                    [max]="dateTo"
                     [(ngModel)]="dateFrom"
+                    (change)="checkDate()"
                 >
             </div>
             <div class="field">
@@ -63,6 +66,7 @@
                     type="date"
                     id="to"
                     [(ngModel)]="dateTo"
+                    (change)="checkDate()"
                 >
             </div>
         </div>
@@ -70,13 +74,14 @@
             type="button"
             class="btn btn--edit"
             [attr.disabled]="(selectedPlayer === undefined || !(dateFrom !== '' || dateTo !== '')) ? true: null"
+            (click)="showHistory()"
         >
             Pokaż historię
         </button>
     </div>
     <div class="balance">
         <p
-            *ngIf="selectedPlayer"
+            *ngIf="selectedPlayer && accountBalance"
             class="text"
         >
             <span class="name">
@@ -91,8 +96,50 @@
             </span>
         </p>
     </div>
-    <div class="history">
-        <table>
+    <div *ngIf="isLoading">
+        <app-loader></app-loader>
+    </div>
+    <div
+        *ngIf="selectedPlayer && history.length"
+        class="history"
+    >
+        <div class="filters">
+
+            <div class="filter">
+                <input
+                    type="checkbox"
+                    id="notPaid"
+                    [(ngModel)]="isNotPaid"
+                    (change)="showOnlyNotPaid()"
+                >
+                <label for="notPaid">Pokaż niezapłacone</label>
+            </div>
+            <div class="filter">
+                <input
+                    type="checkbox"
+                    id="games"
+                    [(ngModel)]="isGame"
+                    (change)="showOnlyGames()"
+                >
+                <label for="games">Pokaż gry</label>
+            </div>
+            <div class="filter">
+                <input
+                    type="checkbox"
+                    id="notPaidGames"
+                    [(ngModel)]="isNotPaidGame"
+                    (change)="showOnlyNotPaidGames()"
+                >
+                <label for="notPaidGames">Pokaż niezapłacone gry</label>
+            </div>
+        </div>
+        <div
+            *ngIf="!filteredHistory.length"
+            class="noData"
+        >
+            <p>Brak wpisów</p>
+        </div>
+        <table *ngIf="filteredHistory.length">
             <thead>
                 <tr>
                     <th>Data</th>
@@ -104,7 +151,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of history">
+                <tr *ngFor="let row of filteredHistory">
                     <td>{{row.date}}</td>
                     <td>{{row.service}}</td>
                     <td>{{row.price}}</td>
@@ -117,7 +164,7 @@
                     <td>{{row.cashier}}</td>
                     <td>
                         <button
-                            *ngIf="!row.isPaid"
+                            *ngIf="!row.isPaid && (today === row.date || state.state.isAdmin === true)"
                             type="button"
                             class="btn btn--add"
                         >

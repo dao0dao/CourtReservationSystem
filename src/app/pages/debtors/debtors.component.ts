@@ -44,6 +44,7 @@ export class DebtorsComponent implements OnInit {
   getDebtors() {
     this.isLoading = true;
     this.noData = false;
+    this.debtors = [];
     this.http.get<Debtor[]>(environment.apiLink + 'price/balance/debtors').subscribe({
       next: (res) => {
         this.isLoading = false;

@@ -20,6 +20,11 @@
     font-weight: 700;
     color: $mainColorFour;
 }
+.table {
+    overflow: auto;
+    max-height: 100vh;
+    padding: 0 5px;
+}
 table {
     margin: 0.5rem auto;
     border-collapse: collapse;
@@ -39,6 +44,10 @@ td {
     border-bottom: 1px solid $mainColorThree;
     font-size: 0.8em;
     text-align: center;
+    &.red {
+        font-weight: 700;
+        color: $mainColorOne;
+    }
 }
 .popUp {
     &_background {

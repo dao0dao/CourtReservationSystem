@@ -54,7 +54,7 @@ export class SelectHandlerService {
 
   selectPlayer(): Player | undefined {
     let ind: number | undefined;
-    ind = this.activeIndex === undefined ? undefined : this.activeIndex - 1;
+    ind = this.activeIndex === undefined ? undefined : this.activeIndex - 2;
     const player = this.filteredPlayers.find((pl, index) => index === ind);
     this.isOpen = false;
     this.activeIndex = undefined;

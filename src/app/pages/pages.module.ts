@@ -27,6 +27,7 @@ import { PriceDeleteModalComponent } from './price-list/price-delete-modal/price
 import { PaymentsComponent } from './payments/payments.component';
 import { ServiceListComponent } from './payments/service-list/service-list.component';
 import { AccountBalanceComponent } from './account-balance/account-balance.component';
+import { PayModalComponent } from './account-balance/pay-modal/pay-modal.component';
 
 
 
@@ -52,7 +53,8 @@ import { AccountBalanceComponent } from './account-balance/account-balance.compo
     PriceDeleteModalComponent,
     PaymentsComponent,
     ServiceListComponent,
-    AccountBalanceComponent
+    AccountBalanceComponent,
+    PayModalComponent
   ],
   imports: [
     CommonModule,

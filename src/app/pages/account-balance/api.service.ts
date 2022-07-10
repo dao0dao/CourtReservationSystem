@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiService as PlayerService } from '../players/api.service';
 import { Player } from '../players/interfaces';
-import { Balance, BalancePayment, Timestamp } from './interfaces';
+import { Balance, BalancePayment, Payment, Timestamp } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class ApiService {
     return this.http.get<Balance[]>(environment.apiLink + 'price/balance/history', { params: { playerId, dateFrom, dateTo } });
   }
 
-  payForService(data: BalancePayment): Observable<{ updated: true; }> {
+  payForService(data: Payment): Observable<{ updated: true; }> {
     return this.http.post<{ updated: true; }>(environment.apiLink + 'price/balance/payment', data);
   }
 

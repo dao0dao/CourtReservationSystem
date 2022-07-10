@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginStateService } from '../login-state.service';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
-import { Balance } from './interfaces';
+import { Balance, Payment } from './interfaces';
 import { SelectHandlerService } from './select-handler.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class AccountBalanceComponent implements OnInit {
   today: string = new Date().toLocaleDateString();
 
   players: Player[] = [];
+  isAllPlayers: boolean = false;
   selectedPlayer: Player | undefined;
   playerInput: string = '';
   isLoadedPlayers: boolean = false;
@@ -35,6 +36,9 @@ export class AccountBalanceComponent implements OnInit {
   isNotPaid: boolean = false;
   isGame: boolean = false;
   isNotPaidGame: boolean = false;
+
+  isModal: boolean = false;
+  payment: Balance | undefined;
 
   ngOnInit(): void {
     this.api.getAllPlayers().subscribe((res) => {
@@ -54,6 +58,7 @@ export class AccountBalanceComponent implements OnInit {
     this.isNotPaid = false;
     this.isGame = false;
     this.isNotPaidGame = false;
+    this.isAllPlayers = false;
   }
 
   checkInput(e?: KeyboardEvent) {
@@ -74,6 +79,12 @@ export class AccountBalanceComponent implements OnInit {
   selectPlayerOnClick(id: string | null) {
     this.resetInput();
     if (id === null) { return; }
+    if (id === 'all') {
+      this.selectedPlayer = undefined;
+      this.isAllPlayers = true;
+      this.playerInput = 'Wszyscy gracze';
+      return;
+    }
     this.selectedPlayer = this.players.find(pl => pl.id === id);
     this.playerInput = this.selectedPlayer?.name + ' ' + this.selectedPlayer?.surname;
   }
@@ -94,6 +105,9 @@ export class AccountBalanceComponent implements OnInit {
   }
 
   showHistory() {
+    if (!this.isAllPlayers) {
+      this.showBalance();
+    }
     this.isLoading = true;
     this.history = [];
     this.filteredHistory = [];
@@ -101,7 +115,6 @@ export class AccountBalanceComponent implements OnInit {
     const stampFrom: string = ' 00:00:00';
     const dateFrom: string = this.dateFrom ? (this.dateFrom + stampFrom) : '';
     const dateTo: string = this.dateTo ? (this.dateTo + stampTo) : '';
-    this.showBalance();
     this.api.getPlayerHistory(this.selectedPlayer?.id!, { dateFrom, dateTo })
       .subscribe(res => { this.isLoading = false; this.history = res; this.filteredHistory = res; });
   }
@@ -134,6 +147,49 @@ export class AccountBalanceComponent implements OnInit {
     } else {
       this.filteredHistory = [...this.history];
     }
+  }
+
+  openModal(payment: Balance) {
+    this.payment = payment;
+    this.isModal = true;
+  }
+
+  closeModal() {
+    this.payment = undefined;
+    this.isModal = false;
+  }
+
+  acceptPayment(payment: Payment) {
+    this.api.payForService(payment).subscribe({
+      next: (res) => {
+        this.filteredHistory.forEach(el => {
+          if (
+            el.id === payment.historyId &&
+            el.playerId === payment.playerId &&
+            el.price === payment.price &&
+            el.service === payment.service &&
+            el.isPaid === false) {
+            el.isPaid = true;
+            el.cashier = this.state.state.user;
+          }
+        });
+        this.history.forEach(el => {
+          if (
+            el.id === payment.historyId &&
+            el.playerId === payment.playerId &&
+            el.price === payment.price &&
+            el.service === payment.service &&
+            el.isPaid === false) {
+            el.isPaid = true;
+            el.cashier = this.state.state.user;
+          }
+        });
+        this.closeModal();
+      },
+      error: (err) => {
+        this.closeModal();
+      }
+    });
   }
 
 }

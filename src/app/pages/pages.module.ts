@@ -6,7 +6,6 @@ import { CoachesComponent } from './coaches/coaches.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { IsLoginGuard } from './is-login.guard';
 import { ListComponent } from './coaches/list/list.component';
 import { AddComponent } from './coaches/add/add.component';
 import { PlayersComponent } from './players/players.component';
@@ -28,8 +27,9 @@ import { PaymentsComponent } from './payments/payments.component';
 import { ServiceListComponent } from './payments/service-list/service-list.component';
 import { AccountBalanceComponent } from './account-balance/account-balance.component';
 import { PayModalComponent } from './account-balance/pay-modal/pay-modal.component';
+import { DebtorsComponent } from './debtors/debtors.component';
 
-
+import routes from './routes';
 
 
 @NgModule({
@@ -54,21 +54,13 @@ import { PayModalComponent } from './account-balance/pay-modal/pay-modal.compone
     PaymentsComponent,
     ServiceListComponent,
     AccountBalanceComponent,
-    PayModalComponent
+    PayModalComponent,
+    DebtorsComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild([
-      { path: '', redirectTo: '/login', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'users', component: CoachesComponent, canActivate: [IsLoginGuard] },
-      { path: 'players', component: PlayersComponent, canActivate: [IsLoginGuard] },
-      { path: 'timetable', component: TimetableComponent, canActivate: [IsLoginGuard] },
-      { path: 'price/list', component: PriceListComponent, canActivate: [IsLoginGuard] },
-      { path: 'price/services', component: PaymentsComponent, canActivate: [IsLoginGuard] },
-      { path: 'price/balance', component: AccountBalanceComponent, canActivate: [IsLoginGuard] },
-    ]),
+    RouterModule.forChild(routes),
     DragDropModule,
     MatDatepickerModule
   ],

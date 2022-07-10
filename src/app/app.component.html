@@ -67,6 +67,15 @@
                     </a>
                     <a
                         routerLinkActive="btn--active"
+                        [routerLink]="['/price/debtors']"
+                        class="btn group_element"
+                        routerLinkActive="btn--active"
+                        (click)="toggleMenu()"
+                    >
+                        Dłużnicy
+                    </a>
+                    <a
+                        routerLinkActive="btn--active"
                         [routerLink]="['/price/services']"
                         class="btn group_element"
                         routerLinkActive="btn--active"

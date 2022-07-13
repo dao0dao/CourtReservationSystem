@@ -183,7 +183,7 @@
                     placeholder="Imię i nazwisko"
                     [attr.disabled]="isListOne ? true : null"
                     formControlName="guestOne"
-                    (change)="handleIsPlayerChosen()"
+                    (keyup)="handleIsPlayerChosen()"
                 >
                 <p
                     class="info"
@@ -290,7 +290,7 @@
                     placeholder="Imię i nazwisko"
                     formControlName="guestTwo"
                     [attr.disabled]="isListTwo ? true : null"
-                    (change)="handleIsPlayerChosen()"
+                    (keyup)="handleIsPlayerChosen()"
                 >
                 <p
                     class="info"
@@ -330,7 +330,7 @@
                         [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsOne.isDisabled) ? true : null"
                         (click)="findAllOpponentsOne()"
                     >
-                        Wszyscy przeciwnicy 1
+                        Przeciwnicy gracza 1
                     </button>
                     <button
                         type="button"
@@ -339,25 +339,7 @@
                         [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsTwo.isDisabled) ? true : null"
                         (click)="findAllOpponentsTwo()"
                     >
-                        Wszyscy przeciwnicy 2
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilters.opponentOne.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilters.opponentOne.isDisabled) ? true : null"
-                        (click)="findOpponentOneOnHour()"
-                    >
-                        Przeciwnicy 1 na godzinę
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilters.opponentTwo.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilters.opponentTwo.isDisabled) ? true : null"
-                        (click)="findOpponentTwoOnHour()"
-                    >
-                        Przeciwnicy 2 na godzinę
+                        Przeciwnicy gracza 2
                     </button>
                 </div>
             </div>

@@ -47,8 +47,6 @@ export interface ActiveFilters {
     playerTwo: { isActive: boolean, isDisabled: boolean; };
     allOpponentsOne: { isActive: boolean, isDisabled: boolean; };
     allOpponentsTwo: { isActive: boolean, isDisabled: boolean; };
-    opponentOne: { isActive: boolean, isDisabled: boolean; };
-    opponentTwo: { isActive: boolean, isDisabled: boolean; };
 }
 
 export interface DeleteConfirm {

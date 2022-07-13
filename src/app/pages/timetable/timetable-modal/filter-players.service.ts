@@ -65,36 +65,6 @@ export class FilterPlayersService {
     return allOpponents;
   }
 
-  findOpponentOnHour(playerId: string, fromTime: string, toTime: string, dateTime: string, array: Player[]) {
-    const day: any = this.getDayFromDate(dateTime);
-    const opponents: Player[] = [];
-    const allOpponents = this.findAllOpponents(playerId, array);
-    const from = this.timeToNumber(fromTime);
-    const to = this.timeToNumber(toTime);
-    for (let pl of allOpponents) {
-      for (let w of pl.weeks) {
-        if (this.checkDay(w, day)) {
-          let wFrom: number;
-          let wTo: number;
-          if (w.time.from == '') {
-            wFrom = 0;
-          } else {
-            wFrom = this.timeToNumber(w.time.from);
-          }
-          if (w.time.to == '') {
-            wTo = 23.59;
-          } else {
-            wTo = this.timeToNumber(w.time.to);
-          }
-          if (wFrom <= from || wTo >= to) {
-            opponents.push(pl);
-          }
-        }
-      }
-    }
-    return opponents;
-  }
-
   findPlayerById(id: string, arr: Player[]): string {
     let string = '';
     const player = arr.find(pl => pl.id === id);

@@ -49,6 +49,7 @@
                 <div class="time">
                     <label for="from">Od</label>
                     <input
+                        #start
                         class="input"
                         type="time"
                         id="from"
@@ -99,7 +100,7 @@
                         formControlName="listOne"
                         (change)="handleTypeChoseOne()"
                     >
-                    <label for="list">Wybierz z listy:</label>
+                    <label for="list">Wybierz z listy nr 1:</label>
                 </div>
                 <div class="block_input">
                     <input
@@ -206,7 +207,7 @@
                         value="true"
                         (change)="handleTypeChoseTwo()"
                     >
-                    <label for="list-2">Wybierz z listy:</label>
+                    <label for="list-2">Wybierz z listy nr 2:</label>
                 </div>
                 <div class="block_input">
                     <input
@@ -321,7 +322,7 @@
                         [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsOne.isDisabled) ? true : null"
                         (click)="findAllOpponentsOne()"
                     >
-                        Przeciwnicy gracza 1
+                        Skróć listę 2 do przeciwników 1
                     </button>
                     <button
                         type="button"
@@ -330,7 +331,7 @@
                         [attr.disabled]="(!isTimeChosen || activeFilters.allOpponentsTwo.isDisabled) ? true : null"
                         (click)="findAllOpponentsTwo()"
                     >
-                        Przeciwnicy gracza 2
+                        Skróć listę 1 do przeciwników 2
                     </button>
                 </div>
             </div>

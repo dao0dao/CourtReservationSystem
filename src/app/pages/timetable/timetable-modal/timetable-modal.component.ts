@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Player } from '../../players/interfaces';
@@ -12,12 +12,13 @@ import { HandleSelectService } from './handle-select.service';
   templateUrl: './timetable-modal.component.html',
   styleUrls: ['./timetable-modal.component.scss']
 })
-export class TimetableModalComponent implements OnInit {
+export class TimetableModalComponent implements OnInit, AfterViewInit {
 
   environment = environment;
 
   constructor(private fb: FormBuilder, public filter: FilterPlayersService, public selectHandler: HandleSelectService, private dateService: HandDateService) { }
 
+  @ViewChild('start') inputRef: ElementRef<HTMLInputElement> = {} as ElementRef;
   @Input() modalAction: 'new' | 'edit' | undefined;
   @Input() players: Player[] = [];
   @Input() date: string = '';
@@ -60,6 +61,12 @@ export class TimetableModalComponent implements OnInit {
     this.setForm();
     if (this.editedReservation !== undefined) {
       this.setReservationToForm();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.inputRef?.nativeElement) {
+      this.inputRef.nativeElement.focus();
     }
   }
 
@@ -247,6 +254,9 @@ export class TimetableModalComponent implements OnInit {
 
   handleReduceListOne() {
     this.filteredPlayerOne = [...this.filter.reduceList(this.getFormField('selectOneValue')?.value, this.playerOne)];
+    if (this.activeFilters.allOpponentsOne.isActive) {
+      this.findAllOpponentsOne();
+    }
   }
 
   resetSelectValueOne() {

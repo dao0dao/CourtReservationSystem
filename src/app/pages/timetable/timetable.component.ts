@@ -87,6 +87,25 @@ export class TimetableComponent implements OnInit {
     }, 400);
   }
 
+  nextDay() {
+    const oldDate = new Date(this.date);
+    const newDate = oldDate.setDate(oldDate.getDate() + 1);
+    this.date = this.DatePipe.transform(newDate, 'YYYY-MM-dd')!;
+    this.reloadReservations();
+  }
+
+  prevDay() {
+    const oldDate = new Date(this.date);
+    const newDate = oldDate.setDate(oldDate.getDate() - 1);
+    this.date = this.DatePipe.transform(newDate, 'YYYY-MM-dd')!;
+    this.reloadReservations();
+  }
+
+  today() {
+    this.date = this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!;
+    this.reloadReservations();
+  }
+
   handleZoomScroll() {
     if (this.zoom !== 100) {
       this.board.nativeElement.scrollTo(0, 0);

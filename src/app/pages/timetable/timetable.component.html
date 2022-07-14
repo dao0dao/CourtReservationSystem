@@ -10,8 +10,15 @@
         >
             Dodaj wpis
         </button>
-        <div class="input">
-            <label for="day">Data:</label>
+        <div class="day">
+            <button
+                class="day_btn"
+                (click)="prevDay()"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
+                </svg>
+            </button>
             <input
                 type="date"
                 name
@@ -19,6 +26,22 @@
                 [(ngModel)]="date"
                 (change)="reloadReservations()"
             >
+            <button
+                class="day_btn"
+                (click)="today()"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-calendar-today'"></use>
+                </svg>
+            </button>
+            <button
+                class="day_btn"
+                (click)="nextDay()"
+            >
+                <svg>
+                    <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
+                </svg>
+            </button>
         </div>
         <div class="zoom">
             <svg>

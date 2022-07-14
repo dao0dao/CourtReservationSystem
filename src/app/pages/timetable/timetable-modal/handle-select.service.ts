@@ -23,14 +23,10 @@ export class HandleSelectService {
     const listOneSvg = event.target.id === "listOneSvg" ? true : false;
     const listTwo = event.target.closest('#listTwo');
     const listTwoSvg = event.target.id === "listTwoSvg" ? true : false;
-    if ((listOne || listOneSvg) && !this.isOneOpen) {
-      this.isOneOpen = true;
-    } else {
+    if (!(listOne || listOneSvg)) {
       this.isOneOpen = false;
     }
-    if ((listTwo || listTwoSvg) && !this.isTwoOpen) {
-      this.isTwoOpen = true;
-    } else {
+    if (!(listTwo || listTwoSvg)) {
       this.isTwoOpen = false;
     }
   }
@@ -45,11 +41,19 @@ export class HandleSelectService {
     event.target.classList.remove('list_element--active');
   }
 
+  focusIn(select: 'one' | 'two') {
+    select === 'one' ? this.isOneOpen = true : null;
+    select === 'two' ? this.isTwoOpen = true : null;
+  }
 
   keyDown(event: KeyboardEvent, select: 'one' | 'two', length: number) {
     if (event.key != 'Enter') {
       select === 'one' ? this.isOneOpen = true : null;
       select === 'two' ? this.isTwoOpen = true : null;
+    }
+    if (event.key == 'Tab') {
+      select == 'one' ? this.isOneOpen = false : null;
+      select == 'two' ? this.isTwoOpen = false : null;
     }
     if (event.key == 'ArrowDown') {
       return this.moveDown(select, length);

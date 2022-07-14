@@ -142,6 +142,7 @@
                         (keydown.Enter)="handleKeyEnterOne()"
                         (keydown)="selectHandler.keyDown($event, 'one', playerOne.length)"
                         (keyup)="handleReduceListOne()"
+                        (focus)="selectHandler.focusIn('one')"
                     >
                     <ul
                         class="list"
@@ -153,7 +154,9 @@
                             (click)="handleSelectPlayerOne('')"
                             (pointerenter)="selectHandler.mouseEnter($event)"
                             (pointerleave)="selectHandler.mouseLeave($event)"
-                        ></li>
+                        >
+                            --wyczyść wpis--
+                        </li>
                         <li
                             class="list_element"
                             *ngFor="let player of filteredPlayerOne; let i = index"
@@ -249,6 +252,7 @@
                         (keydown.Enter)="handleKeyEnterTwo()"
                         (keydown)="selectHandler.keyDown($event, 'two', playerOne.length)"
                         (keyup)="handleReduceListTwo()"
+                        (focus)="selectHandler.focusIn('two')"
                     >
                     <ul
                         class="list"
@@ -260,7 +264,9 @@
                             (click)="handleSelectPlayerTwo('')"
                             (pointerenter)="selectHandler.mouseEnter($event)"
                             (pointerleave)="selectHandler.mouseLeave($event)"
-                        ></li>
+                        >
+                            --wyczyść wpis--
+                        </li>
                         <li
                             class="list_element"
                             *ngFor="let player of filteredPlayerTwo; let i = index"

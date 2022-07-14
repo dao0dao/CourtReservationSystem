@@ -103,6 +103,7 @@
         align-items: center;
         input {
             position: relative;
+            z-index: 1;
             appearance: none;
             -webkit-appearance: none;
             align-self: flex-start;
@@ -222,10 +223,10 @@
     }
     .list {
         position: absolute;
+        z-index: 2;
         overflow: auto;
-        z-index: 1;
         top: 30px;
-        left: 50%;
+        left: 40%;
         transform: translateX(-50%);
         width: 70%;
         max-height: 200px;
@@ -344,6 +345,9 @@
         }
         input.select {
             margin-left: auto;
+        }
+        .list {
+            left: 50%;
         }
     }
 }

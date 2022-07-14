@@ -94,18 +94,18 @@
             </div>
             <div class="actions">
                 <button
-                    type="submit"
-                    class="btn btn--submit"
-                    [disabled]="editForm.invalid || blockSubmit"
-                >
-                    Zmień
-                </button>
-                <button
                     type="button"
                     class="btn btn--close"
                     (click)="closePopUp()"
                 >
                     Zamknij
+                </button>
+                <button
+                    type="submit"
+                    class="btn btn--submit"
+                    [disabled]="editForm.invalid || blockSubmit"
+                >
+                    Zmień
                 </button>
             </div>
         </form>
@@ -125,17 +125,17 @@
         <p class="subtitle">{{deletedName}}?</p>
         <div class="actions">
             <button
+                class="btn btn--close"
+                (click)="closePopUp()"
+            >
+                Nie
+            </button>
+            <button
                 class="btn btn--submit"
                 (click)="deleteUser()"
                 [disabled]="blockSubmit"
             >
                 Tak
-            </button>
-            <button
-                class="btn btn--close"
-                (click)="closePopUp()"
-            >
-                Nie
             </button>
         </div>
     </div>

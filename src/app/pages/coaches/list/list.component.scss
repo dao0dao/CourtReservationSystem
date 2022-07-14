@@ -56,7 +56,7 @@
 .popUp {
     &_container {
         position: fixed;
-        z-index: 2;
+        z-index: 3;
         top: 0;
         left: 0;
         width: 100vw;
@@ -70,17 +70,10 @@
         width: 95%;
         height: 80%;
         display: flex;
+        border-radius: $mainBorderRadius;
         flex-direction: column;
         justify-content: flex-start;
         align-items: stretch;
-        clip-path: polygon(
-            $clipSizeX 0%,
-            100% 0,
-            100% calc(100% - $clipSizeY),
-            calc(100% - $clipSizeX) 100%,
-            0 100%,
-            0% $clipSizeY
-        );
         background-color: $clearWhite;
         text-align: center;
         .title {
@@ -118,7 +111,7 @@
             margin: 1.5rem auto;
             padding: 5px 10px;
             border-color: transparent transparent $mainColorThree transparent;
-            border-width: 2px;
+            border-width: 1px;
             border-style: solid;
             background-color: transparent;
             &:hover,

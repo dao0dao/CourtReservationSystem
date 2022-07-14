@@ -333,18 +333,11 @@
         }
         // Pop up usunięcia gracza
         &--delete {
+            border-radius: $mainBorderRadius;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: stretch;
-            clip-path: polygon(
-                $clipSizeX 0%,
-                100% 0,
-                100% calc(100% - $clipSizeY),
-                calc(100% - $clipSizeX) 100%,
-                0 100%,
-                0% $clipSizeY
-            );
             text-align: center;
             .title {
                 color: $mainColorOne;

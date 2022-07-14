@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { ApiService } from '../api.service';
 import { EditPlayerError, Opponent, OpponentSql, Player, PlayerSql, Week } from '../interfaces';
 import { LoginStateService } from '../../login-state.service';
-import { animations } from './animations';
 import { SearchingService } from '../searching.service';
 import { PriceList } from '../../price-list/interfaces';
 
@@ -19,7 +18,6 @@ interface Sort {
   selector: 'app-players-list',
   templateUrl: './players-list.component.html',
   styleUrls: ['./players-list.component.scss'],
-  animations: animations
 })
 export class PlayersListComponent implements OnInit, OnChanges, DoCheck {
   environment = environment;

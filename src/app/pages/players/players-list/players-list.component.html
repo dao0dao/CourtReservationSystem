@@ -245,16 +245,8 @@
                             >
                                 Ulubiony kort
                             </option>
-                            <option
-                                value="1"
-                            >
-                                Niebieski
-                            </option>
-                            <option
-                                value="2"
-                            >
-                                Fioletowy
-                            </option>
+                            <option value="1">Niebieski</option>
+                            <option value="2">Fioletowy</option>
                         </select>
                     </div>
                 </div>
@@ -380,27 +372,25 @@
 <div
     *ngIf="isDeletePopUp"
     class="popUp popUp--delete"
-    @popUp_container
 >
     <div
         class="popUp_card popUp_card--delete"
-        @card
     >
         <p class="title">Usunąć gracza:</p>
         <p class="subtitle">{{'tutaj imię'}}?</p>
         <div class="actions">
+            <button
+                class="btn btn--close"
+                (click)="closeDeletePopUp()"
+            >
+                Nie
+            </button>
             <button
                 class="btn btn--submit"
                 [disabled]="isSendingDelete"
                 (click)="confirmDelete()"
             >
                 Tak
-            </button>
-            <button
-                class="btn btn--close"
-                (click)="closeDeletePopUp()"
-            >
-                Nie
             </button>
         </div>
     </div>

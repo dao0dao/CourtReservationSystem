@@ -4,7 +4,7 @@ import { InfoService } from 'src/app/info.service';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../api.service';
 import { User } from '../interfaces';
-import { animations } from './animations';
+
 
 interface userError extends Error {
   error: {
@@ -21,7 +21,6 @@ interface userError extends Error {
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  animations: animations
 })
 export class ListComponent implements OnInit {
 

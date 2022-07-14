@@ -65,6 +65,9 @@
         align-items: center;
         .btn {
             flex-basis: 40%;
+            &:first-child {
+                flex-basis: 90%;
+            }
         }
     }
     &_input {

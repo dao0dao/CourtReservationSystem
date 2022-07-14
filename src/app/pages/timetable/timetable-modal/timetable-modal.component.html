@@ -310,18 +310,9 @@
                         class="btn btn--option btn--option"
                         [ngClass]="{'btn--option--active': activeFilters.playerOne.isActive}"
                         [attr.disabled]="(!isTimeChosen || activeFilters.playerOne.isDisabled) ? true : null"
-                        (click)="findPlayerOne()"
+                        (click)="reducePlayerListToDateAndHours()"
                     >
-                        Znajdź gracza 1
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn--option"
-                        [ngClass]="{'btn--option--active': activeFilters.playerTwo.isActive}"
-                        [attr.disabled]="(!isTimeChosen || activeFilters.playerTwo.isDisabled) ? true : null"
-                        (click)="findPlayerTwo()"
-                    >
-                        Znajdź gracza 2
+                        Lista graczy zgodna z dniem i czasem
                     </button>
                     <button
                         type="button"

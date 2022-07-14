@@ -316,6 +316,11 @@ export class TimetableModalComponent implements OnInit {
     return this.filter.findAllOpponents(playerId, this.players);
   }
 
+  reducePlayerListToDateAndHours() {
+    this.findPlayerOne();
+    this.findPlayerTwo();
+  }
+
   findPlayerOne() {
     this.resetSelectValueOne();
     if (!this.activeFilters.playerOne.isActive) {

@@ -147,7 +147,8 @@
                     class="reservation"
                     [ngClass]="{
                         'reservation--small': res.timetable.ceilHeight <= 80,
-                        'reservation--paid': 'true'
+                        'reservation--partiallyPaid': (res.isPlayerOnePayed || res.isPlayerTwoPayed) && !(res.isPlayerOnePayed && res.isPlayerTwoPayed),
+                        'reservation--paid': res.isPlayerOnePayed && res.isPlayerTwoPayed
                     }"
                     [ngStyle]="{
                         'left': res.timetable.transformX + 'px',
@@ -160,6 +161,15 @@
                         <p class="reservation_hour">
                             {{res.form.timeFrom}} - {{res.form.timeTo}}
                         </p>
+                        <button
+                            *ngIf="isPaymentBtn && !(res.isPlayerOnePayed && res.isPlayerTwoPayed)"
+                            class="cash"
+                            (click)="openDeleteModal(res)"
+                        >
+                            <svg>
+                                <use [attr.xlink:href]="environment.svg +'#icon-cash'"></use>
+                            </svg>
+                        </button>
                         <button
                             *ngIf="isDeleteBtn"
                             class="delete"

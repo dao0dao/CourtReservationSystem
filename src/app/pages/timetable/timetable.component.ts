@@ -41,6 +41,7 @@ export class TimetableComponent implements OnInit {
 
   editedReservation: Reservation | undefined;
 
+  isPaymentBtn: boolean = false;
   isDeleteBtn: boolean = false;
   isDeleteModal: boolean = false;
   deletedReservation: Reservation | undefined;
@@ -136,7 +137,9 @@ export class TimetableComponent implements OnInit {
 
   checkCanShowDeleteBtn() {
     if (this.stateService.state.isAdmin) {
-      return this.isDeleteBtn = true;
+      this.isDeleteBtn = true;
+      this.isPaymentBtn = true;
+      return;
     }
     const todayDay = new Date().getDate();
     const todayMonth = new Date().getMonth();
@@ -148,15 +151,23 @@ export class TimetableComponent implements OnInit {
     const chosenYear = chosenDate.getFullYear();
 
     if (chosenYear < todayYear) {
-      return this.isDeleteBtn = false;
+      this.isDeleteBtn = false;
+      this.isPaymentBtn = false;
+      return;
     }
     if (chosenMonth < todayMonth && chosenYear <= todayYear) {
-      return this.isDeleteBtn = false;
+      this.isDeleteBtn = false;
+      this.isPaymentBtn = false;
+      return;
     }
     if (chosenDay < todayDay && chosenDay <= todayDay && chosenYear <= todayYear) {
-      return this.isDeleteBtn = false;
+      this.isDeleteBtn = false;
+      this.isPaymentBtn = false;
+      return;
     }
-    return this.isDeleteBtn = true;
+    this.isDeleteBtn = true;
+    this.isPaymentBtn = true;
+    return;
   }
 
   newReservation() {
@@ -263,6 +274,7 @@ export class TimetableComponent implements OnInit {
           if (r.id === this.editedReservation?.id) {
             r.timetable = updatedReservation.timetable;
             r.form = updatedReservation.form;
+            r.payment.hourCount = updatedReservation.payment.hourCount;
             r.isPlayerOnePayed = updatedReservation.isPlayerOnePayed;
             r.isPlayerTwoPayed = updatedReservation.isPlayerTwoPayed;
           }
@@ -335,7 +347,10 @@ export class TimetableComponent implements OnInit {
         timetable: {
           transformX: translateX,
           zIndex: zIndex
-        }
+        },
+        payment: res.payment,
+        isPlayerOnePayed: res.isPlayerOnePayed,
+        isPlayerTwoPayed: res.isPlayerTwoPayed
       };
       this.api.updateReservation(updatedRes).subscribe({
         next: () => {
@@ -362,7 +377,10 @@ export class TimetableComponent implements OnInit {
         timetable: {
           transformX: translateX,
           zIndex: zIndex
-        }
+        },
+        payment: res.payment,
+        isPlayerOnePayed: res.isPlayerOnePayed,
+        isPlayerTwoPayed: res.isPlayerTwoPayed
       };
       this.api.updateReservation(updatedRes).subscribe({
         next: () => {
@@ -380,7 +398,10 @@ export class TimetableComponent implements OnInit {
       const updatedRes = {
         id: res.id,
         form: { date: res.form.date },
-        timetable: { zIndex }
+        timetable: { zIndex },
+        payment: res.payment,
+        isPlayerOnePayed: res.isPlayerOnePayed,
+        isPlayerTwoPayed: res.isPlayerTwoPayed
       };
       this.api.updateReservation(updatedRes).subscribe({
         next: () => {
@@ -409,7 +430,6 @@ export class TimetableComponent implements OnInit {
     }
 
     const time = this.reservationService.setTimeFromTransformY(transformY, res.payment.hourCount);
-
     const updatedRes: UpdateReservationSQL = {
       id: res.id,
       timetable: {
@@ -423,7 +443,9 @@ export class TimetableComponent implements OnInit {
       },
       payment: {
         hourCount: time.hourCount
-      }
+      },
+      isPlayerOnePayed: res.isPlayerOnePayed,
+      isPlayerTwoPayed: res.isPlayerTwoPayed
     };
     this.api.updateReservation(updatedRes).subscribe({
       next: () => {

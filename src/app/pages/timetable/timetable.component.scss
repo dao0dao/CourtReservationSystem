@@ -185,6 +185,11 @@ app-loader {
                     }
                 }
             }
+            &--partiallyPaid {
+                .reservation_main {
+                    color: $yellow;
+                }
+            }
             &--paid {
                 .reservation_main {
                     color: $greenOnDark;
@@ -194,7 +199,6 @@ app-loader {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
-
                 button {
                     width: 30px;
                     padding: 2px;
@@ -207,13 +211,18 @@ app-loader {
                         max-height: 30px;
                         max-width: 30px;
                     }
+                    &.cash {
+                        svg {
+                            fill: $confirm;
+                        }
+                    }
                     &.delete {
+                        margin: 0 7px;
                         svg {
                             fill: $mainColorOne;
                         }
                     }
                     &.edit {
-                        margin: 0 7px;
                         svg {
                             fill: $yellow;
                             stroke: $yellow;

@@ -94,11 +94,13 @@ export class PriceListModalComponent implements OnInit {
     let sameHourIndex: string = '';
     for (let i in this.fields) {
       const fromA = parseFloat((this.getField(i, 'from')?.value).replace(':', '.'));
-      const toA = parseFloat((this.getField(i, 'to')?.value).replace(':', '.'));
+      let toA = parseFloat((this.getField(i, 'to')?.value).replace(':', '.'));
+      if(toA === 0){toA = 24.00}
       for (let j in this.fields) {
         if (i != j) {
           const fromB = parseFloat((this.getField(j, 'from')?.value).replace(':', '.'));
-          const toB = parseFloat((this.getField(j, 'to')?.value).replace(':', '.'));
+          let toB = parseFloat((this.getField(j, 'to')?.value).replace(':', '.'));
+          if(toB === 0){toB = 24.00}
           if (
             fromA < fromB && toA > fromB ||
             fromA >= fromB && toA <= toB ||

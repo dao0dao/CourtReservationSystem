@@ -30,6 +30,7 @@ import { PayModalComponent } from './account-balance/pay-modal/pay-modal.compone
 import { DebtorsComponent } from './debtors/debtors.component';
 
 import routes from './routes';
+import { PaymentModalComponent } from './timetable/payment-modal/payment-modal.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import routes from './routes';
     ServiceListComponent,
     AccountBalanceComponent,
     PayModalComponent,
-    DebtorsComponent
+    DebtorsComponent,
+    PaymentModalComponent
   ],
   imports: [
     CommonModule,

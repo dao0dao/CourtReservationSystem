@@ -216,16 +216,16 @@ app-loader {
                             fill: $confirm;
                         }
                     }
-                    &.delete {
-                        margin: 0 7px;
-                        svg {
-                            fill: $mainColorOne;
-                        }
-                    }
                     &.edit {
+                        margin: 0 7px;
                         svg {
                             fill: $yellow;
                             stroke: $yellow;
+                        }
+                    }
+                    &.delete {
+                        svg {
+                            fill: $mainColorOne;
                         }
                     }
                 }

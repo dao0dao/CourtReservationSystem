@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL, DeleteConfirm } from './interfaces';
+import { Reservation, ReservationForm, TimeTable, ReservationSQL, FormSQL, UpdateReservationSQL, DeleteConfirm, ReservationPayment, PlayerPayment } from './interfaces';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
 import { ApiService } from './api.service';
@@ -8,6 +8,8 @@ import { ReservationService } from './reservation.service';
 import { CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 import { mergeMap } from 'rxjs';
 import { LoginStateService } from '../login-state.service';
+import { PriceList } from '../price-list/interfaces';
+import { ServicePayment } from '../payments/interfaces';
 
 @Component({
   selector: 'app-timetable',
@@ -23,7 +25,7 @@ export class TimetableComponent implements OnInit {
     private api: ApiService,
     private DatePipe: DatePipe,
     private reservationService: ReservationService,
-    private stateService: LoginStateService
+    private stateService: LoginStateService,
   ) { }
 
   isLoaded: boolean = false;
@@ -48,6 +50,10 @@ export class TimetableComponent implements OnInit {
 
   zoom: number = 100;
 
+  isPaymentModal: boolean = false;
+  paymentReservation: Reservation | undefined;
+  priceLists: PriceList[] = [];
+
   ngOnInit(): void {
     this.date = this.DatePipe.transform(Date.now(), 'YYYY-MM-dd')!;
     this.checkCanShowDeleteBtn();
@@ -71,6 +77,7 @@ export class TimetableComponent implements OnInit {
       }
       this.timetable.push({ label: hour });
     }
+    this.api.getAllPriceLists().subscribe(res => { this.priceLists = res; });
   }
 
   scrollToHour() {
@@ -462,5 +469,38 @@ export class TimetableComponent implements OnInit {
       }
     });
   }
+
+  openPaymentModal(res: Reservation) {
+    this.paymentReservation = res;
+    this.isPaymentModal = true;
+  }
+
+  closePaymentModal() {
+    this.isPaymentModal = false;
+    this.paymentReservation = undefined;
+  }
+
+  payForReservation(data: ReservationPayment) {
+    if (data.playerOne?.name && data.playerTwo?.name) {
+      // this.priceListApi.accountChargeOrPayment(paymentOne)
+      //   .pipe(
+      //     mergeMap(res => this.priceListApi.accountChargeOrPayment(paymentTwo))
+      //   )
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.reservations.forEach(r => {
+      //         if (r.id === this.paymentReservation?.id) {
+      //           paymentOne.paymentMethod !== 'debet' ? r.isPlayerOnePayed = true : null;
+      //           paymentTwo.paymentMethod !== 'debet' ? r.isPlayerTwoPayed = true : null;
+      //         }
+      //       });
+      //       this.closePaymentModal();
+      //     },
+      //     error: (err) => { this.closePaymentModal(); }
+      //   });
+      // return;
+    }
+  }
+
 
 }

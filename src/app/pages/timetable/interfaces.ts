@@ -53,3 +53,17 @@ export interface DeleteConfirm {
     isConfirm: boolean,
     id?: string;
 }
+
+export interface PlayerPayment {
+    id?: string;
+    name: string;
+    method: 'charge' | 'payment' | 'cash' | 'transfer' | 'debet';
+    value: number;
+}
+
+export type Method = PlayerPayment['method'];
+
+export interface ReservationPayment {
+    playerOne?: PlayerPayment;
+    playerTwo?: PlayerPayment;
+}

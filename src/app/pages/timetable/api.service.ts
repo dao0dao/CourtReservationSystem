@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Player } from '../players/interfaces';
-import { Reservation, ReservationSQL, UpdateReservationSQL } from './interfaces';
+import { Reservation, ReservationPayment, ReservationSQL, UpdateReservationSQL } from './interfaces';
+import { ApiService as PriceListApi } from '../../pages/price-list/api.service';
+import { PriceList } from '../price-list/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private priceListApi: PriceListApi) { }
 
   getAllPlayers(): Observable<Player[]> {
     return this.http.get<Player[]>(environment.apiLink + 'players');
@@ -30,6 +32,14 @@ export class ApiService {
 
   deleteReservation(id: string): Observable<any> {
     return this.http.delete(environment.apiLink + 'reservation/' + id);
+  }
+
+  getAllPriceLists(): Observable<PriceList[]> {
+    return this.priceListApi.getPriceList();
+  }
+
+  payForReservation(data: ReservationPayment) {
+
   }
 
 }

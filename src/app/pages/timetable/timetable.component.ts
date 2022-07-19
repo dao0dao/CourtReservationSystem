@@ -481,25 +481,27 @@ export class TimetableComponent implements OnInit {
   }
 
   payForReservation(data: ReservationPayment) {
-    if (data.playerOne?.name && data.playerTwo?.name) {
-      // this.priceListApi.accountChargeOrPayment(paymentOne)
-      //   .pipe(
-      //     mergeMap(res => this.priceListApi.accountChargeOrPayment(paymentTwo))
-      //   )
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.reservations.forEach(r => {
-      //         if (r.id === this.paymentReservation?.id) {
-      //           paymentOne.paymentMethod !== 'debet' ? r.isPlayerOnePayed = true : null;
-      //           paymentTwo.paymentMethod !== 'debet' ? r.isPlayerTwoPayed = true : null;
-      //         }
-      //       });
-      //       this.closePaymentModal();
-      //     },
-      //     error: (err) => { this.closePaymentModal(); }
-      //   });
-      // return;
+    const body = data;
+    if (!body.playerOne?.name) {
+      delete body.playerOne;
     }
+    if (!body.playerTwo?.name) {
+      delete body.playerTwo;
+    }
+    this.api.payForReservation(body).subscribe({
+      next: () => {
+        this.reservations.forEach(r => {
+          if (r.id === this.paymentReservation?.id) {
+            body.playerOne?.method !== 'debet' ? r.isPlayerOnePayed = true : null;
+            body.playerTwo?.method !== 'debet' ? r.isPlayerTwoPayed = true : null;
+          }
+        });
+        this.closePaymentModal();
+      },
+      error: (err) => {
+        this.closePaymentModal();
+      },
+    });
   }
 
 

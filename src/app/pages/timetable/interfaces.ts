@@ -59,6 +59,7 @@ export interface PlayerPayment {
     name: string;
     method: 'charge' | 'payment' | 'cash' | 'transfer' | 'debet';
     value: number;
+    serviceName: string;
 }
 
 export type Method = PlayerPayment['method'];

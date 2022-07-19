@@ -38,8 +38,8 @@ export class ApiService {
     return this.priceListApi.getPriceList();
   }
 
-  payForReservation(data: ReservationPayment) {
-
+  payForReservation(data: ReservationPayment): Observable<{ updated: boolean; }> {
+    return this.http.put<{ updated: boolean; }>(environment.apiLink + 'reservation/payment', data);
   }
 
 }

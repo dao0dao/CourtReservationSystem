@@ -170,6 +170,7 @@ export class PaymentModalComponent implements OnInit {
     const plOne = this.reservation?.form.playerOne;
     const plTwo = this.reservation?.form.playerTwo;
     const payment: ReservationPayment = {
+      reservationId: this.reservation?.id!,
       playerOne: {
         id: plOne?.id,
         name: this.playerOne,

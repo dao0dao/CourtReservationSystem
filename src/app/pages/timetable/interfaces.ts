@@ -65,6 +65,7 @@ export interface PlayerPayment {
 export type Method = PlayerPayment['method'];
 
 export interface ReservationPayment {
+    reservationId: string;
     playerOne?: PlayerPayment;
     playerTwo?: PlayerPayment;
 }

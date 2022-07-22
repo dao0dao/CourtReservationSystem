@@ -9,7 +9,6 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop/drag-events';
 import { mergeMap } from 'rxjs';
 import { LoginStateService } from '../login-state.service';
 import { PriceList } from '../price-list/interfaces';
-import { ServicePayment } from '../payments/interfaces';
 
 @Component({
   selector: 'app-timetable',
@@ -446,7 +445,11 @@ export class TimetableComponent implements OnInit {
       form: {
         date: res.form.date,
         timeFrom: time.timeStart,
-        timeTo: time.timeEnd
+        timeTo: time.timeEnd,
+        playerOneId: res.form.playerOne?.id,
+        playerTwoId: res.form.playerTwo?.id,
+        guestOne: res.form.guestOne,
+        guestTwo: res.form.guestTwo,
       },
       payment: {
         hourCount: time.hourCount

@@ -255,6 +255,9 @@ app-loader {
                     color: $mainColorOne;
                     border: none;
                     background-color: transparent;
+                    &.moveDown {
+                        margin: 2px auto;
+                    }
                     &[disabled] {
                         fill: $mainColorThree;
                         cursor: auto;
@@ -269,6 +272,9 @@ app-loader {
             &_hour {
                 margin-right: auto;
                 color: $mainColorThree;
+            }
+            &--disabledDragging {
+                pointer-events: none;
             }
         }
     }

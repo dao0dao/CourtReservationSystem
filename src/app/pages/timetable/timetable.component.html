@@ -171,6 +171,7 @@
                             </svg>
                         </button>
                         <button
+                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
                             class="edit"
                             (click)="editReservation(res)"
                         >
@@ -190,6 +191,7 @@
                     </div>
                     <div
                         class="reservation_main"
+                        [ngClass]="{'reservation--disabledDragging': res.isPlayerOnePayed || res.isPlayerTwoPayed}"
                         cdkDragHandle
                         (click)="moveOnTop(res)"
                         (pointerdown)="moveOnTop(res)"
@@ -221,6 +223,7 @@
                     </div>
                     <div class="reservation_footer">
                         <button
+                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
                             (click)="moveLeft(res)"
                             [disabled]="res.form.court == '1'"
                         >
@@ -228,13 +231,17 @@
                                 <use [attr.xlink:href]="environment.svg +'#icon-arrow-left'"></use>
                             </svg>
                         </button>
-                        <button (click)="moveDown(res)">
+                        <button
+                            class="moveDown"
+                            (click)="moveDown(res)"
+                        >
                             {{res.timetable.zIndex}}
                             <svg>
                                 <use [attr.xlink:href]="environment.svg +'#icon-bring-on-ground'"></use>
                             </svg>
                         </button>
                         <button
+                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
                             (click)="moveRight(res)"
                             [disabled]="res.form.court == '3'"
                         >

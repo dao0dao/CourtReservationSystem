@@ -176,14 +176,14 @@ export class PaymentModalComponent implements OnInit {
         name: this.playerOne,
         method: this.methodOne,
         value: this.paymentOne!,
-        serviceName: 'Gra - ' + this.reservation?.form.date + ', ' + this.reservation?.payment.hourCount + 'godz.'
+        serviceName: 'Gra - ' + this.reservation?.payment.hourCount + 'godz.'
       },
       playerTwo: {
         id: plTwo?.id,
         name: this.playerTwo,
         method: this.methodTwo,
         value: this.paymentTwo!,
-        serviceName: 'Gra - ' + this.reservation?.form.date + ', ' + this.reservation?.payment.hourCount + 'godz.'
+        serviceName: 'Gra - ' + this.reservation?.payment.hourCount + 'godz.'
       }
     };
     this.PayForReservation.emit(payment);

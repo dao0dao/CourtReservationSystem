@@ -273,6 +273,9 @@ app-loader {
                     font-size: 0.8em;
                     font-weight: 700;
                     color: $confirm;
+                    &--red {
+                        color: $mainColorOne;
+                    }
                     &--part {
                         color: $yellow;
                     }

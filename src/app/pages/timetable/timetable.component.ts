@@ -513,6 +513,7 @@ export class TimetableComponent implements OnInit {
           if (r.id === this.paymentReservation?.id) {
             (body.playerOne?.method !== 'debet' && body.playerOne?.method) ? r.isPlayerOnePayed = true : null;
             (body.playerTwo?.method !== 'debet' && body.playerTwo?.method) ? r.isPlayerTwoPayed = true : null;
+            r.isFirstPayment = true;
           }
         });
         this.closePaymentModal();

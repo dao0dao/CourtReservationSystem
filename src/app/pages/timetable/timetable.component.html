@@ -162,7 +162,7 @@
                             {{res.form.timeFrom}} - {{res.form.timeTo}}
                         </p>
                         <button
-                            *ngIf="isPaymentBtn && !(res.isPlayerOnePayed && res.isPlayerTwoPayed)"
+                            *ngIf="isPaymentBtn && !(res.isPlayerOnePayed && res.isPlayerTwoPayed) && res.form.court != '3'"
                             class="cash"
                             (click)="openPaymentModal(res)"
                         >
@@ -171,7 +171,7 @@
                             </svg>
                         </button>
                         <button
-                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
+                            *ngIf="!res.isFirstPayment"
                             class="edit"
                             (click)="editReservation(res)"
                         >
@@ -191,7 +191,7 @@
                     </div>
                     <div
                         class="reservation_main"
-                        [ngClass]="{'reservation--disabledDragging': res.isPlayerOnePayed || res.isPlayerTwoPayed}"
+                        [ngClass]="{'reservation--disabledDragging': res.isFirstPayment}"
                         cdkDragHandle
                         (click)="moveOnTop(res)"
                         (pointerdown)="moveOnTop(res)"
@@ -223,7 +223,7 @@
                     </div>
                     <div
                         class="reservation_footer"
-                        *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
+                        *ngIf="!res.isFirstPayment"
                     >
                         <button
                             (click)="moveLeft(res)"
@@ -252,9 +252,15 @@
                         </button>
                     </div>
                     <div
-                        *ngIf="res.isPlayerOnePayed || res.isPlayerTwoPayed"
+                        *ngIf="res.isFirstPayment"
                         class="reservation_footer"
                     >
+                        <p
+                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
+                            class="info info--red"
+                        >
+                            Opłacona w kredyt
+                        </p>
                         <p
                             *ngIf="res.isPlayerOnePayed && res.isPlayerTwoPayed"
                             class="info"

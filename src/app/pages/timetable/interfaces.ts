@@ -29,6 +29,7 @@ export interface Reservation {
     isEditable?: boolean;
     isPlayerOnePayed: boolean;
     isPlayerTwoPayed: boolean;
+    isFirstPayment?: boolean;
 }
 
 export type ReservationForm = Pick<Reservation, 'form'>;

@@ -347,6 +347,10 @@ export class TimetableComponent implements OnInit {
       const updatedRes: UpdateReservationSQL = {
         id: res.id,
         form: {
+          playerOneId: res.form.playerOne?.id,
+          playerTwoId: res.form.playerTwo?.id,
+          guestOne: res.form.guestOne,
+          guestTwo: res.form.guestTwo,
           date: res.form.date,
           court: court.toString()
         },
@@ -377,6 +381,10 @@ export class TimetableComponent implements OnInit {
       const updatedRes: UpdateReservationSQL = {
         id: res.id,
         form: {
+          playerOneId: res.form.playerOne?.id,
+          playerTwoId: res.form.playerTwo?.id,
+          guestOne: res.form.guestOne,
+          guestTwo: res.form.guestTwo,
           date: res.form.date,
           court: court.toString()
         },
@@ -400,11 +408,19 @@ export class TimetableComponent implements OnInit {
 
   moveDown(res: Reservation) {
     if (res.timetable.zIndex > 1) {
+      const timetable = res.timetable;
       const zIndex = res.timetable.zIndex - 1;
+      timetable.zIndex = zIndex;
       const updatedRes = {
         id: res.id,
-        form: { date: res.form.date },
-        timetable: { zIndex },
+        form: {
+          playerOneId: res.form.playerOne?.id,
+          playerTwoId: res.form.playerTwo?.id,
+          guestOne: res.form.guestOne,
+          guestTwo: res.form.guestTwo,
+          date: res.form.date,
+        },
+        timetable: timetable,
         payment: res.payment,
         isPlayerOnePayed: res.isPlayerOnePayed,
         isPlayerTwoPayed: res.isPlayerTwoPayed
@@ -495,8 +511,8 @@ export class TimetableComponent implements OnInit {
       next: () => {
         this.reservations.forEach(r => {
           if (r.id === this.paymentReservation?.id) {
-            body.playerOne?.method !== 'debet' ? r.isPlayerOnePayed = true : null;
-            body.playerTwo?.method !== 'debet' ? r.isPlayerTwoPayed = true : null;
+            (body.playerOne?.method !== 'debet' && body.playerOne?.method) ? r.isPlayerOnePayed = true : null;
+            (body.playerTwo?.method !== 'debet' && body.playerTwo?.method) ? r.isPlayerTwoPayed = true : null;
           }
         });
         this.closePaymentModal();

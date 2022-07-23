@@ -10,6 +10,7 @@ export interface Balance {
     beforePayment: number;
     afterPayment: number;
     cashier: string;
+    gameId?: string;
 }
 
 export type method = 'payment' | 'cash' | 'transfer' | 'debet' | 'game';

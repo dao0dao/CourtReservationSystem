@@ -80,7 +80,7 @@
         <button
             type="button"
             class="btn btn--edit"
-            [attr.disabled]="((!selectedPlayer  && !isAllPlayers) || !(dateFrom !== '' || dateTo !== '') ) ? true: null"
+            [attr.disabled]="((!selectedPlayer  && !isAllPlayers) ||  dateTo == '' ) ? true: null"
             (click)="showHistory()"
         >
             Pokaż historię

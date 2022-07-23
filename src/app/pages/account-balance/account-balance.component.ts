@@ -133,7 +133,7 @@ export class AccountBalanceComponent implements OnInit {
     this.isNotPaid = false;
     this.isNotPaidGame = false;
     if (this.isGame) {
-      this.filteredHistory = [...this.history.filter(el => el.method === 'game')];
+      this.filteredHistory = [...this.history.filter(el => el.gameId)];
     } else {
       this.filteredHistory = [...this.history];
     }
@@ -143,7 +143,7 @@ export class AccountBalanceComponent implements OnInit {
     this.isNotPaid = false;
     this.isGame = false;
     if (this.isNotPaidGame) {
-      this.filteredHistory = [...this.history.filter(el => el.method === 'game' && el.isPaid === false)];
+      this.filteredHistory = [...this.history.filter(el => el.gameId && el.isPaid === false)];
     } else {
       this.filteredHistory = [...this.history];
     }

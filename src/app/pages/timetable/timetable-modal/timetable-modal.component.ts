@@ -271,8 +271,6 @@ export class TimetableModalComponent implements OnInit, AfterViewInit {
     this.filteredPlayerTwo = [...this.filter.reduceList(this.getFormField('selectTwoValue')?.value, this.playerTwo)];
   }
 
-
-
   handleIsPlayerChosen() {
     const playerOne = this.getFormField('playerOne')?.value;
     const guestOne = this.getFormField('guestOne')?.value;
@@ -378,8 +376,6 @@ export class TimetableModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
   findPlayerTwo() {
     this.resetSelectValueTwo();
     if (!this.activeFilters.playerTwo.isActive) {
@@ -424,7 +420,6 @@ export class TimetableModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   refreshFilters(list: 'listOne' | 'listTwo') {
     if (list === 'listOne' && this.getFormField('playerOne')?.value == '') {
       this.resetOponentFilterOne();
@@ -453,6 +448,20 @@ export class TimetableModalComponent implements OnInit, AfterViewInit {
   findPhone(id: string): number | undefined {
     const player = this.players.find(pl => pl.id === id);
     return player?.telephone;
+  }
+
+  samePlayers(): boolean {
+    const playerOne = this.getFormField('playerOne')?.value;
+    const playerTwo = this.getFormField('playerTwo')?.value;
+    const guestOne = this.getFormField('guestOne')?.value.trim().toLowerCase();
+    const guestTwo = this.getFormField('guestTwo')?.value.trim().toLowerCase();
+    if (
+      (playerOne === playerTwo && playerOne != '' && playerTwo != '') ||
+      (guestOne === guestTwo && guestOne != '' && guestTwo != '')
+    ) {
+      return true;
+    }
+    return false;
   }
 
   submitForm() {

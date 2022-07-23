@@ -52,6 +52,9 @@
     color: $mainColorFour;
     font-weight: 700;
 }
+.inputs {
+    min-width: 195px;
+}
 .radio {
     margin: 10px 0;
     display: flex;
@@ -81,6 +84,7 @@
                 content: "";
             }
             & + label {
+                font-weight: 700;
                 color: $mainColorOne;
             }
         }

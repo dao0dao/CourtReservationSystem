@@ -190,6 +190,12 @@
                     (keyup)="handleIsPlayerChosen()"
                 >
                 <p
+                    *ngIf="samePlayers()"
+                    class="error"
+                >
+                    Wybrani tacy sami gracze!
+                </p>
+                <p
                     class="info"
                     [ngClass]="{'info--hidden': isListOne}"
                 >
@@ -300,6 +306,12 @@
                     (keyup)="handleIsPlayerChosen()"
                 >
                 <p
+                    *ngIf="samePlayers()"
+                    class="error"
+                >
+                    Wybrani tacy sami gracze!
+                </p>
+                <p
                     class="info"
                     [ngClass]="{'info--hidden': isListTwo}"
                 >
@@ -366,7 +378,7 @@
                 <button
                     type="submit"
                     class="btn btn--add"
-                    [disabled]="form.invalid || !isPlayerChosen || !isTimeCorrect || !isMinutesCorrect || !isTimeLongEnough || isSending"
+                    [disabled]="form.invalid || !isPlayerChosen || !isTimeCorrect || !isMinutesCorrect || !isTimeLongEnough || isSending || samePlayers()"
                 >
                     Zapisz
                 </button>

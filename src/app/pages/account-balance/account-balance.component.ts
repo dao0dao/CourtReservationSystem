@@ -191,5 +191,4 @@ export class AccountBalanceComponent implements OnInit {
       }
     });
   }
-
 }

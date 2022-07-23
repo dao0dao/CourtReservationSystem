@@ -221,9 +221,11 @@
                             {{res.form.guestTwo}}
                         </p>
                     </div>
-                    <div class="reservation_footer">
+                    <div
+                        class="reservation_footer"
+                        *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
+                    >
                         <button
-                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
                             (click)="moveLeft(res)"
                             [disabled]="res.form.court == '1'"
                         >
@@ -241,7 +243,6 @@
                             </svg>
                         </button>
                         <button
-                            *ngIf="!(res.isPlayerOnePayed || res.isPlayerTwoPayed)"
                             (click)="moveRight(res)"
                             [disabled]="res.form.court == '3'"
                         >
@@ -249,6 +250,24 @@
                                 <use [attr.xlink:href]="environment.svg +'#icon-arrow-right'"></use>
                             </svg>
                         </button>
+                    </div>
+                    <div
+                        *ngIf="res.isPlayerOnePayed || res.isPlayerTwoPayed"
+                        class="reservation_footer"
+                    >
+                        <p
+                            *ngIf="res.isPlayerOnePayed && res.isPlayerTwoPayed"
+                            class="info"
+                        >
+                            Opłacona całkowicie
+                        </p>
+                        <p
+                            *ngIf="(res.isPlayerOnePayed || res.isPlayerTwoPayed) && 
+                        !(res.isPlayerOnePayed && res.isPlayerTwoPayed)"
+                            class="info info--part"
+                        >
+                            Opłacona częściowo
+                        </p>
                     </div>
                 </div>
             </div>

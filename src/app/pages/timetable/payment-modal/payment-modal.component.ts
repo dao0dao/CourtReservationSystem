@@ -99,14 +99,14 @@ export class PaymentModalComponent implements OnInit {
   }
 
   setPlayers() {
-    if (this.reservation?.form.playerOne) {
+    if (this.reservation?.form.playerOne && !this.reservation.isPlayerOnePayed) {
       this.playerOne = this.reservation.form.playerOne.name + ' ' + this.reservation.form.playerOne.surname;
-    } else if (this.reservation?.form.guestOne) {
+    } else if (this.reservation?.form.guestOne && !this.reservation.isPlayerOnePayed) {
       this.playerOne = this.reservation?.form.guestOne;
     };
-    if (this.reservation?.form.playerTwo) {
+    if (this.reservation?.form.playerTwo && !this.reservation.isPlayerTwoPayed) {
       this.playerTwo = this.reservation.form.playerTwo.name + ' ' + this.reservation.form.playerTwo.surname;
-    } else if (this.reservation?.form.guestTwo) {
+    } else if (this.reservation?.form.guestTwo && !this.reservation.isPlayerTwoPayed) {
       this.playerTwo = this.reservation?.form.guestTwo;
     };
   }

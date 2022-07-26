@@ -37,6 +37,7 @@ Project name
 │ ____└── dist<br/>
 │ _________└── front (Angular production build)<br/>
 └ backend<br/>
+
 ### Running
 1. Download and run `npm ci` in `<project name>/frontend` terminal after that run `ng build`
 2. Start backend server

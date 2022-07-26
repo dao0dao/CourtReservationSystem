@@ -8,11 +8,11 @@ Dla kompletności należy pobrać jeszcze część backendową.
 
 ## Struktura plików
 Folder projektu
-.
-├─ frontend
-│      └── dist
-│          └── front (Angular build)
-└ backend     
+. <br />
+├─ frontend<br />
+│      └── dist<br />
+│           └── front (Angular production build)<br />
+└ backend<br />    
 
 ### Uruchomienie
 1. Pobranie i wykonanie komendy `npm ci` w terminalu `<project name>/frontend` a następnie komendy `ng build`
@@ -34,8 +34,8 @@ For the whole system you should download backend part
 Project name
 . <br />
 ├─ frontend<br />
-│ ____└── dist<br />
-│ _________└── front (Angular production build)<br />
+│      └── dist<br />
+│           └── front (Angular production build)<br />
 └ backend<br />
 
 ### Running

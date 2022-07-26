@@ -32,11 +32,11 @@ For the whole system you should download backend part
 
 ## Project structure
 Project name
-.
-├─ frontend
-│      └── dist
-│          └── front (Angular production build)
-└ backend
+. <br/>
+├─ frontend<br/>
+│ ____└── dist<br/>
+│ _________└── front (Angular production build)<br/>
+└ backend<br/>
 ### Running
 1. Download and run `npm ci` in `<project name>/frontend` terminal after that run `ng build`
 2. Start backend server

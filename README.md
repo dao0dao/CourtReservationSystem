@@ -10,8 +10,8 @@ Dla kompletności należy pobrać jeszcze część backendową.
 Folder projektu <br />
 . <br />
 ├─ frontend<br />
-│      └── dist<br />
-│           └── front (Angular production build)<br />
+│ ____└── dist<br />
+│ ________ └── front (Angular production build)<br />
 └ backend<br />    
 
 ### Uruchomienie
@@ -34,8 +34,8 @@ For the whole system you should download backend part
 Project name <br />
 . <br />
 ├─ frontend<br />
-│      └── dist<br />
-│           └── front (Angular production build)<br />
+│_____└── dist<br />
+│__________└── front (Angular production build)<br />
 └ backend<br />
 
 ### Running

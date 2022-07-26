@@ -7,7 +7,7 @@ Dla kompletności należy pobrać jeszcze część backendową.
 3. NPM 8.1.2
 
 ## Struktura plików
-Folder projektu
+Folder projektu <br />
 . <br />
 ├─ frontend<br />
 │      └── dist<br />
@@ -31,7 +31,7 @@ For the whole system you should download backend part
 3. NPM 8.1.2
 
 ## Project structure
-Project name
+Project name <br />
 . <br />
 ├─ frontend<br />
 │      └── dist<br />

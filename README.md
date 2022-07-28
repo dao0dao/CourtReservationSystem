@@ -15,6 +15,7 @@ https://github.com/dao0dao/CourtReservationSystem-Backend
 2. Uruchomienie serwera backendowego
 3. W przypadku korzystania z wersji produkcyjne wpisujemy w przeglądarce `localhost:3000`
 4. W przypadku korzystania z wersji deweloperskiej w terminalu `<project name>/frontend` wpisujemy `ng serve`. Po skompilowaniu w przeglądarce wpisujemy `localhost:4200`
+5. Po pierwszym wejściu nie wczyta się grafik- tabela w backendzie nie jest stworzona. Po przełączeniu na inną destynację i powrót wszystko powinno być dobrze- tabela w backendzie powinna być utworzona.
 
 ---------------
 
@@ -35,3 +36,4 @@ https://github.com/dao0dao/CourtReservationSystem-Backend
 2. Start backend server
 3. If you want use production version type `localhost:3000` in the browser
 4. If you want use develop version type `ng serve` in `<project name>/frontend` terminal. After compiling type `localhost:4200` in the browser
+5. At first lunch there is no schedule- table in backend does'nt created. You should change destination and move back, now everything should be ok- tabel in backend should be created.

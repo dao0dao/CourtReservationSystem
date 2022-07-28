@@ -1,5 +1,5 @@
 # Jest to frontendowa część projektu "Systemu rezerwacyjnego kortu".
-Dla kompletności należy pobrać jeszcze część backendową.
+Dla kompletności należy pobrać jeszcze część backendową. <br >
 https://github.com/dao0dao/CourtReservationSystem-Backend
 
 ## Wymagania
@@ -7,13 +7,8 @@ https://github.com/dao0dao/CourtReservationSystem-Backend
 2. NodeJS  16.13.1
 3. NPM 8.1.2
 
-## Struktura plików
-Folder projektu <br />
-. <br />
-├─ frontend<br />
-│ ____└── dist<br />
-│ ________ └── front (Angular production build)<br />
-└ backend<br />    
+## Ustawienie repozytoriów
+1. Frontowe i backendowe repozytoria muszą znajdować się tym samym katalogu.  
 
 ### Uruchomienie
 1. Pobranie i wykonanie komendy `npm ci` w terminalu `<project name>/frontend` a następnie komendy `ng build`
@@ -24,7 +19,7 @@ Folder projektu <br />
 ---------------
 
 # It is a frontend part of project: 'Tennis court reservation system'
-For the whole system you should download backend part
+For the whole system you should download backend part <br >
 https://github.com/dao0dao/CourtReservationSystem-Backend
 
 ## Requirements
@@ -32,13 +27,8 @@ https://github.com/dao0dao/CourtReservationSystem-Backend
 2. NodeJS  16.13.1
 3. NPM 8.1.2
 
-## Project structure
-Project name <br />
-. <br />
-├─ frontend<br />
-│_____└── dist<br />
-│__________└── front (Angular production build)<br />
-└ backend<br />
+## Repositories configurations
+1. Frontend and backend repositories must be in the same folder.
 
 ### Running
 1. Download and run `npm ci` in `<project name>/frontend` terminal after that run `ng build`

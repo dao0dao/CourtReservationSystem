@@ -1,5 +1,6 @@
 # Jest to frontendowa część projektu "Systemu rezerwacyjnego kortu".
 Dla kompletności należy pobrać jeszcze część backendową.
+https://github.com/dao0dao/CourtReservationSystem-Backend
 
 ## Wymagania
 1. Angular CLI: 13.0.4
@@ -24,6 +25,7 @@ Folder projektu <br />
 
 # It is a frontend part of project: 'Tennis court reservation system'
 For the whole system you should download backend part
+https://github.com/dao0dao/CourtReservationSystem-Backend
 
 ## Requirements
 1. Angular CLI: 13.0.4
